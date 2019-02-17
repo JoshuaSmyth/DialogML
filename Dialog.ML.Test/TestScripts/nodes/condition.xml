@@ -1,0 +1,13 @@
+﻿<script name="{filename}" id="{guid}" entrypoint="p1">
+  <page name="p1">
+    <if condition="5>10">
+      <true>
+        <log text="Five is greater than Ten"/>
+        <!-- Logs are not localised -->
+      </true>
+      <false>
+        <log text="Five is less than Ten"/>
+      </false>
+    </if>
+  </page>
+</script>

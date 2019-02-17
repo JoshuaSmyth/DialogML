@@ -1,0 +1,47 @@
+<script name="{filename}" id="#0000" entrypoint="p1">
+    <page name="p1">
+      
+      <!--
+      
+        TODO Implement the following nodes
+        
+        <once-only id="#0001">
+          <true>
+            <noop/>
+          </true>
+          <false>
+            <say actor-id="harry" text="We really gotta get a move on..." position="right" id="#0002"/>
+            <exit/>
+          </false>
+        </once-only>
+      -->
+      
+        <say actor-id="zak" text="Roz, where have you been did you get seperated?" position="right" id="#0003"/>
+        <say actor-id="roz" text="Huh? Sorry I... uh? must have... Wait! Who are you?" position="left" id="#0004"/>
+        <say actor-id="zak" text="Don't tell me you can't remember, it's me! We went through a portal and found ourselves stuck in this place." position="right" id="#0005"/>   
+        <say actor-id="roz" text="I...think I was asleep...?" position="left" id="#0006"/>
+        <say actor-id="harry" text="No good, The Morrigan must of cast a spell on her. Poor lass - Can't recall a thing. It's not safe here for the two of you." position="right" id="#0007"/>
+        <say actor-id="harry" text="We my dear, are heading up the mountain to meet the Great Academic. If he doesn't know how to get you two home nobody will!" position="right" id="#0008"/>
+        
+        <select remove-on-select="true">
+            <option text="Who is this Morrigan?" id="#0009">
+                <say actor-id="harry" text="She's the ruler of this land. Let's just say it would be bad if we ran into her." position="right" id="#000A"/>
+                <say actor-id="harry" text="So far, I don't think she knows you are here, but if she found out a human, two humans no less... Well, we need to get you both outta here." position="right" id="#000B"/>
+            </option>
+            <option text="What do you mean it isn't safe?" id="#000C">
+                <say actor-id="harry" text="It wasn't always this ways you know. There was a time when the creatures of the valley and us Hobgoblins - and Humans too, could all live in harmony." position="right" id="#000D"/>
+                <say actor-id="harry" text="But now with The Morrigan in power. The valley can be a dangerous place." position="right" id="#000E"/>                
+            </option>
+            <option text="Do you all have blue skin and green hair?" optional-for-advance="true" id="#000F">
+                <say actor-id="harry" text="Do you all have red hair, freckles and pasty skin? Humans, think we all look alike they do." id="#0010"/>
+            </option>
+          <option-exit text="Let's Go!" id="#0011">
+            <say actor-id="roz" text="Bye!" id="#0013"/>
+
+          </option-exit>
+              <!-- Auto added if not specified -->
+        </select>
+
+        <say actor-id="harry" text="We need to head north. There's a cave up thatta ways which will lead us to the Great Academic." position="right" id="#0012"/>
+    </page>
+</script>

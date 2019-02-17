@@ -1,0 +1,5 @@
+﻿<script>
+  <page>
+    <say actor-id="Actor1" text="Hello"/>
+  </page>
+</script>

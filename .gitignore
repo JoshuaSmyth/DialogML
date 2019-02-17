@@ -1,0 +1,7 @@
+Dialog.ML.Test/bin/
+Dialog.ML.Test/obj/
+DialogML/bin/
+DialogML/obj/Debug/DesignTimeResolveAssemblyReferences.cache
+DialogML/obj/
+packages/
+Dialog.ML.Test/Dialog.ML.Test.csproj.user
