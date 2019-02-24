@@ -23,6 +23,54 @@ namespace DialogML
             var elementName = element.Name.ToString().ToLower();
             switch(elementName)
             {
+                case "log":
+                    {
+                        var node = new XNodeLog();
+                        foreach(var a in element.Attributes())
+                        {
+                            node.OnProcessElement(ids, a.Name.ToString(), a.Value);
+                        }
+
+                        root.Children.Add(node);
+                        newRoot = node;
+                        break;
+                    }
+                case "case-false":
+                    {
+                        var node = new XNodeCaseFalse();
+                        foreach(var a in element.Attributes())
+                        {
+                            node.OnProcessElement(ids, a.Name.ToString(), a.Value);
+                        }
+
+                        root.Children.Add(node);
+                        newRoot = node;
+                        break;
+                    }
+                case "case-true":
+                    {
+                        var node = new XNodeCaseTrue();
+                        foreach(var a in element.Attributes())
+                        {
+                            node.OnProcessElement(ids, a.Name.ToString(), a.Value);
+                        }
+
+                        root.Children.Add(node);
+                        newRoot = node;
+                        break;
+                    }
+                case "if":
+                    {
+                        var node = new XNodeIf();
+                        foreach(var a in element.Attributes())
+                        {
+                            node.OnProcessElement(ids, a.Name.ToString(), a.Value);
+                        }
+
+                        root.Children.Add(node);
+                        newRoot = node;
+                        break;
+                    }
                 case "option-exit":
                     {
                         var node = new XNodeOptionExit();
@@ -254,10 +302,8 @@ namespace DialogML
 
                 default:
                     {
-                        newRoot = new XmlNode() { Name = element.Name.ToString() };
-                        root.Children.Add(newRoot);
 
-                        throw new Exception("unknown node:" + element.Name);
+                        throw new Exception("unknown node: " + element.Name);
                     }
             }
 

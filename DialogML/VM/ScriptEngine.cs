@@ -13,7 +13,11 @@ namespace DialogML
         Option = 3,
         OptionExit = 4,
         Say = 5,
-        Select = 6
+        Select = 6,
+        If = 7,
+        CaseTrue = 8,
+        CaseFalse = 9,
+        Log = 10
     }
 
     enum VariableType
@@ -88,12 +92,7 @@ namespace DialogML
         {
             m_ReturnStack.Push(m_ProgramStack.Count);
         }
-
-        //internal void PushReturnParentNode()
-        //{
-        //    m_ReturnStack.Push(m_ReturnStack.Count-1);
-        //}
-
+        
         public AdvanceType Update()
         {
             if (m_ProgramStack.Count == 0)
@@ -111,11 +110,7 @@ namespace DialogML
 
                 if (rv == AdvanceType.ChildN)
                 {
-
                     int pushValue = 0;
-
-                   
-
                     currentNode = currentNode.Children[ChildNRegister];
                     m_ProgramStack.Push(currentNode);
                     m_IndexStack.Push(pushValue);
@@ -129,11 +124,6 @@ namespace DialogML
                     m_ProgramStack.Push(currentNode);
                     m_IndexStack.Push(pushValue);
                 }
-
-                //if (rv == AdvanceType.Continue)
-                //{
-                //  // rv = currentNode.Execute(m_ScriptApi);
-                //}
 
                 if(rv == AdvanceType.Next)
                 {

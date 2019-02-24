@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DialogML.DNodes
 {
@@ -17,6 +14,7 @@ namespace DialogML.DNodes
     public class RNodeSelect : RNode
     {
         // STATE VARS
+        // TODO Move state variables out somewhere so they can be saved and restored.
         RNodeSelectState CurrentState;
         Int32 SelectedIndex = 0;
         bool SelectedExitNode;
@@ -76,18 +74,17 @@ namespace DialogML.DNodes
                 
                 api.OnSelectOption(options, (o) =>
                 {
+                    // TODO On select increment the selectedOption table
+
                     SelectedOption = o;
                     if (o.IsExit)
                     {
-                        api.PushReturnCurrentNode();
-                        // Selected Exit node
+                        // TODO Make this a state instead of an additional variable
                         SelectedExitNode = true;
                     }
-                    else
-                    {
-                        api.PushReturnCurrentNode();
-                    }
                     
+                    api.PushReturnCurrentNode();
+
                     SelectedIndex = o.ChildIndex;
                     CurrentState = RNodeSelectState.SelectedOption;
                 });

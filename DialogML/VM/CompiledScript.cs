@@ -36,6 +36,38 @@ namespace DialogML.RNodes
             var xnodeType = (XNodeType)header.XNodeType;
             switch(xnodeType)
             {
+                // TODO R Nodes
+                case XNodeType.Log:
+                    {
+                        var id = new Guid(br.ReadBytes(16));
+                        var filter = br.ReadString();
+                        var text = br.ReadString();
+                        newRoot = new RNodeLog(id, filter, text);
+
+                        break;
+                    }
+                case XNodeType.CaseTrue:
+                    {
+                        var id = new Guid(br.ReadBytes(16));
+                        newRoot = new RNodeCaseTrue(id);
+
+                        break;
+                    }
+                case XNodeType.CaseFalse:
+                    {
+                        var id = new Guid(br.ReadBytes(16));
+                        newRoot = new RNodeCaseFalse(id);
+
+                        break;
+                    }
+
+                case XNodeType.If:
+                    {
+                        var id = new Guid(br.ReadBytes(16));
+                        newRoot = new RNodeIf(id);
+
+                        break;
+                    }
                 case XNodeType.OptionExit:
                     {
                         var id = new Guid(br.ReadBytes(16));

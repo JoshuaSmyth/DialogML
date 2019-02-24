@@ -1,5 +1,6 @@
 ﻿using DialogML;
 using DialogML.RNodes;
+using DialogML.VM;
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
@@ -76,21 +77,22 @@ namespace Dialog.ML.Test
         }
 
         [Test]
-        public void DruidsTest()
+        public void TestCondition001()
         {
+            var inputFile = TestHelper.directory + "/TestScripts/preparser/condition.xml";
+            var preparser = new Preparser();
 
+            preparser.Preparse(inputFile);
+            var idsFile = TestHelper.directory + "/TestScripts/preparser/condition.ids";
             var scriptIds = new ScriptIds();
-            var ids = File.ReadAllText(TestHelper.directory + "/TestScripts/nodes/dialog_druids_sample_noids.ids");
+            var idsFileContents = File.ReadAllText(idsFile);
+            scriptIds.Parse(idsFileContents);
 
-            scriptIds.Parse(ids);
-
+            var xml = File.ReadAllText(TestHelper.directory + "/TestScripts/nodes/condition.xml");
 
             var xParser = new XParser();
-            var xml = File.ReadAllText(TestHelper.directory + "/TestScripts/nodes/dialog_druids_sample_noids.xml");
-
-            var sw1 = Stopwatch.StartNew();
-
             var result = xParser.Process(scriptIds, xml);
+
 
             var root = result.Children[0];
 
@@ -99,23 +101,7 @@ namespace Dialog.ML.Test
             var stringTable = new StringTable();
             var bytes = bParser.SerializeXTree(root, ref stringTable);
 
-            sw1.Stop();
 
-            Console.WriteLine("Time taken parse XML from memory: " + sw1.ElapsedMilliseconds + "ms");
-            //File.WriteAllBytes("c:/temp/bytes.bytes", bytes);
-
-            {
-                var sw = Stopwatch.StartNew();
-                var strings = stringTable.Serialise();
-                //File.WriteAllBytes("c:/temp/bytes.strings", strings);
-
-                stringTable.Deserialise(strings);
-                var scriptFile = new CompiledScript();
-                scriptFile.Deserialise(bytes);
-                sw.Stop();
-
-                Console.WriteLine("Time taken parse Binary from memory: " + sw.ElapsedMilliseconds + "ms");
-            }
         }
 
         [Test]

@@ -1,4 +1,5 @@
 ﻿using DialogML.RNodes;
+using DialogML.VM;
 using DialogML.XNodes;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,7 @@ namespace DialogML
         }
     }
 
+    /*
     class XNodeIf : XmlNode
     {
         public Expression Expression;
@@ -58,7 +60,7 @@ namespace DialogML
                 return AdvanceType.SecondChild;
             }
         }
-    }
+    }*/
 
     class XNodeGotoPage : XmlNode
     {
@@ -103,39 +105,63 @@ namespace DialogML
 
     class Program
     {
+        public static void LoadAndRunScript(string filename)
+        {
+            if(File.Exists(filename))
+            {
+                // Run the preparser
+                var xParser = new XParser();
+                var bParser = new BinarySerialiser();
+                var preparser = new Preparser();
+
+                var stringTable = new StringTable();
+                var scriptFile = new CompiledScript();
+
+                var idsFile = Path.ChangeExtension(filename, "ids");
+                preparser.Preparse(filename);
+                
+                var scriptIds = new ScriptIds();
+                var ids = File.ReadAllText(idsFile);
+                scriptIds.Parse(ids);
+
+                var xml = File.ReadAllText(filename);
+
+                var result = xParser.Process(scriptIds, xml);
+                var root = result.Children[0];
+
+
+                var bytes = bParser.SerializeXTree(root, ref stringTable);
+
+                var strings = stringTable.Serialise();
+
+                stringTable.Deserialise(strings);
+                scriptFile.Deserialise(bytes);
+
+                // Run Engine
+                Console.WriteLine();
+                var scriptEngine = new ScriptEngine(stringTable);
+                scriptEngine.StartScript(scriptFile);
+
+                AdvanceType rv = AdvanceType.Unknown;
+                while(rv != AdvanceType.Finished)
+                {
+                    rv = scriptEngine.Update();
+                }
+            }
+            else
+            {
+                throw new FileNotFoundException();
+            }
+        }
+
+
         static void Main(string[] args)
         {
-            var scriptIds = new ScriptIds();
-            var ids = File.ReadAllText("c:/test/TestScripts/dialog_druids_sample_noids.ids");
-            scriptIds.Parse(ids);
 
-            var xParser = new XParser();
-            var xml = File.ReadAllText("c:/test/TestScripts/dialog_druids_sample_noids.xml");
-            
-            var result = xParser.Process(scriptIds, xml);
-            var root = result.Children[0];
+            LoadAndRunScript("c:/test/TestScripts/condition1.xml");
 
-            var bParser = new BinarySerialiser();
+            //    LoadAndRunScript("c:/test/TestScripts/dialog_druids_sample_noids.xml");
 
-            var stringTable = new StringTable();
-            var bytes = bParser.SerializeXTree(root, ref stringTable);
-            
-            var strings = stringTable.Serialise();
-                
-            stringTable.Deserialise(strings);
-            var scriptFile = new CompiledScript();
-            scriptFile.Deserialise(bytes);
-
-            // Run Engine
-            Console.WriteLine();
-            var scriptEngine = new ScriptEngine(stringTable);
-            scriptEngine.StartScript(scriptFile);
-
-            AdvanceType rv = AdvanceType.Unknown;
-            while(rv != AdvanceType.Finished)
-            {
-                rv = scriptEngine.Update();
-            }
         }
     }
 }

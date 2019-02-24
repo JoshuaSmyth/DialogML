@@ -1,0 +1,12 @@
+﻿<script name="{filename}" id="{guid}" entrypoint="p1">
+  <page name="p1">
+    <if expression="5>10">
+      <case-true>
+        <log filter="debug" text="Five is greater than Ten"/>
+      </case-true>
+      <case-false>
+        <log filter="debug" text="Five is less than Ten"/>
+      </case-false>
+    </if>
+  </page>
+</script>

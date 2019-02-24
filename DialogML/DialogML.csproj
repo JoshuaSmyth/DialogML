@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RNodes\RNodeCaseFalse.cs" />
+    <Compile Include="RNodes\RNodeCaseTrue.cs" />
+    <Compile Include="RNodes\RNodeIf.cs" />
+    <Compile Include="RNodes\RNodeLog.cs" />
     <Compile Include="VM\BinarySerialiser.cs" />
     <Compile Include="RNodes\RNode.cs" />
     <Compile Include="RNodes\RNodeOption.cs" />
@@ -60,6 +64,10 @@
     <Compile Include="VM\ScriptIds.cs" />
     <Compile Include="VM\StringTable.cs" />
     <Compile Include="XNodes\XmlNode.cs" />
+    <Compile Include="XNodes\XNodeCaseFalse.cs" />
+    <Compile Include="XNodes\XNodeCaseTrue.cs" />
+    <Compile Include="XNodes\XNodeIf.cs" />
+    <Compile Include="XNodes\XNodeLog.cs" />
     <Compile Include="XNodes\XNodeScript.cs" />
     <Compile Include="XNodes\XNodeSelect.cs" />
     <Compile Include="XNodes\XNodeOption.cs" />
