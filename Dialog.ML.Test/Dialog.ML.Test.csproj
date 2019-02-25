@@ -48,6 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Expressions\PerformanceTests.cs" />
+    <Compile Include="Expressions\TestExpressionInput.cs" />
+    <Compile Include="Expressions\TestFunctionCalls.cs" />
+    <Compile Include="Expressions\TestHelper.cs" />
+    <Compile Include="Expressions\TestIncorrectInput.cs" />
+    <Compile Include="Expressions\TestSymbols.cs" />
+    <Compile Include="Expressions\TestThreadSafety.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="TestPreparser.cs" />
     <Compile Include="TestNodes.cs" />
@@ -74,8 +81,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="TestScripts\nodes\condition.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Content Include="TestScripts\preparser\condition1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestScripts\preparser\input_ids_002.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

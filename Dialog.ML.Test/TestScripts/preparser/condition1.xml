@@ -1,4 +1,4 @@
-﻿<script name="{filename}" id="{guid}" entrypoint="p1">
+<script name="{filename}" entrypoint="p1">
   <page name="p1">
     <if expression="5>10">
       <case-true>

@@ -79,16 +79,16 @@ namespace Dialog.ML.Test
         [Test]
         public void TestCondition001()
         {
-            var inputFile = TestHelper.directory + "/TestScripts/preparser/condition.xml";
+            var inputFile = TestHelper.directory + "/TestScripts/preparser/condition1.xml";
             var preparser = new Preparser();
 
             preparser.Preparse(inputFile);
-            var idsFile = TestHelper.directory + "/TestScripts/preparser/condition.ids";
+            var idsFile = TestHelper.directory + "/TestScripts/preparser/condition1.ids";
             var scriptIds = new ScriptIds();
             var idsFileContents = File.ReadAllText(idsFile);
             scriptIds.Parse(idsFileContents);
 
-            var xml = File.ReadAllText(TestHelper.directory + "/TestScripts/nodes/condition.xml");
+            var xml = File.ReadAllText(TestHelper.directory + "/TestScripts/preparser/condition1.xml");
 
             var xParser = new XParser();
             var result = xParser.Process(scriptIds, xml);
@@ -104,10 +104,10 @@ namespace Dialog.ML.Test
 
         }
 
-        [Test]
-        public void DruidsTestRepeat()
-        {
-            DruidsTest();
-        }
+        //[Test]
+        //public void DruidsTestRepeat()
+        //{
+        //    DruidsTest();
+        //}
         }
 }

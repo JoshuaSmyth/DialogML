@@ -42,6 +42,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Expressions\Enums.cs" />
+    <Compile Include="Expressions\EvaluationContext.cs" />
+    <Compile Include="Expressions\ExpressionParserException.cs" />
+    <Compile Include="Expressions\HostCall.cs" />
+    <Compile Include="Expressions\HostCallTable.cs" />
+    <Compile Include="Expressions\HostSymbol.cs" />
+    <Compile Include="Expressions\HostSymbolTable.cs" />
+    <Compile Include="Expressions\RpnCalculator.cs" />
+    <Compile Include="Expressions\RpnCompiler.cs" />
+    <Compile Include="Expressions\SemanticAnalyser.cs" />
+    <Compile Include="Expressions\SemanticToken.cs" />
+    <Compile Include="Expressions\Token.cs" />
+    <Compile Include="Expressions\Tokenizer.cs" />
     <Compile Include="RNodes\RNodeCaseFalse.cs" />
     <Compile Include="RNodes\RNodeCaseTrue.cs" />
     <Compile Include="RNodes\RNodeIf.cs" />
