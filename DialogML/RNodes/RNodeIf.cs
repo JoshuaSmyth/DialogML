@@ -1,4 +1,5 @@
 ﻿using DialogML.DNodes;
+using DialogML.Expressions;
 using System;
 
 namespace DialogML.RNodes
@@ -13,16 +14,17 @@ namespace DialogML.RNodes
     {
         NodeIfState state;
 
-        public String Expression;   // TODO Implement (Requires expression table)
+        public CompiledExpression Expression;
         public Guid Id;
-        public RNodeIf(Guid id)
+        public RNodeIf(Guid id, CompiledExpression expression)
         {
             Id = id;
+            Expression = expression;
         }
 
         public override AdvanceType Execute(ScriptApi api)
         {
-            // TODO Eval and choose node
+            // TODO Evaluate Expression
 
             api.Trace("NodeIf");
 

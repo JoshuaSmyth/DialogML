@@ -7,7 +7,7 @@ namespace ExpressionParser
 {
     public class SemanticToken // Ecapsulates the idea of an operator and an operand
     {
-        public TokenType TokenType;
+        public SemanticTokenType TokenType;
 
         public OperationType OperationType;
 
@@ -15,9 +15,9 @@ namespace ExpressionParser
 
         public Int32 Precedence; // Higher evaluates first
 
-        public double Data;
+        public float Data; // THis could probably be a float
 
-        public Int32 NumOperands; // 0, 1, 2 or more (or number of function parameters)
+      //  public Int32 NumOperands; // 0, 1, 2 or more (or number of function parameters)
 
         public bool IsOperator()
         {
@@ -31,22 +31,22 @@ namespace ExpressionParser
 
         public bool IsNumber()
         {
-            return IsValue() && (TokenType == TokenType.DecimalLiteral);
+            return IsValue() && (TokenType == SemanticTokenType.DecimalLiteral32);
         }
 
         public bool IsBracket()
         {
-            return (TokenType == TokenType.OpenBracket || TokenType == TokenType.CloseBracket);
+            return (TokenType == SemanticTokenType.OpenBracket || TokenType == SemanticTokenType.CloseBracket);
         }
 
         public bool IsFunction()
         {
-            return TokenType == TokenType.FunctionCall;
+            return TokenType == SemanticTokenType.FunctionCall;
         }
 
         public bool IsFunctionArgumentSeperator()
         {
-            return TokenType == TokenType.FunctionArgumentSeperator;
+            return TokenType == SemanticTokenType.FunctionArgumentSeperator;
         }
     }
 }

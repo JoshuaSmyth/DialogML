@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -37,8 +38,16 @@ namespace ExpressionParser
         public void RegisterFunction(string name, object owner, Delegate function)
         {
             m_CallTable.RegisterFunction(name, function);
-            m_Compiler.Tokenizer.AddToken(new Token(new Regex(name), TokenType.FunctionCall, OperationType.FunctionCall));
+            m_Compiler.Tokenizer.AddToken(new InputToken(new Regex(name), SemanticTokenType.FunctionCall, OperationType.FunctionCall));
         }
+
+        // TODO Add Evaluate RuntimeTokens
+        public double Evaluate(byte[] tokenstream)
+        {
+            // TODO
+            throw new NotImplementedException();
+        }
+
 
         public double Evaluate(EvaluationContext context)
         {
@@ -57,97 +66,97 @@ namespace ExpressionParser
                     // Evaluate opcode
                     switch (opcode.TokenType)
                     {
-                        case TokenType.Add:
+                        case SemanticTokenType.Add:
                             {
                                 var rhs = stack.Pop(); var lhs = stack.Pop();
                                 stack.Push(lhs + rhs);
                                 break;
                             }
-                        case TokenType.Subtract:
+                        case SemanticTokenType.Subtract:
                             {
                                 var rhs = stack.Pop(); var lhs = stack.Pop();
                                 stack.Push(lhs - rhs);
                                 break;
                             }
-                        case TokenType.Multiply:
+                        case SemanticTokenType.Multiply:
                             {
                                 var rhs = stack.Pop(); var lhs = stack.Pop();
                                 stack.Push(lhs * rhs);
                                 break;
                             }
-                        case TokenType.Divide:
+                        case SemanticTokenType.Divide:
                             {
                                 var rhs = stack.Pop(); var lhs = stack.Pop();
                                 stack.Push(lhs / rhs);
                                 break;
                             }
-                        case TokenType.PowerOf:
+                        case SemanticTokenType.PowerOf:
                             {
                                 var rhs = stack.Pop(); var lhs = stack.Pop();
                                 stack.Push(Math.Pow(lhs, rhs));
                                 break;
                             }
-                        case TokenType.UnaryMinus:
+                        case SemanticTokenType.UnaryMinus:
                             {
                                 var rhs = stack.Pop();
                                 stack.Push(rhs * -1);
                                 break;
                             }
-                        case TokenType.Modulo:
+                        case SemanticTokenType.Modulo:
                             {
                                 var rhs = stack.Pop(); var lhs = stack.Pop();
                                 stack.Push(lhs % rhs);
                                 break;
                             }
-                        case TokenType.Negation:
+                        case SemanticTokenType.Negation:
                             {
                                 var rhs = stack.Pop();
                                 stack.Push((rhs == 0) ? 1 : 0);
                                 break;
                             }
-                        case TokenType.GreaterThan:
+                        case SemanticTokenType.GreaterThan:
                             {
                                 var rhs = stack.Pop(); var lhs = stack.Pop();
                                 var data = (lhs > rhs) ? 1 : 0;
                                 stack.Push(data);
                                 break;
                             }
-                        case TokenType.LessThan:
+                        case SemanticTokenType.LessThan:
                             {
                                 var rhs = stack.Pop(); var lhs = stack.Pop();
                                 var data = (lhs < rhs) ? 1 : 0;
                                 stack.Push(data);
                                 break;
                             }
-                        case TokenType.GreaterThanOrEqualTo:
+                        case SemanticTokenType.GreaterThanOrEqualTo:
                             {
                                 var rhs = stack.Pop(); var lhs = stack.Pop();
                                 var data = (lhs >= rhs) ? 1 : 0;
                                 stack.Push(data);
                                 break;
                             }
-                        case TokenType.LessThanOrEqualTo:
+                        case SemanticTokenType.LessThanOrEqualTo:
                             {
                                 var rhs = stack.Pop(); var lhs = stack.Pop();
                                 var data = (lhs <= rhs) ? 1 : 0;
                                 stack.Push(data);
                                 break;
                             }
-                        case TokenType.Equal:
+                        case SemanticTokenType.Equal:
                             {
                                 var rhs = stack.Pop(); var lhs = stack.Pop();
                                 var data = (lhs == rhs) ? 1 : 0;
                                 stack.Push(data);
                                 break;
                             }
-                        case TokenType.NotEqual:
+                        case SemanticTokenType.NotEqual:
                             {
                                 var rhs = stack.Pop(); var lhs = stack.Pop();
                                 var data = (lhs != rhs) ? 1 : 0;
                                 stack.Push(data);
                                 break;
                             }
-                        case TokenType.LogicalAnd:
+                        case SemanticTokenType.LogicalAnd:
                             {
                                 var rhs = stack.Pop(); var lhs = stack.Pop();
                                 var d1 = (rhs == 0) ? false : true;
@@ -157,7 +166,7 @@ namespace ExpressionParser
                                 stack.Push(data);
                                 break;
                             }
-                        case TokenType.LogicalOr:
+                        case SemanticTokenType.LogicalOr:
                             {
                                 var rhs = stack.Pop(); var lhs = stack.Pop();
                                 var d1 = (rhs == 0) ? false : true;
@@ -167,7 +176,7 @@ namespace ExpressionParser
                                 stack.Push(data);
                                 break;
                             }
-                        case TokenType.FunctionCall:
+                        case SemanticTokenType.FunctionCall:
                             {
                                 // TODO Might need a string table
                                 var functionId = (Int32)opcode.Data;
@@ -181,7 +190,7 @@ namespace ExpressionParser
                                 stack.Push(data);
                                 break;
                             }
-                        case TokenType.Symbol:
+                        case SemanticTokenType.Symbol:
                             {
                                 var symbolId = (Int32)opcode.Data;
                                 var symbol = symbolTable.GetSymbolById(symbolId);

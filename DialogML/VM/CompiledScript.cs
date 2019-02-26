@@ -1,4 +1,5 @@
 ﻿using DialogML.DNodes;
+using DialogML.Expressions;
 using DialogML.XNodes;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,12 @@ namespace DialogML.RNodes
                 case XNodeType.If:
                     {
                         var id = new Guid(br.ReadBytes(16));
-                        newRoot = new RNodeIf(id);
+
+                        var len = br.ReadInt32();
+                        var bytes = br.ReadBytes(len);
+
+
+                        newRoot = new RNodeIf(id, new CompiledExpression(bytes));
 
                         break;
                     }

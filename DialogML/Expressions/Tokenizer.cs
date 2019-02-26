@@ -9,23 +9,23 @@ namespace ExpressionParser
 {
     public class Tokenizer
     {
-        readonly List<Token> m_Tokens = new List<Token>();
+        readonly List<InputToken> m_Tokens = new List<InputToken>();
         
         public Tokenizer()
         {
-            m_Tokens.Add(new Token(new Regex(@"\s+"), TokenType.Whitespace, OperationType.Operand, TokenDiscardPolicy.Discard));
-            m_Tokens.Add(new Token(new Regex("[0-9]+([.,][0-9]+)?"), TokenType.DecimalLiteral, OperationType.Operand));
-            m_Tokens.Add(new Token(new Regex(","), TokenType.FunctionArgumentSeperator, OperationType.Operand));  
+            m_Tokens.Add(new InputToken(new Regex(@"\s+"), SemanticTokenType.Whitespace, OperationType.Operand, TokenDiscardPolicy.Discard));
+            m_Tokens.Add(new InputToken(new Regex("[0-9]+([.,][0-9]+)?"), SemanticTokenType.DecimalLiteral32, OperationType.Operand));
+            m_Tokens.Add(new InputToken(new Regex(","), SemanticTokenType.FunctionArgumentSeperator, OperationType.Operand));  
         }
 
-        public void AddToken(Token token)
+        public void AddToken(InputToken token)
         {
             m_Tokens.Add(token); // Add tokens in order of precedence
         }
 
-        public List<Token> Tokenize(String source)
+        public List<InputToken> Tokenize(String source)
         {
-            var rv = new List<Token>();
+            var rv = new List<InputToken>();
 
             var currentIndex = 0;
             while (currentIndex < source.Length)
@@ -37,7 +37,7 @@ namespace ExpressionParser
                    if (match.Success && (match.Index - currentIndex) == 0)
                    {
                        if (token.DiscardPolicy == TokenDiscardPolicy.Keep)
-                            rv.Add(new Token(token.Regex, token.TokenType, token.OperationType, token.DiscardPolicy) { TokenValue = match.Value});
+                            rv.Add(new InputToken(token.Regex, token.TokenType, token.OperationType, token.DiscardPolicy) { TokenValue = match.Value});
                        
                        currentIndex += match.Length;
                        foundMatch = true;
@@ -59,21 +59,21 @@ namespace ExpressionParser
             var rg = new Regex(symbolName);
             foreach (var token in m_Tokens)
             {
-                if (token.TokenType == TokenType.Symbol)
+                if (token.TokenType == SemanticTokenType.Symbol)
                 {
                     if (token.Regex.ToString() == rg.ToString())
                         return;
                 }
             }
 
-            m_Tokens.Add(new Token(rg, TokenType.Symbol, OperationType.Operand));
+            m_Tokens.Add(new InputToken(rg, SemanticTokenType.Symbol, OperationType.Operand));
         }
 
         public void ClearAllSymbols()
         {
             for (int i = 0; i < m_Tokens.Count; i++)
             {
-                if (m_Tokens[i].TokenType == TokenType.Symbol)
+                if (m_Tokens[i].TokenType == SemanticTokenType.Symbol)
                 {
                     m_Tokens.RemoveAt(i);
                     i--;

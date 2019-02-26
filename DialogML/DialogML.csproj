@@ -42,19 +42,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Expressions\CompiledExpression.cs" />
     <Compile Include="Expressions\Enums.cs" />
     <Compile Include="Expressions\EvaluationContext.cs" />
     <Compile Include="Expressions\ExpressionParserException.cs" />
-    <Compile Include="Expressions\HostCall.cs" />
-    <Compile Include="Expressions\HostCallTable.cs" />
-    <Compile Include="Expressions\HostSymbol.cs" />
-    <Compile Include="Expressions\HostSymbolTable.cs" />
+    <Compile Include="Expressions\Host\HostCall.cs" />
+    <Compile Include="Expressions\Host\HostCallTable.cs" />
+    <Compile Include="Expressions\Host\HostSymbol.cs" />
+    <Compile Include="Expressions\Host\HostSymbolTable.cs" />
     <Compile Include="Expressions\RpnCalculator.cs" />
     <Compile Include="Expressions\RpnCompiler.cs" />
     <Compile Include="Expressions\SemanticAnalyser.cs" />
-    <Compile Include="Expressions\SemanticToken.cs" />
-    <Compile Include="Expressions\Token.cs" />
     <Compile Include="Expressions\Tokenizer.cs" />
+    <Compile Include="Expressions\Tokens\InputToken.cs" />
+    <Compile Include="Expressions\Tokens\SemanticToken.cs" />
     <Compile Include="RNodes\RNodeCaseFalse.cs" />
     <Compile Include="RNodes\RNodeCaseTrue.cs" />
     <Compile Include="RNodes\RNodeIf.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="XNodes\XNodeSay.cs" />
     <Compile Include="XNodes\XNodePage.cs" />
     <Compile Include="VM\XParser.cs" />
+    <Compile Include="XNodes\XNodeWhile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

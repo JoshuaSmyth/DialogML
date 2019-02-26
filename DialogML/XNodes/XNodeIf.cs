@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DialogML.Expressions;
+using ExpressionParser;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,16 +9,23 @@ using System.Threading.Tasks;
 
 namespace DialogML.XNodes
 {
+
+
     class XNodeIf : XmlNode
     {
-
-        public string Expression;
+        public CompiledExpression Expression;
+        
         public void OnProcessElement(ScriptIds ids, string name, string value)
         {
             var loweredName = name.ToLower();
             if(loweredName == "expression")
             {
-                Expression = value;
+                
+                var expressionParser = new RpnCompiler(new HostCallTable());
+                var tokens = expressionParser.ConvertToReversePolishNotation(value);
+                var tokenStream = expressionParser.ConvertToBytestream(tokens);
+                Expression = new CompiledExpression(tokenStream);
+                
             }
             else if(loweredName == "id")
             {
@@ -39,6 +48,11 @@ namespace DialogML.XNodes
             bw.Write((ushort)(Children?.Count ?? 0));
 
             bw.Write(this.Id.ToByteArray() ?? Guid.Empty.ToByteArray());
+
+
+            // TODO 
+            bw.Write(Expression.Bytes.Length);
+            bw.Write(Expression.Bytes);
 
             // TODO This should be added to the expression table
             // Not the string table

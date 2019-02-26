@@ -24,8 +24,8 @@ namespace ExpressionParser
         Left = 1,
         Right = 2
     }
-
-    public enum TokenType
+    
+    public enum SemanticTokenType
     {
         None = 0,
 
@@ -56,8 +56,11 @@ namespace ExpressionParser
 
         // Operands
        // IntegerLiteral = 160,
-        DecimalLiteral = 161,
+        DecimalLiteral32 = 161,
         FunctionCall = 162,
-        Symbol = 163
+        Symbol = 163,
+        DecimalLiteral16 = 164,
+        DecimalLiteral8 = 165,
+        StartStream = 255
     }
 }

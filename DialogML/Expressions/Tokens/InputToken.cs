@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace ExpressionParser
 {
-    public class Token
+    public class InputToken
     {
         private readonly Regex m_Regex;
-        private TokenType m_TokenType;
+        private SemanticTokenType m_TokenType;
         private readonly TokenDiscardPolicy m_DiscardPolicy;
         private readonly OperationType m_OperationType;
 
-        public TokenType TokenType
+        public SemanticTokenType TokenType
         {
             get { return m_TokenType; }
             set { m_TokenType = value; }
@@ -33,14 +30,12 @@ namespace ExpressionParser
             get { return m_DiscardPolicy; }
         }
 
-        public Token(Regex match, TokenType tokenType, OperationType operationType = OperationType.Operator, TokenDiscardPolicy discardPolicy = TokenDiscardPolicy.Keep)
+        public InputToken(Regex match, SemanticTokenType tokenType, OperationType operationType = OperationType.Operator, TokenDiscardPolicy discardPolicy = TokenDiscardPolicy.Keep)
         {
             m_TokenType = tokenType;
             m_DiscardPolicy = discardPolicy;
             m_OperationType = operationType;
             m_Regex = match;
-         
         }
-
     }
 }

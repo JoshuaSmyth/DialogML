@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -19,23 +20,23 @@ namespace ExpressionParser
            // m_HostSymbolTable = hostSymbolTable;
             m_SemanticAnalyser = new SemanticAnalyser(m_FunctionTable);
 
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape("&&")), TokenType.LogicalAnd));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape("||")), TokenType.LogicalOr));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape(">=")), TokenType.GreaterThanOrEqualTo));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape("<=")), TokenType.LessThanOrEqualTo));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape("==")), TokenType.Equal));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape("!=")), TokenType.NotEqual));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape(">")), TokenType.GreaterThan));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape("<")), TokenType.LessThan));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape("^")), TokenType.PowerOf));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape("/")), TokenType.Divide));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape("%")), TokenType.Modulo));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape("*")), TokenType.Multiply));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape("+")), TokenType.Add));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape("-")), TokenType.Subtract));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape("!")), TokenType.Negation));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape("(")), TokenType.OpenBracket, OperationType.Operand));
-            Tokenizer.AddToken(new Token(new Regex(Regex.Escape(")")), TokenType.CloseBracket, OperationType.Operand));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape("&&")), SemanticTokenType.LogicalAnd));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape("||")), SemanticTokenType.LogicalOr));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape(">=")), SemanticTokenType.GreaterThanOrEqualTo));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape("<=")), SemanticTokenType.LessThanOrEqualTo));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape("==")), SemanticTokenType.Equal));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape("!=")), SemanticTokenType.NotEqual));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape(">")), SemanticTokenType.GreaterThan));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape("<")), SemanticTokenType.LessThan));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape("^")), SemanticTokenType.PowerOf));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape("/")), SemanticTokenType.Divide));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape("%")), SemanticTokenType.Modulo));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape("*")), SemanticTokenType.Multiply));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape("+")), SemanticTokenType.Add));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape("-")), SemanticTokenType.Subtract));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape("!")), SemanticTokenType.Negation));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape("(")), SemanticTokenType.OpenBracket, OperationType.Operand));
+            Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape(")")), SemanticTokenType.CloseBracket, OperationType.Operand));
         }
 
         public Tokenizer Tokenizer
@@ -48,6 +49,41 @@ namespace ExpressionParser
             get { return m_SemanticAnalyser; }
         }
 
+
+        public byte[] ConvertToBytestream(List<SemanticToken> tokens)
+        {
+            using(var ms = new MemoryStream())
+            {
+                using(var bw = new BinaryWriter(ms))
+                {
+                    bw.Write((byte) SemanticTokenType.StartStream);
+                    bw.Write((byte) 1);
+
+                    foreach(var t in tokens)
+                    {
+                        if(t.IsNumber())
+                        {
+
+                            bw.Write((byte)SemanticTokenType.DecimalLiteral32);
+                            bw.Write(t.Data);
+                        }
+                        else
+                        {
+                            if (t.IsOperator())
+                            {
+                                bw.Write((byte)t.TokenType);
+                            }
+                            else
+                            {
+                                throw new NotImplementedException();
+                            }
+                        }
+                    }
+
+                    return ms.ToArray();
+                }
+            }
+        }
 
         public List<SemanticToken> ConvertToReversePolishNotation(String source)
         {
@@ -81,7 +117,7 @@ namespace ExpressionParser
                             while (stack.Count > 0)
                             {
                                 var o = stack.Peek();
-                                if (o.TokenType == TokenType.OpenBracket)
+                                if (o.TokenType == SemanticTokenType.OpenBracket)
                                     break;
 
                                 rv.Add(o);
@@ -107,19 +143,19 @@ namespace ExpressionParser
                             else
                             {
                                 // Left Bracket
-                                if (opcode.TokenType == TokenType.OpenBracket)
+                                if (opcode.TokenType == SemanticTokenType.OpenBracket)
                                     stack.Push(opcode);
 
-                                if (opcode.TokenType == TokenType.CloseBracket)
+                                if (opcode.TokenType == SemanticTokenType.CloseBracket)
                                 {
                                     var token = stack.Pop();
-                                    while (stack.Count > 0 && token.TokenType != TokenType.OpenBracket)
+                                    while (stack.Count > 0 && token.TokenType != SemanticTokenType.OpenBracket)
                                     {
                                         rv.Add(token);
                                         token = stack.Pop();
                                     }
 
-                                    if (token.TokenType != TokenType.OpenBracket)
+                                    if (token.TokenType != SemanticTokenType.OpenBracket)
                                         throw new ExpressionParserException("Mismatched brackets");
                                 }
                             }
