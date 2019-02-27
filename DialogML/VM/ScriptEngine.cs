@@ -125,6 +125,15 @@ namespace DialogML
                     m_IndexStack.Push(pushValue);
                 }
 
+                if(rv == AdvanceType.SecondChild)
+                {
+                    int pushValue = 0;
+
+                    currentNode = currentNode.Children[1];
+                    m_ProgramStack.Push(currentNode);
+                    m_IndexStack.Push(pushValue);
+                }
+
                 if(rv == AdvanceType.Next)
                 {
                     // Choose next sibling.

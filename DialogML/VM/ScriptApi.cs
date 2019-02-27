@@ -1,4 +1,6 @@
 ﻿using DialogML;
+using DialogML.Expressions;
+using ExpressionParser;
 using System;
 using System.Collections.Generic;
 
@@ -74,9 +76,14 @@ public class ScriptApi
         Console.WriteLine("trace: " + output);
     }
 
-    public bool EvaluateExpression(Expression expression)
+    public double EvaluateExpression(CompiledExpression expression)
     {
-        return false;
+        // TODO Get these from a pool
+        var rpnCalculator = new RpnCalculator();
+        var hostTable = new HostSymbolTable();
+        var stack = new Stack<Double>();
+
+        return rpnCalculator.Evaluate(expression.Bytes, hostTable, stack);
     }
 
     internal string ResolveString(Guid id)

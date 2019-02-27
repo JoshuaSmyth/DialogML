@@ -30,11 +30,20 @@ namespace DialogML.RNodes
 
             if(state == NodeIfState.Preevaluated)
             {
+                var result = api.EvaluateExpression(Expression);
                 api.PushReturnCurrentNode();
-
                 state = NodeIfState.PostEvaluated;
 
-                return AdvanceType.FirstChild;
+                if(result == 1)
+                {
+                    // True
+                    return AdvanceType.FirstChild;
+                }
+                else
+                {
+                    // False
+                    return AdvanceType.SecondChild;
+                }
             }
 
             return AdvanceType.Next;

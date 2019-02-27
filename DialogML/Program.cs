@@ -7,10 +7,6 @@ using System.IO;
 
 namespace DialogML
 {
-    public class Expression
-    {
-        String expression;  // TODO Make RPN Tokens
-    }
     
     public class XNodePrint : XmlNode
     {
@@ -22,45 +18,6 @@ namespace DialogML
         public string value;                       // Could be expression
     }
 
-    class XNodeOnlyIf : XmlNode
-    {
-        public Expression Expression;
-
-        public bool InvertResult;                  // Becomes Only-If-Not
-
-        public AdvanceType Update(ScriptApi api)
-        {
-            if(api.EvaluateExpression(Expression))
-            {
-                return AdvanceType.FirstChild;
-            }
-            else
-            {
-                return AdvanceType.Next;
-            }
-        }
-    }
-
-    /*
-    class XNodeIf : XmlNode
-    {
-        public Expression Expression;
-        public bool InvertResult;
-
-        public AdvanceType Update(ScriptApi api)
-        {
-            // TODO Must have only two children (Enforce at compilation stage)
-            if(api.EvaluateExpression(Expression))
-            {
-                // Or return childId?
-                return AdvanceType.FirstChild;
-            }
-            else
-            {
-                return AdvanceType.SecondChild;
-            }
-        }
-    }*/
 
     class XNodeGotoPage : XmlNode
     {
@@ -73,12 +30,6 @@ namespace DialogML
         // List of options
     }
 
-    class XNodeChoice : XmlNode
-    {
-        public String Text;
-        public Guid GotoPage;
-        public Expression OnlyIf;
-    }
 
     class XNodeExit : XmlNode
     {
