@@ -23,16 +23,8 @@ namespace DialogML.XNodes
 
         public override void WriteBytes(BinaryWriter bw, ref StringTable st)
         {
-            bw.Write((ushort)XNodeType.CaseTrue);
-            bw.Write((byte)1);    // Version Major
-            bw.Write((byte)0);    // Version Minor
-            bw.Write((ushort)(Children?.Count ?? 0));
+            base.WriteHeader(bw, XNodeType.CaseTrue);
 
-            bw.Write(this.Id.ToByteArray() ?? Guid.Empty.ToByteArray());
-
-            // TODO This should be added to the expression table
-            // Not the string table
-            //st.AddString(this.Id, this.Expression);
         }
     }
 }

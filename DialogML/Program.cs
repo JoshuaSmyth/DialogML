@@ -83,6 +83,8 @@ namespace DialogML
 
                 var bytes = bParser.SerializeXTree(root, ref stringTable);
 
+                Console.WriteLine("Script Size:" + bytes.Length);
+
                 var strings = stringTable.Serialise();
 
                 stringTable.Deserialise(strings);

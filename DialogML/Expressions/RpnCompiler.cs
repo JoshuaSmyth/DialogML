@@ -63,9 +63,27 @@ namespace ExpressionParser
                     {
                         if(t.IsNumber())
                         {
-
-                            bw.Write((byte)SemanticTokenType.DecimalLiteral32);
-                            bw.Write(t.Data);
+                            if(t.Data <= 255)
+                            {
+                                var floor = Math.Floor(t.Data);
+                                if (Math.Abs(t.Data - floor) <= double.Epsilon)
+                                {
+                                    // byte
+                                    bw.Write((byte)SemanticTokenType.DecimalLiteral8);
+                                    bw.Write((byte)floor);
+                                }
+                                else
+                                {
+                                    // 32 but
+                                    bw.Write((byte)SemanticTokenType.DecimalLiteral32);
+                                    bw.Write(t.Data);
+                                }
+                            }
+                            else
+                            {
+                                bw.Write((byte)SemanticTokenType.DecimalLiteral32);
+                                bw.Write(t.Data);
+                            }
                         }
                         else
                         {

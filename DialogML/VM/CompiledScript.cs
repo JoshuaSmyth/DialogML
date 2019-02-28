@@ -26,9 +26,9 @@ namespace DialogML.RNodes
             // Read the header
             var header = new NodeHeader()
             {
-                XNodeType = br.ReadUInt16(),
+                XNodeType = br.ReadByte(),
                 VersionMajor = br.ReadByte(),
-                VersionMinor = br.ReadByte(),
+                //VersionMinor = br.ReadByte(),
                 ChildrenCount = br.ReadUInt16()
             };
 

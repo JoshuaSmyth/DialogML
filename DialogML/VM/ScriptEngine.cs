@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DialogML
 {
-    enum XNodeType : ushort
+    enum XNodeType : byte
     {
         Unknown = 0,
         Script = 1,
