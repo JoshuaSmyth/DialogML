@@ -61,39 +61,58 @@ namespace ExpressionParser
 
                     foreach(var t in tokens)
                     {
-                        if(t.IsNumber())
+                        if(t.TokenType == SemanticTokenType.Symbol)
                         {
-                            if(t.Data <= 255)
+                            bw.Write((byte)t.TokenType);
+                            bw.Write((Int32)t.Data);
+                        }
+                        else
+                        {
+                            if(t.IsNumber())
                             {
-                                var floor = Math.Floor(t.Data);
-                                if (Math.Abs(t.Data - floor) <= double.Epsilon)
+                                if(t.Data <= 255)
                                 {
-                                    // byte
-                                    bw.Write((byte)SemanticTokenType.DecimalLiteral8);
-                                    bw.Write((byte)floor);
+                                    var floor = Math.Floor(t.Data);
+                                    if(Math.Abs(t.Data - floor) <= double.Epsilon)
+                                    {
+                                        // byte
+                                        bw.Write((byte)SemanticTokenType.DecimalLiteral8);
+                                        bw.Write((byte)floor);
+                                    }
+                                    else
+                                    {
+                                        // 32 but
+                                        bw.Write((byte)SemanticTokenType.DecimalLiteral32);
+                                        bw.Write(t.Data);
+                                    }
                                 }
                                 else
                                 {
-                                    // 32 but
                                     bw.Write((byte)SemanticTokenType.DecimalLiteral32);
                                     bw.Write(t.Data);
                                 }
                             }
                             else
                             {
-                                bw.Write((byte)SemanticTokenType.DecimalLiteral32);
-                                bw.Write(t.Data);
-                            }
-                        }
-                        else
-                        {
-                            if (t.IsOperator())
-                            {
-                                bw.Write((byte)t.TokenType);
-                            }
-                            else
-                            {
-                                throw new NotImplementedException();
+                                if(t.IsOperator())
+                                {
+                                    bw.Write((byte)t.TokenType);
+                                }
+                                else
+                                {
+
+                                    if(t.IsFunction())
+                                    {
+                                        bw.Write((byte)t.TokenType);
+                                        bw.Write((Int32)t.Data);
+                                    }
+                                    else
+                                    {
+
+
+                                        throw new NotImplementedException();
+                                    }
+                                }
                             }
                         }
                     }

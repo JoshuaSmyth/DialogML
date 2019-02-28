@@ -296,7 +296,7 @@ namespace ExpressionParser.Tests
             var evaluationContext = m_RpnCalculator.Compile(infixExpression);
 
             var ouput = m_RpnCalculator.Evaluate(evaluationContext);
-            Assert.IsTrue(ouput == 20.1);
+            Assert.AreEqual(ouput, 20.1, 0.001f);
         }
 
         [Test]
@@ -306,7 +306,7 @@ namespace ExpressionParser.Tests
             var evaluationContext = m_RpnCalculator.Compile(infixExpression);
 
             var ouput = m_RpnCalculator.Evaluate(evaluationContext);
-            Assert.IsTrue(ouput == -10);
+            Assert.AreEqual(ouput, -10, 0.001);
         }
 
         [Test]
