@@ -88,8 +88,9 @@ namespace DialogML.RNodes
                     }
                 case XNodeType.Select:
                     {
+                        var id = new Guid(br.ReadBytes(16));
                         var removeOnSelect = br.ReadBoolean();
-                        newRoot = new RNodeSelect(removeOnSelect);
+                        newRoot = new RNodeSelect(id, removeOnSelect);
                         break;
                     }
                 case XNodeType.Say:

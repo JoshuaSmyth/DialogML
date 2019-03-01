@@ -53,7 +53,7 @@ namespace DialogML
     {
         public ScriptEngineStatus Status;
 
-        public AdvanceType RV;
+        //public AdvanceType RV;
         public Guid JumpRegister;
         public Int32 ChildNRegister;
 
@@ -80,11 +80,11 @@ namespace DialogML
             m_ProgramStack.Push(currentNode);
             m_IndexStack.Push(1);
 
-            RV = currentNode.Execute(m_ScriptApi);
+            var RV = currentNode.Execute(m_ScriptApi);
             if(RV != AdvanceType.Yield &&
                 RV != AdvanceType.Finished)
             {
-                return Update();
+                return Update(RV);
             }
             
             return RV;
@@ -100,7 +100,7 @@ namespace DialogML
             m_ReturnStack.Push(m_ProgramStack.Count);
         }
         
-        public AdvanceType Update()
+        public AdvanceType Update(AdvanceType advanceType = AdvanceType.Continue)
         {
             if (m_ProgramStack.Count == 0)
             {
@@ -109,13 +109,14 @@ namespace DialogML
             }
 
             var currentNode = m_ProgramStack.Peek();
+            var rv = advanceType;
            // AdvanceType rv = currentNode.Execute(m_ScriptApi);
 
-            while(RV != AdvanceType.Yield &&
-                  RV != AdvanceType.Finished)
+            while(rv != AdvanceType.Yield &&
+                  rv != AdvanceType.Finished)
             {
 
-                if (RV == AdvanceType.ChildN)
+                if (rv == AdvanceType.ChildN)
                 {
                     int pushValue = 0;
                     currentNode = currentNode.Children[ChildNRegister];
@@ -123,7 +124,7 @@ namespace DialogML
                     m_IndexStack.Push(pushValue);
                 }
 
-                if(RV == AdvanceType.FirstChild)
+                if(rv == AdvanceType.FirstChild)
                 {
                     int pushValue = 0;
                     
@@ -132,7 +133,7 @@ namespace DialogML
                     m_IndexStack.Push(pushValue);
                 }
 
-                if(RV == AdvanceType.SecondChild)
+                if(rv == AdvanceType.SecondChild)
                 {
                     int pushValue = 0;
 
@@ -141,7 +142,7 @@ namespace DialogML
                     m_IndexStack.Push(pushValue);
                 }
 
-                if(RV == AdvanceType.Next)
+                if(rv == AdvanceType.Next)
                 {
                     // Choose next sibling.
                     // If no siblings left, choose parents sibling.
@@ -151,7 +152,7 @@ namespace DialogML
                     
                     if(m_ProgramStack.Count == 0)
                     {
-                        RV = AdvanceType.Finished;
+                        rv = AdvanceType.Finished;
                         continue;
                     }
 
@@ -173,12 +174,12 @@ namespace DialogML
                             }
                             currentNode = m_ProgramStack.Peek();
                             
-                            RV = AdvanceType.Continue;
+                            rv = AdvanceType.Continue;
                             continue;
                         }
 
 
-                        RV = AdvanceType.Next;
+                        rv = AdvanceType.Next;
                         continue;
                     }
                     else
@@ -191,19 +192,19 @@ namespace DialogML
 
                 if(currentNode == null)
                 {
-                    RV = AdvanceType.Finished;
+                    rv = AdvanceType.Finished;
                 }
                 else
                 {
-                    RV = currentNode.Execute(m_ScriptApi);
+                    rv = currentNode.Execute(m_ScriptApi);
                 }
             }
 
-            if(RV == AdvanceType.Finished)
+            if(rv == AdvanceType.Finished)
             {
                 Status = ScriptEngineStatus.NoScriptRunning;
             }
-            return RV;
+            return rv;
         }
     }
 }

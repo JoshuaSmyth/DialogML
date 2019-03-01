@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DialogML.XNodes
 {
@@ -22,7 +19,7 @@ namespace DialogML.XNodes
             bw.Write((ushort)(Children?.Count ?? 0));
 
             bw.Write(this.Id.ToByteArray() ?? Guid.Empty.ToByteArray());
-            bw.Write(this.Name ?? "null");
+            //bw.Write(this.Name ?? "null");
         }
 
         internal void WriteHeader(BinaryWriter bw, XNodeType select)

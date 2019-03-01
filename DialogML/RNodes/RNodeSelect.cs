@@ -14,6 +14,8 @@ namespace DialogML.DNodes
 
     public class RNodeSelect : RNode
     {
+        public Guid Id; // TODO Move to base class
+
         // May need an OnReset() method
         RNodeSelectState CurrentState;
         Int32 SelectedIndex = 0;
@@ -21,8 +23,9 @@ namespace DialogML.DNodes
         Option SelectedOption;
 
         public bool RemoveOnSelect;
-        public RNodeSelect(bool removeOnSelect)
+        public RNodeSelect(Guid id, bool removeOnSelect)
         {
+            Id = id;
             RemoveOnSelect = removeOnSelect;
         }
         

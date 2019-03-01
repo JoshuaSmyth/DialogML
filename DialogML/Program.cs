@@ -111,9 +111,9 @@ namespace DialogML
         static void Main(string[] args)
         {
 
-            LoadAndRunScript("c:/test/TestScripts/condition1.xml");
+            //LoadAndRunScript("c:/test/TestScripts/condition1.xml");
 
-            //    LoadAndRunScript("c:/test/TestScripts/dialog_druids_sample_noids.xml");
+            LoadAndRunScript("c:/test/TestScripts/dialog_druids_sample_noids.xml");
 
         }
     }
