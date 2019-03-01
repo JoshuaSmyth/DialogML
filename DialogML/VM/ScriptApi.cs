@@ -91,10 +91,10 @@ public class ScriptApi
         return m_StringTable.GetString(id);
     }
 
-    //internal void PushReturnParentNode()
-    //{
-    //    m_ScriptEngine.PushReturnParentNode();
-    //}
+    internal void PushReturnParentNode()
+    {
+        m_ScriptEngine.PushReturnParentNode();
+    }
 
     internal void PushReturnCurrentNode()
     {
@@ -105,4 +105,5 @@ public class ScriptApi
     {
         m_ScriptEngine.ChildNRegister = (selectedIndex-1);
     }
+    
 }

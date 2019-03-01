@@ -20,6 +20,9 @@ namespace ExpressionParser.Tests
         [Test]
         public void TestInfixToRpn_001()
         {
+            // TODO These symbols have to be registered as guids
+            // TODO The preparser needs to pick them up
+
             m_RpnCalculator.RegisterSymbol("x");
 
             const string infixExpression = "x^2 + 2";

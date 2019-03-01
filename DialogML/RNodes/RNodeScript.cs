@@ -2,8 +2,16 @@
 
 namespace DialogML.DNodes
 {
+    public enum NodeScriptState
+    {
+        Preevaluated = 0,
+        Evaluated = 1
+    }
+
     public class RNodeScript : RNode
     {
+        NodeScriptState State;
+
         public Guid Id;
         public String Name;
 
@@ -16,8 +24,15 @@ namespace DialogML.DNodes
         public override AdvanceType Execute(ScriptApi api)
         {
             api.Trace("ScriptNode");
-
-            return AdvanceType.FirstChild;
+            if(State == NodeScriptState.Preevaluated)
+            {
+                State = NodeScriptState.Evaluated;
+                return AdvanceType.FirstChild;
+            }
+            else
+            {
+                return AdvanceType.Next;
+            }
         }
     }
 }

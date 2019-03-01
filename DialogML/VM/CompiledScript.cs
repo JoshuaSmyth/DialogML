@@ -41,7 +41,7 @@ namespace DialogML.RNodes
                 case XNodeType.Log:
                     {
                         var id = new Guid(br.ReadBytes(16));
-                        var filter = br.ReadString();
+                        var filter = (LogFilter) br.ReadByte();
                         var text = br.ReadString();
                         newRoot = new RNodeLog(id, filter, text);
 

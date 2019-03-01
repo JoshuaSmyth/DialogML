@@ -8,17 +8,15 @@ namespace DialogML.DNodes
         OnEnter = 0, // Or OnReturn
         AwaitingResult = 1,
         SelectedOption = 2,
-        OnReEnter = 3
+        OnReEnter = 3,
+        OnReEnterSelectedExitNode = 4
     }
 
     public class RNodeSelect : RNode
     {
-        // STATE VARS
-        // TODO Move state variables out somewhere so they can be saved and restored.
+        // May need an OnReset() method
         RNodeSelectState CurrentState;
         Int32 SelectedIndex = 0;
-        bool SelectedExitNode;
-        // END STATE VARS
 
         Option SelectedOption;
 
@@ -30,16 +28,14 @@ namespace DialogML.DNodes
         
         public override AdvanceType Execute(ScriptApi api)
         {
+            if (CurrentState == RNodeSelectState.OnReEnterSelectedExitNode)
+            {
+                return AdvanceType.Next; // Probably only works if last.
+            }
+
             if (CurrentState == RNodeSelectState.OnReEnter)
             {
-                if(SelectedExitNode)
-                {
-                    return AdvanceType.Next; // Probably only works if last.
-                }
-                else
-                {
-                    CurrentState = RNodeSelectState.OnEnter;
-                }
+                CurrentState = RNodeSelectState.OnEnter;
             }
 
             if (CurrentState== RNodeSelectState.OnEnter)
@@ -75,18 +71,16 @@ namespace DialogML.DNodes
                 api.OnSelectOption(options, (o) =>
                 {
                     // TODO On select increment the selectedOption table
-
                     SelectedOption = o;
-                    if (o.IsExit)
-                    {
-                        // TODO Make this a state instead of an additional variable
-                        SelectedExitNode = true;
-                    }
                     
                     api.PushReturnCurrentNode();
 
                     SelectedIndex = o.ChildIndex;
                     CurrentState = RNodeSelectState.SelectedOption;
+                    if(o.IsExit)
+                    {
+                        CurrentState = RNodeSelectState.OnReEnterSelectedExitNode;
+                    }
                 });
 
                 return AdvanceType.Yield;

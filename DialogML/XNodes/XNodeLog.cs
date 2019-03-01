@@ -38,7 +38,13 @@ namespace DialogML.XNodes
         {
             base.WriteHeader(bw, XNodeType.Log);
 
-            bw.Write(this.Filter ?? "");
+            var filterId = 0;
+            if (this.Filter.ToLower() == "debug")
+            {
+                filterId = 1;
+            }
+
+            bw.Write((byte)filterId);
             bw.Write(this.Text ?? "");
 
             //st.AddString(this.Id, this.Text);

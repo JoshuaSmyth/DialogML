@@ -86,5 +86,18 @@ namespace ExpressionParser.Tests
             var ouput = m_RpnCalculator.Evaluate(evaluationContext);
             Assert.IsTrue(ouput == 1.75);
         }
+
+        [Test]
+        public void TestInfixToRpn_008()
+        {
+            // TODO Define Variable Node
+            // TODO Assign Variable Node
+            // TODO Set Flag Node
+            const string infixExpression = "isSet($$actor.joel.isdead)";
+            var evaluationContext = m_RpnCalculator.Compile(infixExpression);
+
+            var ouput = m_RpnCalculator.Evaluate(evaluationContext);
+            Assert.IsTrue(ouput == 0);
+        }
     }
 }
