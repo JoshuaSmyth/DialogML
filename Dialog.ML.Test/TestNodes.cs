@@ -57,7 +57,7 @@ namespace Dialog.ML.Test
 ";
 
             var ids = new ScriptIds();
-            ids.Parse(idsString);
+            ids.ParseText(idsString);
 
             var xParser = new XParser();
             var result = xParser.Process(ids, xml);
@@ -86,7 +86,7 @@ namespace Dialog.ML.Test
             var idsFile = TestHelper.directory + "/TestScripts/preparser/condition1.ids";
             var scriptIds = new ScriptIds();
             var idsFileContents = File.ReadAllText(idsFile);
-            scriptIds.Parse(idsFileContents);
+            scriptIds.ParseText(idsFileContents);
 
             var xml = File.ReadAllText(TestHelper.directory + "/TestScripts/preparser/condition1.xml");
 

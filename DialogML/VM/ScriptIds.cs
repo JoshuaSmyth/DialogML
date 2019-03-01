@@ -16,7 +16,7 @@ namespace DialogML
             return Ids[index];
         }
 
-        public void Parse(String text)
+        public void ParseText(String text)
         {
             var items = text.Split(new char[] { '\r', '\n', ':' },StringSplitOptions.RemoveEmptyEntries);
             var len = items.Count();
@@ -29,7 +29,7 @@ namespace DialogML
 
         internal void FromFile(string idsFilename)
         {
-            Parse(File.ReadAllText(idsFilename));
+            ParseText(File.ReadAllText(idsFilename));
         }
 
         internal void WriteTextFile(string idsFilename)
@@ -42,8 +42,31 @@ namespace DialogML
             File.WriteAllText(idsFilename, sb.ToString());
         }
 
+        internal byte[] SerializeBytes()
+        {
+            using(var ms = new MemoryStream())
+            {
+                using(var bw = new BinaryWriter(ms))
+                {
+                    bw.Write((byte)42);
+                    bw.Write((Int32)Ids.Count);
+                    foreach(var id in Ids)
+                    {
+                        var hex = id.Key.Substring(1, id.Key.Length - 1);
+                        var value = Convert.ToUInt32(hex, 16);
+                        bw.Write(value);
+
+                        bw.Write(id.Value.ToByteArray());
+                    }
+
+                    return ms.ToArray();
+                }
+            }
+        }
+
         internal void WriteBinaryFile(string idsFilename)
         {
+
             throw new NotImplementedException();
         }
 

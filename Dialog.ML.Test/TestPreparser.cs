@@ -30,7 +30,7 @@ namespace Dialog.ML.Test
             var idsFile = TestHelper.directory + "/TestScripts/preparser/input_ids_001.ids";
             var scriptIds = new ScriptIds();
             var idsFileContents = File.ReadAllText(idsFile);
-            scriptIds.Parse(idsFileContents);
+            scriptIds.ParseText(idsFileContents);
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace Dialog.ML.Test
             var idsFile = TestHelper.directory + "/TestScripts/preparser/input_ids_002.ids";
             var scriptIds = new ScriptIds();
             var idsFileContents = File.ReadAllText(idsFile);
-            scriptIds.Parse(idsFileContents);
+            scriptIds.ParseText(idsFileContents);
         }
     }
 }

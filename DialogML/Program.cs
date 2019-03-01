@@ -73,7 +73,8 @@ namespace DialogML
                 
                 var scriptIds = new ScriptIds();
                 var ids = File.ReadAllText(idsFile);
-                scriptIds.Parse(ids);
+                scriptIds.ParseText(ids);
+                var scriptIdBytes = scriptIds.SerializeBytes();
 
                 var xml = File.ReadAllText(filename);
 
@@ -82,6 +83,8 @@ namespace DialogML
 
 
                 var bytes = bParser.SerializeXTree(root, ref stringTable);
+
+                Console.WriteLine("ScriptIds Size:" + scriptIdBytes.Length);
 
                 Console.WriteLine("Script Size:" + bytes.Length);
 
