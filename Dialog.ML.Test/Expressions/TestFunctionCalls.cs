@@ -11,6 +11,16 @@ namespace ExpressionParser.Tests
     {
         private readonly RpnCalculator m_RpnCalculator = new RpnCalculator();
 
+        [OneTimeSetUp]
+        public void SetupFixture()
+        {
+            // TODO symbol ids should be guids
+            m_RpnCalculator.RegisterSymbol("actor.joel.isdead");
+
+            // TODO This function should take a guid to represent the symbol id
+            m_RpnCalculator.RegisterFunction("isSet", new Func<Double, Double>((id) => { return 0; }));
+        }
+
         [Test]
         public void Test()
         {
@@ -90,14 +100,27 @@ namespace ExpressionParser.Tests
         [Test]
         public void TestInfixToRpn_008()
         {
-            // TODO Define Variable Node
-            // TODO Assign Variable Node
-            // TODO Set Flag Node
-            const string infixExpression = "isSet($$actor.joel.isdead)";
+            const string infixExpression = "isset(actor.joel.isdead)";
             var evaluationContext = m_RpnCalculator.Compile(infixExpression);
 
             var ouput = m_RpnCalculator.Evaluate(evaluationContext);
             Assert.IsTrue(ouput == 0);
+        }
+
+        [Test]
+        public void TestInfixToRpn_009()
+        {
+            // TODO Define Flag
+            // TODO Define Var
+            // TODO Assign Var
+            // TODO Assign Flag
+
+
+            const string infixExpression = "!isset(actor.joel.isdead)";
+            var evaluationContext = m_RpnCalculator.Compile(infixExpression);
+
+            var ouput = m_RpnCalculator.Evaluate(evaluationContext);
+            Assert.IsTrue(ouput == 1);
         }
     }
 }

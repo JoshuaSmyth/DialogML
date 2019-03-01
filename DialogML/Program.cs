@@ -1,59 +1,10 @@
 ﻿using DialogML.RNodes;
 using DialogML.VM;
-using DialogML.XNodes;
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace DialogML
 {
-    
-    public class XNodePrint : XmlNode
-    {
-        public String Text;
-    }
-
-    class XNodeSetGlobalFlag : XmlNode
-    {
-        public string value;                       // Could be expression
-    }
-
-
-    class XNodeGotoPage : XmlNode
-    {
-        public string PageName;
-        Guid Id;            // Pushes this id
-    }
-
-    class XNodeOptions : XmlNode
-    {
-        // List of options
-    }
-
-
-    class XNodeExit : XmlNode
-    {
-        // No Parameters
-    }
-
-
-
-
-    class XDefineVar : XmlNode
-    {
-        public VariableType VarType;
-        public String InitalValue;
-    }
-
-    class XScriptVariable
-    {
-        VariableType variableType;
-        public string Name;
-        public Guid Id;
-        public string value;            // All types are really strings shocking!
-    }
-
-
     class Program
     {
         public static void LoadAndRunScript(string filename)
@@ -81,11 +32,9 @@ namespace DialogML
                 var result = xParser.Process(scriptIds, xml);
                 var root = result.Children[0];
 
-
                 var bytes = bParser.SerializeXTree(root, ref stringTable);
 
                 Console.WriteLine("ScriptIds Size:" + scriptIdBytes.Length);
-
                 Console.WriteLine("Script Size:" + bytes.Length);
 
                 var strings = stringTable.Serialise();
@@ -109,15 +58,15 @@ namespace DialogML
                 throw new FileNotFoundException();
             }
         }
-
-
+        
         static void Main(string[] args)
         {
-
             //LoadAndRunScript("c:/test/TestScripts/condition1.xml");
 
             LoadAndRunScript("c:/test/TestScripts/dialog_druids_sample_noids.xml");
 
+            // TODO Add ability to rerun scripts.
+            // (Load and store them in some cache)
         }
     }
 }

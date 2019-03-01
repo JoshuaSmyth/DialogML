@@ -119,50 +119,6 @@ namespace DialogML
                         newRoot = node;
                         break;
                     }
-                case "goto-page":
-                    {
-                        var node = new XNodeGotoPage();
-                        foreach(var a in element.Attributes())
-                        {
-                            var attributeName = a.Name.ToString().ToLower();
-                            switch(attributeName)
-                            {
-                                case "name":
-                                    node.PageName = a.Value;
-                                    break;
-                                default:
-                                    ThrowInvalidAttributeError(elementName, attributeName);
-                                    break;
-                            }
-                        }
-                        break;
-                    }
-                case "print":
-                    {
-                        var node = new XNodePrint();
-                        foreach(var a in element.Attributes())
-                        {
-                            var attributeName = a.Name.ToString().ToLower();
-                            switch(attributeName)
-                            {
-                                case "text":
-                                    node.Text = a.Value;
-                                    break;
-                                default:
-                                    ThrowInvalidAttributeError(elementName, attributeName);
-                                    break;
-                            }
-                        }
-
-                        root.Children.Add(node);
-                        break;
-                    }
-                case "exit":
-                    {
-                        root.Children.Add(new XNodeExit());
-                        break;
-                    }
-
                 case "page":
                     {
                         Guid id = Guid.Empty;
@@ -195,70 +151,7 @@ namespace DialogML
                         root.Children.Add(newRoot);
                         break;
                     }
-                case "define-global-flag":
-                    {
-                        Guid id = Guid.NewGuid();
-                        String name = null;
-                        foreach(var a in element.Attributes())
-                        {
-                            var attributeName = a.Name.ToString().ToLower();
-                            switch(attributeName)
-                            {
-                                case "id":
-                                    {
-                                        id = new Guid();    // Read This;
-                                        break;
-                                    }
-                                case "name":
-                                    {
-                                        name = a.Value;
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        Console.WriteLine("unknown attribute:" + attributeName);
-                                        break;
-                                    }
-                            }
-                        }
-
-                        newRoot = new XDefineVar() { Id = id, Name = name, VarType = VariableType.GlobalFlag };
-                        root.Children.Add(newRoot);
-                        break;
-                    }
-
-                case "define-local-var":
-                    {
-                        Guid id = Guid.NewGuid();
-                        String name = null;
-                        foreach(var a in element.Attributes())
-                        {
-                            var attributeName = a.Name.ToString().ToLower();
-                            switch(attributeName)
-                            {
-                                case "id":
-                                    {
-                                        id = new Guid();    // Read This;
-                                        break;
-                                    }
-                                case "name":
-                                    {
-                                        name = a.Value;
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        Console.WriteLine("unknown attribute:" + attributeName);
-                                        break;
-                                    }
-                            }
-                        }
-
-                        newRoot = new XDefineVar() { Id = id, Name = name, VarType = VariableType.LocalVar };
-                        root.Children.Add(newRoot);
-                        break;
-                    }
-
+                
                 case "script":
                     {
                         Guid id = Guid.Empty;

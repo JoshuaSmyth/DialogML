@@ -22,10 +22,10 @@ namespace ExpressionParser
             m_Compiler = new RpnCompiler(m_CallTable);
 
             // Add some built in functions
-            RegisterFunction("cos", null, new Func<double, double>(Math.Cos));
-            RegisterFunction("sin", null, new Func<double, double>(Math.Sin));
-            RegisterFunction("exp", null, new Func<double, double>(Math.Exp));
-            RegisterFunction("max", null, new Func<double, double, double>(Math.Max));
+            RegisterFunction("cos", new Func<double, double>(Math.Cos));
+            RegisterFunction("sin", new Func<double, double>(Math.Sin));
+            RegisterFunction("exp", new Func<double, double>(Math.Exp));
+            RegisterFunction("max", new Func<double, double, double>(Math.Max));
         }
 
 
@@ -36,10 +36,11 @@ namespace ExpressionParser
             return new EvaluationContext(symbolTable) { Instructions = instructions };
         }
 
-        public void RegisterFunction(string name, object owner, Delegate function)
+        public void RegisterFunction(string name, Delegate function)
         {
-            m_CallTable.RegisterFunction(name, function);
-            m_Compiler.Tokenizer.AddToken(new InputToken(new Regex(name), SemanticTokenType.FunctionCall, OperationType.FunctionCall));
+            var loweredName = name.ToLower();
+            m_CallTable.RegisterFunction(loweredName, function);
+            m_Compiler.Tokenizer.AddToken(new InputToken(new Regex(loweredName), SemanticTokenType.FunctionCall, OperationType.FunctionCall));
         }
 
         
