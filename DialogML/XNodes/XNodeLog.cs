@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace DialogML.XNodes
@@ -9,10 +8,9 @@ namespace DialogML.XNodes
         public String Filter;
         public String Text;
         
-        public void OnProcessElement(ScriptIds ids, string name, string value)
+        public override void OnProcessElement(ScriptIds ids, string name, string value)
         {
             var loweredName = name.ToLower();
-
             if(loweredName == "filter")
             {
                 Filter = value;
@@ -46,8 +44,6 @@ namespace DialogML.XNodes
 
             bw.Write((byte)filterId);
             bw.Write(this.Text ?? "");
-
-            //st.AddString(this.Id, this.Text);
         }
     }
 }

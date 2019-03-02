@@ -60,6 +60,7 @@
     <Compile Include="RNodes\RNodeCaseTrue.cs" />
     <Compile Include="RNodes\RNodeIf.cs" />
     <Compile Include="RNodes\RNodeLog.cs" />
+    <Compile Include="RNodes\RNodeOnceOnly.cs" />
     <Compile Include="VM\BinarySerialiser.cs" />
     <Compile Include="RNodes\RNode.cs" />
     <Compile Include="RNodes\RNodeOption.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="XNodes\XNodeCaseTrue.cs" />
     <Compile Include="XNodes\XNodeIf.cs" />
     <Compile Include="XNodes\XNodeLog.cs" />
+    <Compile Include="XNodes\XNodeOnceOnly.cs" />
     <Compile Include="XNodes\XNodeScript.cs" />
     <Compile Include="XNodes\XNodeSelect.cs" />
     <Compile Include="XNodes\XNodeOption.cs" />
@@ -93,7 +95,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Scripts\condition1.ids">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\dialog_druids_sample.ids">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Scripts\condition1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\dialog_druids_sample.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

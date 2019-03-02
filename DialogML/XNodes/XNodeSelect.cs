@@ -10,7 +10,7 @@ namespace DialogML.XNodes
     public class XNodeSelect : XmlNode
     {
         public bool RemoveOnSelect;
-        public void OnProcessElement(string name, string value)
+        public override void OnProcessElement(ScriptIds ids, string name, string value)
         {
             var loweredName = name.ToLower();
             if (loweredName == "remove-on-select")

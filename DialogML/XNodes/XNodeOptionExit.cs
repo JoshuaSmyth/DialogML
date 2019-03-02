@@ -6,7 +6,7 @@ namespace DialogML.XNodes
     public class XNodeOptionExit : XmlNode
     {
         public string Text;
-        public void OnProcessElement(ScriptIds ids, string name, string value)
+        public override void OnProcessElement(ScriptIds ids, string name, string value)
         {
             var loweredName = name.ToLower();
             if(loweredName == "text")

@@ -5,7 +5,7 @@ namespace DialogML.XNodes
 {
     public class XNodeCaseTrue : XmlNode
     {
-        public void OnProcessElement(ScriptIds ids, string name, string value)
+        public override void OnProcessElement(ScriptIds ids, string name, string value)
         {
             var loweredName = name.ToLower();
             if(loweredName == "id")
@@ -24,7 +24,6 @@ namespace DialogML.XNodes
         public override void WriteBytes(BinaryWriter bw, ref StringTable st)
         {
             base.WriteHeader(bw, XNodeType.CaseTrue);
-
         }
     }
 }

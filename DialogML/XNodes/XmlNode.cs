@@ -11,15 +11,19 @@ namespace DialogML.XNodes
         public AdvanceType Update(ScriptApi api) { return AdvanceType.Next; }
         public List<XmlNode> Children = new List<XmlNode>();
 
+        public virtual void OnProcessElement(ScriptIds ids, string name, string value)
+        {
+            // Implement Me!
+            throw new Exception("Implement Me!");
+        }
+
         public virtual void WriteBytes(BinaryWriter bw, ref StringTable stringTable) // TODO Pass string table
         {
             bw.Write((ushort)XNodeType.Unknown);
             bw.Write((byte)1);    // Version Major
-            //bw.Write((byte)0);    // Version Minor
             bw.Write((ushort)(Children?.Count ?? 0));
 
             bw.Write(this.Id.ToByteArray() ?? Guid.Empty.ToByteArray());
-            //bw.Write(this.Name ?? "null");
         }
 
         internal void WriteHeader(BinaryWriter bw, XNodeType select)

@@ -1,0 +1,15 @@
+<script name="{filename}" entrypoint="p1" id="#0001">
+  <page name="p1" id="#0002">
+    <if expression="5>10" id="#0003">
+      <case-true id="#0004">
+        <log filter="debug" text="Five is greater than Ten" id="#0005" />
+      </case-true>
+      <case-false id="#0006">
+        <log filter="debug" text="Five is less than Ten" id="#0007" />
+      </case-false>
+    </if>
+  </page>
+  <page name="p2" id="#0008">
+    <log filter="debug" text="This should not be displayed" id="#0009" />
+  </page>
+</script>

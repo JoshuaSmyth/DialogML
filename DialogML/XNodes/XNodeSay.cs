@@ -17,7 +17,7 @@ namespace DialogML.XNodes
         public String Text;
         public SayPosition Position;
 
-        public void OnProcessElement(ScriptIds ids, string name, string value)
+        public override void OnProcessElement(ScriptIds ids, string name, string value)
         {
             var loweredName = name.ToLower();
 

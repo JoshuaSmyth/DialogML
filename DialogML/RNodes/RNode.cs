@@ -17,6 +17,8 @@ namespace DialogML.DNodes
         {
             // The script is walked calling this method before running.
             // In order to clean up any old state that might be left behind.
+
+            // TODO Each script should implement this method.
         }
     }
 }

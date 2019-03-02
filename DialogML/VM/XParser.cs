@@ -1,5 +1,6 @@
 ﻿using DialogML.XNodes;
 using System;
+using System.Xml.Linq;
 
 namespace DialogML
 {
@@ -23,100 +24,58 @@ namespace DialogML
             var elementName = element.Name.ToString().ToLower();
             switch(elementName)
             {
+                case "once-only":
+                    {
+                        var node = new XNodeOnceOnly();
+                        newRoot = InitNode(ids, element, root, node);
+                        break;
+                    }
                 case "log":
                     {
                         var node = new XNodeLog();
-                        foreach(var a in element.Attributes())
-                        {
-                            node.OnProcessElement(ids, a.Name.ToString(), a.Value);
-                        }
-
-                        root.Children.Add(node);
-                        newRoot = node;
+                        newRoot = InitNode(ids, element, root, node);
                         break;
                     }
                 case "case-false":
                     {
                         var node = new XNodeCaseFalse();
-                        foreach(var a in element.Attributes())
-                        {
-                            node.OnProcessElement(ids, a.Name.ToString(), a.Value);
-                        }
-
-                        root.Children.Add(node);
-                        newRoot = node;
+                        newRoot = InitNode(ids, element, root, node);
                         break;
                     }
                 case "case-true":
                     {
                         var node = new XNodeCaseTrue();
-                        foreach(var a in element.Attributes())
-                        {
-                            node.OnProcessElement(ids, a.Name.ToString(), a.Value);
-                        }
-
-                        root.Children.Add(node);
-                        newRoot = node;
+                        newRoot = InitNode(ids, element, root, node);
                         break;
                     }
                 case "if":
                     {
                         var node = new XNodeIf();
-                        foreach(var a in element.Attributes())
-                        {
-                            node.OnProcessElement(ids, a.Name.ToString(), a.Value);
-                        }
-
-                        root.Children.Add(node);
-                        newRoot = node;
+                        newRoot = InitNode(ids, element, root, node);
                         break;
                     }
                 case "option-exit":
                     {
                         var node = new XNodeOptionExit();
-                        foreach(var a in element.Attributes())
-                        {
-                            node.OnProcessElement(ids, a.Name.ToString(), a.Value);
-                        }
-
-                        root.Children.Add(node);
-                        newRoot = node;
+                        newRoot = InitNode(ids, element, root, node);
                         break;
                     }
                 case "option":
                     {
                         var node = new XNodeOption();
-                        foreach(var a in element.Attributes())
-                        {
-                            node.OnProcessElement(ids, a.Name.ToString(), a.Value);
-                        }
-
-                        root.Children.Add(node);
-                        newRoot = node;
+                        newRoot = InitNode(ids, element, root, node);
                         break;
                     }
                 case "select":
                     {
                         var node = new XNodeSelect();
-                        foreach(var a in element.Attributes())
-                        {
-                            node.OnProcessElement(a.Name.ToString(), a.Value);
-                        }
-
-                        root.Children.Add(node);
-                        newRoot = node;
+                        newRoot = InitNode(ids, element, root, node);
                         break;
                     }
                 case "say":
                     {
                         var node = new XNodeSay();
-                        foreach(var a in element.Attributes())
-                        {
-                            node.OnProcessElement(ids, a.Name.ToString(), a.Value);
-                        }
-
-                        root.Children.Add(node);
-                        newRoot = node;
+                        newRoot = InitNode(ids, element, root, node);
                         break;
                     }
                 case "page":
@@ -208,6 +167,19 @@ namespace DialogML
                     Process(ids, child, newRoot);
                 }
             }
+        }
+
+        private static XmlNode InitNode(ScriptIds ids, XElement element, XmlNode currentRoot, XmlNode newNode)
+        {
+            XmlNode newRoot;
+            foreach(var a in element.Attributes())
+            {
+                newNode.OnProcessElement(ids, a.Name.ToString(), a.Value);
+            }
+
+            currentRoot.Children.Add(newNode);
+            newRoot = newNode;
+            return newRoot;
         }
 
         private static void ThrowInvalidAttributeError(string elementName, string attributeName)

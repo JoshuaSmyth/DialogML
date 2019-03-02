@@ -17,7 +17,8 @@ namespace DialogML
         If = 7,
         CaseTrue = 8,
         CaseFalse = 9,
-        Log = 10
+        Log = 10,
+        OnceOnly = 11
     }
 
     enum VariableType

@@ -61,9 +61,9 @@ namespace DialogML
         
         static void Main(string[] args)
         {
-            //LoadAndRunScript("c:/test/TestScripts/condition1.xml");
+            //LoadAndRunScript("Scripts/condition1.xml");
 
-            LoadAndRunScript("c:/test/TestScripts/dialog_druids_sample_noids.xml");
+            LoadAndRunScript("Scripts/dialog_druids_sample.xml");
 
             // TODO Add ability to rerun scripts.
             // (Load and store them in some cache)
