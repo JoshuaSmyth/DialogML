@@ -39,13 +39,19 @@ public class ScriptApi
         m_StringTable = table;
     }
 
+    internal bool HasOnlyIfBeenExecuted(Guid id)
+    {
+        // TOOD IMplement
+        return false;
+    }
+
     // PushReturnToCurrentNode
 
     // PushReturnToParentNode
 
     // TODO Pass callback or ref ReturnFlag?
     // Or write to a register. (Stackable?)
-    
+
     public void OnSelectOption(List<Option> options, Action<Option> SelectedOption)
     {
         var index = -1;

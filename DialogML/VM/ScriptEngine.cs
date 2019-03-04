@@ -116,7 +116,8 @@ namespace DialogML
             while(rv != AdvanceType.Yield &&
                   rv != AdvanceType.Finished)
             {
-
+                // TODO I think I have done this main walk wrong.
+                
                 if (rv == AdvanceType.ChildN)
                 {
                     int pushValue = 0;
