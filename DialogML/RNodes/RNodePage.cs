@@ -13,7 +13,7 @@ namespace DialogML.DNodes
     public class RNodePage : RNode
     {
         // State
-        //NodePageState state;
+        NodePageState state;
 
         public Guid Id;
         public String Name;
@@ -26,9 +26,9 @@ namespace DialogML.DNodes
 
         public override AdvanceType Execute(ScriptApi api)
         {
-            api.PushReturnParentNode();
-            return AdvanceType.FirstChild;
-            /*
+           // api.PushReturnParentNode();
+           // return AdvanceType.FirstChild;
+            
             if(state == NodePageState.Preevaluated)
             {
                 state = NodePageState.Evaluated;
@@ -40,7 +40,7 @@ namespace DialogML.DNodes
             {
                 api.Trace("PageNode:Return");
                 return AdvanceType.Next;
-            }*/
+            }
         }
     }
 }
