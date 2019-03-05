@@ -14,10 +14,8 @@ namespace DialogML.DNodes
 
     public class RNodeSelect : RNode
     {
-        public Guid Id; // TODO Move to base class
-
         // May need an OnReset() method
-        RNodeSelectState CurrentState;
+        RNodeSelectState State;
         Int32 SelectedIndex = 0;
 
         Option SelectedOption;
@@ -31,17 +29,17 @@ namespace DialogML.DNodes
         
         public override AdvanceType Execute(ScriptApi api)
         {
-            if (CurrentState == RNodeSelectState.OnReEnterSelectedExitNode)
+            if (State == RNodeSelectState.OnReEnterSelectedExitNode)
             {
                 return AdvanceType.Next; // Probably only works if last.
             }
 
-            if (CurrentState == RNodeSelectState.OnReEnter)
+            if (State == RNodeSelectState.OnReEnter)
             {
-                CurrentState = RNodeSelectState.OnEnter;
+                State = RNodeSelectState.OnEnter;
             }
 
-            if (CurrentState== RNodeSelectState.OnEnter)
+            if (State== RNodeSelectState.OnEnter)
             {
                 Console.WriteLine();
                 api.Trace("Select Node");
@@ -79,29 +77,34 @@ namespace DialogML.DNodes
                     api.PushReturnCurrentNode();
 
                     SelectedIndex = o.ChildIndex;
-                    CurrentState = RNodeSelectState.SelectedOption;
+                    State = RNodeSelectState.SelectedOption;
                     if(o.IsExit)
                     {
-                        CurrentState = RNodeSelectState.OnReEnterSelectedExitNode;
+                        State = RNodeSelectState.OnReEnterSelectedExitNode;
                     }
                 });
 
                 return AdvanceType.Yield;
             }
-            else if (CurrentState == RNodeSelectState.AwaitingResult)
+            else if (State == RNodeSelectState.AwaitingResult)
             {
                 return AdvanceType.Yield;
             }
-            else if (CurrentState == RNodeSelectState.SelectedOption)
+            else if (State == RNodeSelectState.SelectedOption)
             {
                 // If this is an exit node then it's not child N but parent
                 // Unless we want to explore the nodes first
-                CurrentState = RNodeSelectState.OnReEnter;
+                State = RNodeSelectState.OnReEnter;
                 api.SetChildNRegister(SelectedIndex);
                 return AdvanceType.ChildN;
             }
 
             return AdvanceType.Yield;
+        }
+
+        public override void Prep()
+        {
+            State = RNodeSelectState.OnEnter;
         }
     }
 }

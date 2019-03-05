@@ -9,7 +9,7 @@ namespace DialogML.DNodes
 {
     public class RNodeSay : RNode
     {
-        public Guid Id;
+        //public Guid Id;
         public SayPosition SayPosition;
         public String ActorId;
 
@@ -24,6 +24,11 @@ namespace DialogML.DNodes
         {
             api.Say(ActorId, Id);
             return AdvanceType.Next;
+        }
+
+        public override void Prep()
+        {
+            //throw new NotImplementedException();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace DialogML.RNodes
         NodeOnlyIfState State;
 
         // TODO Id should be moved to the base
-        Guid Id;
+        //Guid Id;
 
         OnceOnlyConfig NodeConfig;
 
@@ -74,6 +74,12 @@ namespace DialogML.RNodes
             }
 
             return AdvanceType.Next;
+        }
+
+        public override void Prep()
+        {
+            State = NodeOnlyIfState.Preevaluated;
+            //throw new NotImplementedException();
         }
     }
 }

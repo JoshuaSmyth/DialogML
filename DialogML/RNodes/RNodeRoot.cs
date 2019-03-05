@@ -1,22 +1,18 @@
 ﻿using DialogML.DNodes;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DialogML.RNodes
 {
-    public class RNodeCaseFalse : RNode
+    public class RNodeRoot : RNode
     {
-       // public Guid Id;
-        public RNodeCaseFalse(Guid id)
-        {
-            Id = id;
-        }
-
         public override AdvanceType Execute(ScriptApi api)
         {
-            // TODO Eval
-            api.Trace("RNodeCaseFalse");
-
-            return AdvanceType.FirstChild;
+            return AdvanceType.Next;
+            //throw new NotImplementedException();
         }
 
         public override void Prep()

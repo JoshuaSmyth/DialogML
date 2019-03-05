@@ -37,17 +37,16 @@ namespace DialogML
         FirstChild,
         SecondChild,
         ChildN,             // Look at register
-        PopStack,           // i.e Goto Parent
-        PushGoto,            // Look at jump register
         Finished,
         Continue,
-        Repeat
+        Parent
     }
 
     public enum ScriptEngineStatus
     {
         NoScriptRunning,
-        RunningScript
+        RunningScript,
+        PrepScript
     }
 
     public class ScriptEngine
@@ -73,8 +72,26 @@ namespace DialogML
             m_ScriptApi = new ScriptApi(this, m_StringTable);
         }
 
+        public void PrepScriptRecursive(RNode node)
+        {
+            node.Prep();
+            foreach(var c in node.Children)
+            {
+                PrepScriptRecursive(c);
+            }
+        }
+
+        public void PrepScript(CompiledScript script)
+        {
+            PrepScriptRecursive(script.Root);
+        }
+
         public AdvanceType StartScript(CompiledScript script)
         {
+            // Prep Script
+            Status = ScriptEngineStatus.PrepScript;
+            PrepScript(script);
+
             Status = ScriptEngineStatus.RunningScript;
             var currentNode = script.Root.Children[0];
 
@@ -93,6 +110,7 @@ namespace DialogML
 
         internal void PushReturnParentNode()
         {
+            throw new Exception("Don't call this method TODO Remove");
             m_ReturnStack.Push(m_ProgramStack.Count-1);
         }
 
@@ -189,6 +207,19 @@ namespace DialogML
                         currentNode = parent.Children[index];
                         m_ProgramStack.Push(currentNode);
                         m_IndexStack.Push(index);
+                    }
+                }
+
+                if (rv == AdvanceType.Parent)
+                {
+                    if(m_ProgramStack.Count > 0)
+                    {
+                        currentNode = m_ProgramStack.Pop();
+                        m_IndexStack.Pop();
+                    }
+                    else
+                    {
+                        currentNode = null;
                     }
                 }
 

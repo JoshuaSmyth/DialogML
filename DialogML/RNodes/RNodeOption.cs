@@ -5,7 +5,7 @@ namespace DialogML.DNodes
     public class RNodeOption : RNode
     {
         // TODO Add OnlyIf expression
-        public Guid Id;
+        //public Guid Id;
         public RNodeOption(Guid id)
         {
             Id = id;
@@ -14,6 +14,11 @@ namespace DialogML.DNodes
         public override AdvanceType Execute(ScriptApi api)
         {
             return AdvanceType.FirstChild;
+        }
+
+        public override void Prep()
+        {
+            //throw new NotImplementedException();
         }
     }
 }

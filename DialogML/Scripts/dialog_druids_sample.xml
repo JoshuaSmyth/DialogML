@@ -34,4 +34,7 @@
     </select>
     <say actor-id="harry" text="We need to head north. There's a cave up thatta ways which will lead us to the Great Academic." position="right" id="#0012" />
   </page>
+  <page>
+    <say actor-id="harry" text="This should not show"/>
+  </page>
 </script>

@@ -140,7 +140,7 @@ namespace DialogML.RNodes
 
         public void Deserialise(byte[] bytes)
         {
-            Root = new RNode();
+            Root = new RNodeRoot();
             using(var ms = new MemoryStream(bytes))
             {
                 using(var br = new BinaryReader(ms))

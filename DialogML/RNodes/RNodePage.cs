@@ -15,7 +15,7 @@ namespace DialogML.DNodes
         // State
         NodePageState state;
 
-        public Guid Id;
+        //public Guid Id;
         public String Name;
 
         public RNodePage(Guid id, String name)
@@ -33,14 +33,24 @@ namespace DialogML.DNodes
             {
                 state = NodePageState.Evaluated;
                 api.Trace("PageNode");
-                api.PushReturnParentNode();
+                // The parent might not be ready for re-entry
+                // This might need to be more abstracted
+                api.PushReturnCurrentNode();
                 return AdvanceType.FirstChild;
             }
             else
             {
                 api.Trace("PageNode:Return");
-                return AdvanceType.Next;
+
+                // TODO Change the return type to goto parent
+                return AdvanceType.Parent;
             }
+        }
+
+        public override void Prep()
+        {
+            state = NodePageState.Preevaluated;
+            //throw new NotImplementedException();
         }
     }
 }

@@ -93,7 +93,9 @@ namespace DialogML
 
             LoadAndRunScript("Scripts/dialog_druids_sample.xml");
 
+            Console.WriteLine();
             Console.WriteLine("** Second Run **");
+            Console.WriteLine();
 
             LoadAndRunScript("Scripts/dialog_druids_sample.xml");
 

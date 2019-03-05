@@ -61,6 +61,7 @@
     <Compile Include="RNodes\RNodeIf.cs" />
     <Compile Include="RNodes\RNodeLog.cs" />
     <Compile Include="RNodes\RNodeOnceOnly.cs" />
+    <Compile Include="RNodes\RNodeRoot.cs" />
     <Compile Include="VM\BinarySerialiser.cs" />
     <Compile Include="RNodes\RNode.cs" />
     <Compile Include="RNodes\RNodeOption.cs" />

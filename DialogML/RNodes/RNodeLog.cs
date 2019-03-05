@@ -16,7 +16,7 @@ namespace DialogML.RNodes
     {
         public LogFilter Filter;   // TODO Implement Custom Filters
         public String Text;
-        public Guid Id;
+       // public Guid Id;
         public RNodeLog(Guid id, LogFilter filter, string text)
         {
             Id = id;
@@ -30,6 +30,11 @@ namespace DialogML.RNodes
             api.Trace("Log: " + Filter + " : " + Text);
 
             return AdvanceType.Next;
+        }
+
+        public override void Prep()
+        {
+            throw new NotImplementedException();
         }
     }
 }

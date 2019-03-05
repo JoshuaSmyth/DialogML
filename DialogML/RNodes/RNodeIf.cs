@@ -15,7 +15,7 @@ namespace DialogML.RNodes
         NodeIfState state;
 
         public CompiledExpression Expression;
-        public Guid Id;
+        //public Guid Id;
         public RNodeIf(Guid id, CompiledExpression expression)
         {
             Id = id;
@@ -47,6 +47,11 @@ namespace DialogML.RNodes
             }
 
             return AdvanceType.Next;
+        }
+
+        public override void Prep()
+        {
+            state = NodeIfState.Preevaluated;
         }
     }
 }

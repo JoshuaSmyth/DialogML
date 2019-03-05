@@ -99,6 +99,7 @@ public class ScriptApi
 
     internal void PushReturnParentNode()
     {
+        // Warning the parent might not be equiped for re-entry
         m_ScriptEngine.PushReturnParentNode();
     }
 

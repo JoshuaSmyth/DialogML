@@ -1,24 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DialogML.DNodes
 {
-    public class RNode
+    public interface IRNode
+    {
+        Guid Id { get; set; }
+    }
+
+    public abstract class RNode : IRNode
     {
         public List<RNode> Children = new List<RNode>();
-        
+
+        public Guid Id { get; set; }
+
+        public abstract void Prep();
+
+        public abstract AdvanceType Execute(ScriptApi api);
+        /*
         public virtual AdvanceType Execute(ScriptApi api)
         {
             api.Trace(typeof(RNode).ToString());
 
             return AdvanceType.Next;
-        }
-
-        public virtual void OnPrepareScript()
-        {
-            // The script is walked calling this method before running.
-            // In order to clean up any old state that might be left behind.
-
-            // TODO Each script should implement this method.
-        }
+        }*/
     }
 }

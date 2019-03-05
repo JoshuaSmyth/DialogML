@@ -12,7 +12,7 @@ namespace DialogML.DNodes
     {
         NodeScriptState State;
 
-        public Guid Id;
+        //public Guid Id;
         public String Name;
 
         public RNodeScript(Guid id, String name)
@@ -31,8 +31,14 @@ namespace DialogML.DNodes
             }
             else
             {
-                return AdvanceType.Next;
+                return AdvanceType.Parent;
             }
+        }
+
+        public override void Prep()
+        {
+            State = NodeScriptState.Preevaluated;
+            //throw new NotImplementedException();
         }
     }
 }
