@@ -11,6 +11,7 @@ namespace DialogML
         static Dictionary<String, CompiledScript> ScriptBank = new Dictionary<String, CompiledScript>();
         static Dictionary<String, StringTable> StringBank = new Dictionary<String, StringTable>();
 
+        static OnlyIfTable onlyIfTable = new OnlyIfTable(); // TODO Move elsewhere
 
         public static void LoadAndRunScript(string filename)
         {
@@ -20,7 +21,9 @@ namespace DialogML
                 StringTable stringTable = StringBank[filename];
                 CompiledScript script = ScriptBank[filename];
 
-                var scriptEngine = new ScriptEngine(stringTable);
+
+                // TODO Don't create instance of script engine instead reuse one
+                var scriptEngine = new ScriptEngine(stringTable, onlyIfTable);
                 scriptEngine.StartScript(script);
 
                 AdvanceType rv = AdvanceType.Unknown;
@@ -68,7 +71,9 @@ namespace DialogML
 
                     // Run Engine
                     Console.WriteLine();
-                    var scriptEngine = new ScriptEngine(stringTable);
+
+                    // TODO Don't create instance of script engine instead reuse one
+                    var scriptEngine = new ScriptEngine(stringTable, onlyIfTable);
                     scriptEngine.StartScript(scriptFile);
 
                     ScriptBank.Add(filename, scriptFile);

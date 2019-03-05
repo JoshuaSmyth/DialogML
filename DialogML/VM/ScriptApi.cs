@@ -39,10 +39,14 @@ public class ScriptApi
         m_StringTable = table;
     }
 
-    internal bool HasOnlyIfBeenExecuted(Guid id)
+    internal bool HasOnceOnlyBeenExecuted(Guid id)
     {
-        // TOOD IMplement
-        return false;
+        return m_ScriptEngine.HasOnceOnlyBeenExecuted(id);
+    }
+
+    internal void MarkOnceOnlyAsVisited(Guid id)
+    {
+        m_ScriptEngine.MarkOnceOnlyAsVisited(id);
     }
 
     // PushReturnToCurrentNode
@@ -100,6 +104,7 @@ public class ScriptApi
     internal void PushReturnParentNode()
     {
         // Warning the parent might not be equiped for re-entry
+        throw new Exception("Don't call");
         m_ScriptEngine.PushReturnParentNode();
     }
 

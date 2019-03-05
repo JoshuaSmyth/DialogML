@@ -36,7 +36,7 @@ namespace DialogML.RNodes
             {
                 api.PushReturnCurrentNode();
                 State = NodeOnlyIfState.PostEvaluated;
-                if(api.HasOnlyIfBeenExecuted(Id))
+                if(api.HasOnceOnlyBeenExecuted(Id))
                 {
 
                     // Execute the true child
@@ -55,6 +55,7 @@ namespace DialogML.RNodes
                 }
                 else
                 {
+                    api.MarkOnceOnlyAsVisited(Id);
 
                     // Execute the false child
                     if(NodeConfig == OnceOnlyConfig.SingleChildFalse)

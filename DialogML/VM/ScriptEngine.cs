@@ -49,6 +49,21 @@ namespace DialogML
         PrepScript
     }
 
+    public class OnlyIfTable
+    {
+        HashSet<Guid> visted = new HashSet<Guid>();
+
+        public void MarkVisited(Guid id)
+        {
+            visted.Add(id);
+        }
+
+        public bool HasOnlyIfBeenExecuted(Guid id)
+        {
+            return visted.Contains(id);
+        }
+    }
+
     public class ScriptEngine
     {
         public ScriptEngineStatus Status;
@@ -57,6 +72,7 @@ namespace DialogML
         public Guid JumpRegister;
         public Int32 ChildNRegister;
 
+        public OnlyIfTable m_OnlyIfTable = new OnlyIfTable();
         public StringTable m_StringTable = new StringTable();
 
         public Stack<RNode> m_ProgramStack = new Stack<RNode>();    // This is how we navigate the tree
@@ -66,9 +82,11 @@ namespace DialogML
 
         public ScriptApi m_ScriptApi;
         
-        public ScriptEngine(StringTable stringTable)
+        public ScriptEngine(StringTable stringTable, OnlyIfTable onlyIfTable)
         {
+            // TODO Add String Table
             m_StringTable = stringTable;
+            m_OnlyIfTable = onlyIfTable;
             m_ScriptApi = new ScriptApi(this, m_StringTable);
         }
 
@@ -238,6 +256,16 @@ namespace DialogML
                 Status = ScriptEngineStatus.NoScriptRunning;
             }
             return rv;
+        }
+
+        internal void MarkOnceOnlyAsVisited(Guid id)
+        {
+            m_OnlyIfTable.MarkVisited(id);
+        }
+
+        internal bool HasOnceOnlyBeenExecuted(Guid id)
+        {
+            return m_OnlyIfTable.HasOnlyIfBeenExecuted(id);
         }
     }
 }
