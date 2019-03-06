@@ -63,6 +63,7 @@
     <Compile Include="RNodes\RNodeOnceOnly.cs" />
     <Compile Include="RNodes\RNodeReturn.cs" />
     <Compile Include="RNodes\RNodeRoot.cs" />
+    <Compile Include="RNodes\RNodeWait.cs" />
     <Compile Include="VM\BinarySerialiser.cs" />
     <Compile Include="RNodes\RNode.cs" />
     <Compile Include="RNodes\RNodeOption.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="XNodes\XNodeSay.cs" />
     <Compile Include="XNodes\XNodePage.cs" />
     <Compile Include="VM\XParser.cs" />
+    <Compile Include="XNodes\XNodeWait.cs" />
     <Compile Include="XNodes\XNodeWhile.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +112,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Scripts\dialog_druids_sample.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\wait.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

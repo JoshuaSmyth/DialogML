@@ -26,8 +26,6 @@ namespace DialogML.XNodes
         public override void WriteBytes(BinaryWriter bw, ref StringTable st)
         {
             base.WriteHeader(bw, XNodeType.Select);
-
-            
             bw.Write(RemoveOnSelect);
         }
     }

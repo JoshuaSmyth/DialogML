@@ -13,7 +13,7 @@ namespace DialogML.XNodes
         {
             base.WriteHeader(bw, XNodeType.Script);
 
-            bw.Write(this.Name);
+            bw.Write(this.Name ?? "Unnamed");
         }
     }
 }

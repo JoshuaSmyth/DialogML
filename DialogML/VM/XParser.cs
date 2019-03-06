@@ -14,8 +14,7 @@ namespace DialogML
             Process(ids, xDocument.Root, rv);
             return rv;
         }
-
-
+        
         // TODO Actually write out the grammer rules
         public void Process(ScriptIds ids, System.Xml.Linq.XElement element, XmlNode root)
         {
@@ -24,6 +23,13 @@ namespace DialogML
             var elementName = element.Name.ToString().ToLower();
             switch(elementName)
             {
+                case "wait":
+                    {
+                        var node = new XNodeWait();
+                        newRoot = InitNode(ids, element, root, node);
+                        break;
+                    }
+
                 case "return":
                     {
                         var node = new XNodeReturn();

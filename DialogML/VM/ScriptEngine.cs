@@ -20,7 +20,7 @@ namespace DialogML
         Log = 10,
         OnceOnly = 11,
         Return = 12,
-        
+        Wait = 13,
         Custom = 255
     }
 

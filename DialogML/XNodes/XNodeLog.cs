@@ -5,7 +5,7 @@ namespace DialogML.XNodes
 {
     public class XNodeLog : XmlNode
     {
-        public String Filter;
+        public String Filter = "";
         public String Text;
         
         public override void OnProcessElement(ScriptIds ids, string name, string value)

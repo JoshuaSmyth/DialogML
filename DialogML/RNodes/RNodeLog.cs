@@ -34,7 +34,7 @@ namespace DialogML.RNodes
 
         public override void Prep()
         {
-            throw new NotImplementedException();
+
         }
     }
 }

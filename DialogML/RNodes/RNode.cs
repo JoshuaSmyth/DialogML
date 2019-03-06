@@ -17,12 +17,5 @@ namespace DialogML.DNodes
         public abstract void Prep();
 
         public abstract AdvanceType Execute(ScriptApi api);
-        /*
-        public virtual AdvanceType Execute(ScriptApi api)
-        {
-            api.Trace(typeof(RNode).ToString());
-
-            return AdvanceType.Next;
-        }*/
     }
 }

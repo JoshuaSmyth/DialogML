@@ -94,18 +94,16 @@ namespace DialogML
         
         static void Main(string[] args)
         {
-            //LoadAndRunScript("Scripts/condition1.xml");
 
-            LoadAndRunScript("Scripts/dialog_druids_sample.xml");
+            LoadAndRunScript("Scripts/wait.xml");
 
-            Console.WriteLine();
-            Console.WriteLine("** Second Run **");
-            Console.WriteLine();
+            //LoadAndRunScript("Scripts/dialog_druids_sample.xml");
 
-            LoadAndRunScript("Scripts/dialog_druids_sample.xml");
+            //Console.WriteLine();
+            //Console.WriteLine("** Second Run **");
+            //Console.WriteLine();
 
-            // TODO Add ability to rerun scripts.
-            // (Load and store them in some cache)
+            //LoadAndRunScript("Scripts/dialog_druids_sample.xml");
         }
     }
 }
