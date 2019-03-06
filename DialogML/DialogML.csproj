@@ -61,6 +61,7 @@
     <Compile Include="RNodes\RNodeIf.cs" />
     <Compile Include="RNodes\RNodeLog.cs" />
     <Compile Include="RNodes\RNodeOnceOnly.cs" />
+    <Compile Include="RNodes\RNodeReturn.cs" />
     <Compile Include="RNodes\RNodeRoot.cs" />
     <Compile Include="VM\BinarySerialiser.cs" />
     <Compile Include="RNodes\RNode.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="XNodes\XNodeIf.cs" />
     <Compile Include="XNodes\XNodeLog.cs" />
     <Compile Include="XNodes\XNodeOnceOnly.cs" />
+    <Compile Include="XNodes\XNodeReturn.cs" />
     <Compile Include="XNodes\XNodeScript.cs" />
     <Compile Include="XNodes\XNodeSelect.cs" />
     <Compile Include="XNodes\XNodeOption.cs" />
