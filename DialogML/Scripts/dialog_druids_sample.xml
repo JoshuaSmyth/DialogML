@@ -9,7 +9,7 @@
         <!-- TODO Goto Page -->
         <!-- TODO Invoke Script -->
         <say actor-id="harry" text="We really gotta get a move on..." position="right"/>
-        <!--<return/>-->
+        <return/>
       </case-false>
     </once-only>
     

@@ -38,6 +38,12 @@ namespace DialogML.RNodes
             switch(xnodeType)
             {
                 // TODO R Nodes
+                case XNodeType.Return:
+                    {
+                        var id = new Guid(br.ReadBytes(16));
+                        newRoot = new RNodeReturn();
+                        break;
+                    }
                 case XNodeType.OnceOnly:
                     {
                         var id = new Guid(br.ReadBytes(16));

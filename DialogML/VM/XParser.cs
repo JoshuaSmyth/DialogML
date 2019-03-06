@@ -24,6 +24,13 @@ namespace DialogML
             var elementName = element.Name.ToString().ToLower();
             switch(elementName)
             {
+                case "return":
+                    {
+                        var node = new XNodeReturn();
+                        newRoot = InitNode(ids, element, root, node);
+                        break;
+                    }
+
                 case "once-only":
                     {
                         var node = new XNodeOnceOnly();

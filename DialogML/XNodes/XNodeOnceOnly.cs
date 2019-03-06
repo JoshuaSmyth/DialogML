@@ -32,8 +32,43 @@ namespace DialogML.XNodes
         {
             this.WriteHeader(bw, XNodeType.OnceOnly);
 
-            // TODO Analyze children
-            bw.Write((byte)OnceOnlyConfig.SingleChildFalse);
+
+            OnceOnlyConfig config = OnceOnlyConfig.NoChildren;
+            var childrenType = new char[2];
+
+            if (Children.Count() > 2)
+            {
+                throw new Exception("Only Only Node can have max 2 children");
+            }
+            for(int i=0; i< childrenType.Count(); i++)
+            {
+                if (Children[i] is XNodeCaseFalse)
+                {
+                    childrenType[i] = 'f';
+                }
+                if (Children[i] is XNodeCaseTrue)
+                {
+                    childrenType[i] = 't';
+                }
+            }
+            if (childrenType[0] == 'f' && childrenType[1] == 't')
+            {
+                config = OnceOnlyConfig.TwinChildrenFalseTrue;
+            }
+            else if (childrenType[0] == 't' && childrenType[1] == 'f')
+            {
+                config = OnceOnlyConfig.TwinChildrenTrueFalse;
+            }
+            else if (childrenType[0] == 't')
+            {
+                config = OnceOnlyConfig.SingleChildTrue;
+            }
+            else if (childrenType[0] == 'f')
+            {
+                config = OnceOnlyConfig.SingleChildFalse;
+            }
+
+            bw.Write((byte)config);
         }
     }
 }

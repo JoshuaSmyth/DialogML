@@ -40,17 +40,17 @@ namespace DialogML.RNodes
                 {
 
                     // Execute the true child
-                    if(NodeConfig == OnceOnlyConfig.SingleChildTrue)
+                    if(NodeConfig == OnceOnlyConfig.SingleChildFalse)
                     {
                         return AdvanceType.FirstChild;
                     }
                     if(NodeConfig == OnceOnlyConfig.TwinChildrenTrueFalse)
                     {
-                        return AdvanceType.FirstChild;
+                        return AdvanceType.SecondChild;
                     }
                     if(NodeConfig == OnceOnlyConfig.TwinChildrenFalseTrue)
                     {
-                        return AdvanceType.SecondChild;
+                        return AdvanceType.FirstChild;
                     }
                 }
                 else
@@ -58,17 +58,17 @@ namespace DialogML.RNodes
                     api.MarkOnceOnlyAsVisited(Id);
 
                     // Execute the false child
-                    if(NodeConfig == OnceOnlyConfig.SingleChildFalse)
+                    if(NodeConfig == OnceOnlyConfig.SingleChildTrue)
                     {
                         return AdvanceType.FirstChild;
                     }
                     if(NodeConfig == OnceOnlyConfig.TwinChildrenFalseTrue)
                     {
-                        return AdvanceType.FirstChild;
+                        return AdvanceType.SecondChild;
                     }
                     if(NodeConfig == OnceOnlyConfig.TwinChildrenTrueFalse)
                     {
-                        return AdvanceType.SecondChild;
+                        return AdvanceType.FirstChild;
                     }
 
                 }
