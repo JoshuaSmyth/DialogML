@@ -9,7 +9,7 @@ namespace DialogML.XNodes
 {
     class XNodeCallPage : XmlNode
     {
-        String PageName;
+        String Target;
         Guid PageId;
         public override void OnProcessElement(ScriptIds ids, string name, string value)
         {
@@ -25,6 +25,10 @@ namespace DialogML.XNodes
                     Id = ids.GetGuidByIndex(value); //Guid.Parse(value);
                 }
             }
+            if (loweredName == "target")
+            {
+                Target = value;
+            }
         }
 
         public override void WriteBytes(BinaryWriter bw, ref StringTable st)
@@ -37,6 +41,7 @@ namespace DialogML.XNodes
             // Look up page name to get the id
 
             base.WriteHeader(bw, XNodeType.CallPage);
+            bw.Write(this.Target);
         }
     }
 }

@@ -170,9 +170,11 @@ namespace DialogML
                     m_ProgramStack.Push(currentNode);
                     m_IndexStack.Push(currentNode.Children.Count); // Should be 0
 
-                    // TODO Find current node in the references table assuming we can get the guid from a jump register
-                    // TODO Get by Id
-                    currentNode =  m_ReferencesTable.GetPageByName("p2");
+                    // TODO Implement Get by Id
+                    // TODO come up with something better than the 'as' statement 
+                    
+                    var name = currentNode as RNodeCallPage;
+                    currentNode =  m_ReferencesTable.GetPageByName(name.PageName);
                     
                     // Push the destination Node
                     m_ProgramStack.Push(currentNode);

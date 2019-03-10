@@ -75,7 +75,7 @@
     <Compile Include="RNodes\RNodeSelect.cs" />
     <Compile Include="VM\CompiledProgram.cs" />
     <Compile Include="VM\Preparser.cs" />
-    <Compile Include="VM\ReferencesTable.cs" />
+    <Compile Include="VM\RuntimeReferencesTable.cs" />
     <Compile Include="VM\ScriptApi.cs" />
     <Compile Include="VM\ScriptEngine.cs" />
     <Compile Include="Program.cs" />

@@ -17,6 +17,13 @@ namespace DialogML.RNodes
     {
         private NodeCallState State;
 
+        public string PageName;
+
+        public RNodeCallPage(String name)
+        {
+            PageName = name;
+        }
+
         public override AdvanceType Execute(ScriptApi api)
         {
             if (State == NodeCallState.postcall)
@@ -25,8 +32,6 @@ namespace DialogML.RNodes
             }
             else
             {
-
-                api.PushJumpToNode(); // Pass Guid and type?
                 api.Trace("RNode Call Page");
 
                 State = NodeCallState.postcall;
@@ -36,7 +41,7 @@ namespace DialogML.RNodes
 
         public override void Prep()
         {
-            // NOOP
+            State = NodeCallState.precall;
         }
     }
 }

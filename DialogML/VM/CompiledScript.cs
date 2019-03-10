@@ -42,8 +42,8 @@ namespace DialogML.RNodes
                     {
 
                         var id = new Guid(br.ReadBytes(16));
-                       // var ms = br.ReadInt32();
-                        newRoot = new RNodeCallPage();
+                        var pageName = br.ReadString();
+                        newRoot = new RNodeCallPage(pageName);
                         break;
                     }
                 case XNodeType.Wait:
