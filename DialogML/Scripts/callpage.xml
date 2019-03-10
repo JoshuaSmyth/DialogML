@@ -1,0 +1,17 @@
+﻿<script>
+  <page>
+    <Say actor-id="narrator" text="Hello from page 1"/>
+    <call-page target="p2"/>
+    <Say actor-id="narrator" text="Line 5"/>
+  </page>
+  <page name="p2">
+    <Say actor-id="narrator" text="Hello from page 2"/>
+    <call-page target="p3"/>
+  </page>
+  <page name="p3">
+    <Say actor-id="narrator" text="Hello from page 3"/>
+    <Say actor-id="narrator" text="Line 4"/>
+    <return/>
+    <Say actor-id="narrator" text="this should not be shown"/>
+  </page>
+</script>

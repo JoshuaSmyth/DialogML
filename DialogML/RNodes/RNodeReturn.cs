@@ -11,7 +11,7 @@ namespace DialogML.RNodes
     {
         public override AdvanceType Execute(ScriptApi api)
         {
-            return AdvanceType.Finished;
+            return AdvanceType.Return;
         }
 
         public override void Prep()

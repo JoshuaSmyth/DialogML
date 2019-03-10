@@ -124,7 +124,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\call.xml">
+    <None Include="Scripts\callpage.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

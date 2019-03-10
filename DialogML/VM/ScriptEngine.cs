@@ -45,7 +45,8 @@ namespace DialogML
         Finished,
         Continue,
         Parent,
-        JumpToNode
+        JumpToNode,
+        Return
     }
 
     public enum ScriptEngineStatus
@@ -164,6 +165,18 @@ namespace DialogML
             while(rv != AdvanceType.Yield &&
                   rv != AdvanceType.Finished)
             {
+                if (rv == AdvanceType.Return)
+                {
+                    if(m_ProgramStack.Count > 0)
+                    {
+                        currentNode = m_ProgramStack.Pop();
+                        m_IndexStack.Pop();
+                    }
+                    else
+                    {
+                        currentNode = null;
+                    }
+                }
                 if (rv == AdvanceType.JumpToNode)
                 {
                     // Push Call Node

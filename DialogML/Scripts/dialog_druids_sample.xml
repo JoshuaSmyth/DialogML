@@ -6,8 +6,6 @@
         <say actor-id="roz" text="Oh, I didn't see you there!"/>
       </case-true>
       <case-false>
-        <!-- TODO Goto Page -->
-        <!-- TODO Invoke Script -->
         <say actor-id="harry" text="We really gotta get a move on..." position="right"/>
         <return/>
       </case-false>
