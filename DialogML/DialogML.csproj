@@ -56,6 +56,7 @@
     <Compile Include="Expressions\Tokenizer.cs" />
     <Compile Include="Expressions\Tokens\InputToken.cs" />
     <Compile Include="Expressions\Tokens\SemanticToken.cs" />
+    <Compile Include="RNodes\RNodeCallPage.cs" />
     <Compile Include="RNodes\RNodeCaseFalse.cs" />
     <Compile Include="RNodes\RNodeCaseTrue.cs" />
     <Compile Include="RNodes\RNodeIf.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="RNodes\RNodeSelect.cs" />
     <Compile Include="VM\CompiledProgram.cs" />
     <Compile Include="VM\Preparser.cs" />
+    <Compile Include="VM\ReferencesTable.cs" />
     <Compile Include="VM\ScriptApi.cs" />
     <Compile Include="VM\ScriptEngine.cs" />
     <Compile Include="Program.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="VM\ScriptIds.cs" />
     <Compile Include="VM\StringTable.cs" />
     <Compile Include="XNodes\XmlNode.cs" />
+    <Compile Include="XNodes\XNodeCallPage.cs" />
     <Compile Include="XNodes\XNodeCaseFalse.cs" />
     <Compile Include="XNodes\XNodeCaseTrue.cs" />
     <Compile Include="XNodes\XNodeIf.cs" />
@@ -117,6 +120,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\wait.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\call.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

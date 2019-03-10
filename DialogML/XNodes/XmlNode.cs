@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DialogML.VM;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -17,7 +18,12 @@ namespace DialogML.XNodes
             throw new Exception("Implement Me!");
         }
 
-        public virtual void WriteBytes(BinaryWriter bw, ref StringTable stringTable) // TODO Pass string table
+        public virtual void LookupReferences(RuntimeReferencesTable table)
+        {
+
+        }
+
+        public virtual void WriteBytes(BinaryWriter bw, ref StringTable stringTable)
         {
             bw.Write((ushort)XNodeType.Unknown);
             bw.Write((byte)1);    // Version Major

@@ -8,21 +8,28 @@ namespace DialogML
     {
         public XmlNode Process(ScriptIds ids, String xml)
         {
-            var xDocument = System.Xml.Linq.XDocument.Parse(xml);
+            var xDocument = XDocument.Parse(xml);
 
             var rv = new XmlNode();
-            Process(ids, xDocument.Root, rv);
+            ProcessRecursive(ids, xDocument.Root, rv);
             return rv;
         }
         
         // TODO Actually write out the grammer rules
-        public void Process(ScriptIds ids, System.Xml.Linq.XElement element, XmlNode root)
+        public void ProcessRecursive(ScriptIds ids, XElement element, XmlNode root)
         {
             XmlNode newRoot = null;
 
             var elementName = element.Name.ToString().ToLower();
             switch(elementName)
             {
+                case "call-page":
+                    {
+                        var node = new XNodeCallPage();
+                        newRoot = InitNode(ids, element, root, node);
+                        break;
+                    }
+
                 case "wait":
                     {
                         var node = new XNodeWait();
@@ -177,7 +184,7 @@ namespace DialogML
             {
                 foreach(var child in element.Elements())
                 {
-                    Process(ids, child, newRoot);
+                    ProcessRecursive(ids, child, newRoot);
                 }
             }
         }

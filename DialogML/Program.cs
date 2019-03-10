@@ -12,6 +12,7 @@ namespace DialogML
         static Dictionary<String, StringTable> StringBank = new Dictionary<String, StringTable>();
 
         static OnlyIfTable onlyIfTable = new OnlyIfTable(); // TODO Move elsewhere
+        static RuntimeReferencesTable referencesTable = new RuntimeReferencesTable(); // TODO Move elsewhere
 
         public static void LoadAndRunScript(string filename)
         {
@@ -23,7 +24,7 @@ namespace DialogML
 
 
                 // TODO Don't create instance of script engine instead reuse one
-                var scriptEngine = new ScriptEngine(stringTable, onlyIfTable);
+                var scriptEngine = new ScriptEngine(referencesTable, stringTable, onlyIfTable);
                 scriptEngine.StartScript(script);
 
                 AdvanceType rv = AdvanceType.Unknown;
@@ -73,7 +74,7 @@ namespace DialogML
                     Console.WriteLine();
 
                     // TODO Don't create instance of script engine instead reuse one
-                    var scriptEngine = new ScriptEngine(stringTable, onlyIfTable);
+                    var scriptEngine = new ScriptEngine(referencesTable, stringTable, onlyIfTable);
                     scriptEngine.StartScript(scriptFile);
 
                     ScriptBank.Add(filename, scriptFile);
@@ -95,7 +96,10 @@ namespace DialogML
         static void Main(string[] args)
         {
 
-            LoadAndRunScript("Scripts/wait.xml");
+            LoadAndRunScript("Scripts/call.xml");
+
+            // TODO LoadScript()
+            // TODO Runscript()
 
             //LoadAndRunScript("Scripts/dialog_druids_sample.xml");
 

@@ -117,5 +117,9 @@ public class ScriptApi
     {
         m_ScriptEngine.ChildNRegister = (selectedIndex-1);
     }
-    
+
+    internal void PushJumpToNode()
+    {
+        // TODO Set a guid register
+    }
 }

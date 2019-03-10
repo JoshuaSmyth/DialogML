@@ -1,5 +1,6 @@
 ﻿using DialogML.DNodes;
 using DialogML.RNodes;
+using DialogML.VM;
 using System;
 using System.Collections.Generic;
 
@@ -21,6 +22,7 @@ namespace DialogML
         OnceOnly = 11,
         Return = 12,
         Wait = 13,
+        CallPage = 14,
         Custom = 255
     }
 
@@ -42,7 +44,8 @@ namespace DialogML
         ChildN,             // Look at register
         Finished,
         Continue,
-        Parent
+        Parent,
+        JumpToNode
     }
 
     public enum ScriptEngineStatus
@@ -77,6 +80,7 @@ namespace DialogML
 
         public OnlyIfTable m_OnlyIfTable = new OnlyIfTable();
         public StringTable m_StringTable = new StringTable();
+        public RuntimeReferencesTable m_ReferencesTable = new RuntimeReferencesTable();
 
         public Stack<RNode> m_ProgramStack = new Stack<RNode>();    // This is how we navigate the tree
         public Stack<int> m_IndexStack = new Stack<int>();          // Keep a record of what child index we are at.
@@ -85,11 +89,12 @@ namespace DialogML
 
         public ScriptApi m_ScriptApi;
         
-        public ScriptEngine(StringTable stringTable, OnlyIfTable onlyIfTable)
+        public ScriptEngine(RuntimeReferencesTable referencesTable, StringTable stringTable, OnlyIfTable onlyIfTable)
         {
             // TODO Add String Table
             m_StringTable = stringTable;
             m_OnlyIfTable = onlyIfTable;
+            m_ReferencesTable = referencesTable;
             m_ScriptApi = new ScriptApi(this, m_StringTable);
         }
 
@@ -109,6 +114,10 @@ namespace DialogML
 
         public AdvanceType StartScript(CompiledScript script)
         {
+            // TODO Populate the references table
+            // (Maybe this should be done at a loadscript stage)
+            m_ReferencesTable.AddOrUpdateScript(script);
+
             // Prep Script
             Status = ScriptEngineStatus.PrepScript;
             PrepScript(script);
@@ -155,7 +164,20 @@ namespace DialogML
             while(rv != AdvanceType.Yield &&
                   rv != AdvanceType.Finished)
             {
-                // TODO I think I have done this main walk wrong.
+                if (rv == AdvanceType.JumpToNode)
+                {
+                    // Push Call Node
+                    m_ProgramStack.Push(currentNode);
+                    m_IndexStack.Push(currentNode.Children.Count); // Should be 0
+
+                    // TODO Find current node in the references table assuming we can get the guid from a jump register
+                    // TODO Get by Id
+                    currentNode =  m_ReferencesTable.GetPageByName("p2");
+                    
+                    // Push the destination Node
+                    m_ProgramStack.Push(currentNode);
+                    m_IndexStack.Push(0);
+                }
                 
                 if (rv == AdvanceType.ChildN)
                 {
