@@ -1,16 +1,14 @@
 <script name="{filename}" id="#0000" entrypoint="p1">
   <page name="p1" id="#0016">
-
     <once-only>
       <case-true>
         <say actor-id="roz" text="Oh, I didn't see you there!"/>
       </case-true>
       <case-false>
         <say actor-id="harry" text="We really gotta get a move on..." position="right"/>
-        <return/>
+        <exit/>
       </case-false>
     </once-only>
-    
     <say actor-id="zak" text="Roz, where have you been did you get seperated?" position="right" id="#0003" />
     <say actor-id="roz" text="Huh? Sorry I... uh? must have... Wait! Who are you?" position="left" id="#0004" />
     <say actor-id="zak" text="Don't tell me you can't remember, it's me! We went through a portal and found ourselves stuck in this place." position="right" id="#0005" />
@@ -36,7 +34,6 @@
     <say actor-id="harry" text="We need to head north. There's a cave up thatta ways which will lead us to the Great Academic." position="right" id="#0012" />
   </page>
   <page>
-    <!-- TODO Add assert -->
     <say actor-id="harry" text="This should not show"/>
   </page>
 </script>

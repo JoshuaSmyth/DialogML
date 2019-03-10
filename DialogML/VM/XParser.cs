@@ -23,6 +23,13 @@ namespace DialogML
             var elementName = element.Name.ToString().ToLower();
             switch(elementName)
             {
+                case "exit":
+                    {
+                        var node = new XNodeExit();
+                        newRoot = InitNode(ids, element, root, node);
+                        break;
+                    }
+
                 case "call-page":
                     {
                         var node = new XNodeCallPage();

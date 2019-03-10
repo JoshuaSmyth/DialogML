@@ -23,6 +23,7 @@ namespace DialogML
         Return = 12,
         Wait = 13,
         CallPage = 14,
+        Exit = 15,
         Custom = 255
     }
 

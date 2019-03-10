@@ -96,18 +96,18 @@ namespace DialogML
         static void Main(string[] args)
         {
 
-            LoadAndRunScript("Scripts/callpage.xml");
+            //LoadAndRunScript("Scripts/callpage.xml");
 
             // TODO LoadScript()
             // TODO Runscript()
 
-            //LoadAndRunScript("Scripts/dialog_druids_sample.xml");
+            LoadAndRunScript("Scripts/dialog_druids_sample.xml");
 
             //Console.WriteLine();
             //Console.WriteLine("** Second Run **");
             //Console.WriteLine();
 
-            //LoadAndRunScript("Scripts/dialog_druids_sample.xml");
+            LoadAndRunScript("Scripts/dialog_druids_sample.xml");
         }
     }
 }

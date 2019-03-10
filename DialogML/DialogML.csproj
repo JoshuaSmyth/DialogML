@@ -59,6 +59,7 @@
     <Compile Include="RNodes\RNodeCallPage.cs" />
     <Compile Include="RNodes\RNodeCaseFalse.cs" />
     <Compile Include="RNodes\RNodeCaseTrue.cs" />
+    <Compile Include="RNodes\RNodeExit.cs" />
     <Compile Include="RNodes\RNodeIf.cs" />
     <Compile Include="RNodes\RNodeLog.cs" />
     <Compile Include="RNodes\RNodeOnceOnly.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="XNodes\XNodeCallPage.cs" />
     <Compile Include="XNodes\XNodeCaseFalse.cs" />
     <Compile Include="XNodes\XNodeCaseTrue.cs" />
+    <Compile Include="XNodes\XNodeExit.cs" />
     <Compile Include="XNodes\XNodeIf.cs" />
     <Compile Include="XNodes\XNodeLog.cs" />
     <Compile Include="XNodes\XNodeOnceOnly.cs" />
