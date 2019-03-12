@@ -96,7 +96,7 @@ namespace DialogML
         static void Main(string[] args)
         {
 
-            //LoadAndRunScript("Scripts/callpage.xml");
+            LoadAndRunScript("Scripts/coroutine1.xml");
 
             // TODO LoadScript()
             // TODO Runscript()

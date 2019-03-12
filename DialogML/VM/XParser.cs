@@ -20,9 +20,21 @@ namespace DialogML
         {
             XmlNode newRoot = null;
 
+            if(root is XNodeParallel)
+            {
+                var node = new XNodeParallelUnit();
+                root = InitNode(ids, element, root, node);
+            }
+            
             var elementName = element.Name.ToString().ToLower();
             switch(elementName)
             {
+                case "parallel":
+                    {
+                        var node = new XNodeParallel();
+                        newRoot = InitNode(ids, element, root, node);
+                        break;
+                    }
                 case "exit":
                     {
                         var node = new XNodeExit();
@@ -185,6 +197,8 @@ namespace DialogML
                         throw new Exception("unknown node: " + element.Name);
                     }
             }
+
+            // TODO Check if created node is actually a valid child for the parent
 
             // Recurse
             if(element.HasElements)

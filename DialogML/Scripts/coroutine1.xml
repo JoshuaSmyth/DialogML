@@ -1,0 +1,9 @@
+﻿<script>
+  <page>
+    <parallel>
+      <!-- Actually processed at the same time so total time should be 500ms-->
+      <wait time="500"></wait>
+      <wait time="500"></wait>
+    </parallel>
+  </page>
+</script>

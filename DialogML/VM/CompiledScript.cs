@@ -38,6 +38,18 @@ namespace DialogML.RNodes
             switch(xnodeType)
             {
                 // TODO R Nodes
+                case XNodeType.ParallelUnit:
+                    {
+                        var id = new Guid(br.ReadBytes(16));
+                        newRoot = new RNodeParallelUnit();
+                        break;
+                    }
+                case XNodeType.Parallel:
+                    {
+                        var id = new Guid(br.ReadBytes(16));
+                        newRoot = new RNodeParallel();
+                        break;
+                    }
                 case XNodeType.Exit:
                     {
                         var id = new Guid(br.ReadBytes(16));

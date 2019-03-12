@@ -24,6 +24,8 @@ namespace DialogML
         Wait = 13,
         CallPage = 14,
         Exit = 15,
+        Parallel = 16,
+        ParallelUnit = 17,
         Custom = 255
     }
 

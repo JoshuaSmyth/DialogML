@@ -56,6 +56,7 @@
     <Compile Include="Expressions\Tokenizer.cs" />
     <Compile Include="Expressions\Tokens\InputToken.cs" />
     <Compile Include="Expressions\Tokens\SemanticToken.cs" />
+    <Compile Include="RNodes\RNodeParallelUnit.cs" />
     <Compile Include="RNodes\RNodeCallPage.cs" />
     <Compile Include="RNodes\RNodeCaseFalse.cs" />
     <Compile Include="RNodes\RNodeCaseTrue.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="RNodes\RNodeIf.cs" />
     <Compile Include="RNodes\RNodeLog.cs" />
     <Compile Include="RNodes\RNodeOnceOnly.cs" />
+    <Compile Include="RNodes\RNodeParallel.cs" />
     <Compile Include="RNodes\RNodeReturn.cs" />
     <Compile Include="RNodes\RNodeRoot.cs" />
     <Compile Include="RNodes\RNodeWait.cs" />
@@ -92,6 +94,8 @@
     <Compile Include="XNodes\XNodeIf.cs" />
     <Compile Include="XNodes\XNodeLog.cs" />
     <Compile Include="XNodes\XNodeOnceOnly.cs" />
+    <Compile Include="XNodes\XNodeParallelUnit.cs" />
+    <Compile Include="XNodes\XNodeParallel.cs" />
     <Compile Include="XNodes\XNodeReturn.cs" />
     <Compile Include="XNodes\XNodeScript.cs" />
     <Compile Include="XNodes\XNodeSelect.cs" />
@@ -127,6 +131,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\callpage.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\coroutine1.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
