@@ -115,7 +115,7 @@ public class ScriptApi
 
     internal void SetChildNRegister(int selectedIndex)
     {
-        m_ScriptEngine.ChildNRegister = (selectedIndex-1);
+        m_ScriptEngine.SetChildNRegister(selectedIndex-1);
     }
 
     internal void PushJumpToNode()

@@ -1,9 +1,26 @@
 ﻿<script>
   <page>
     <parallel>
-      <!-- Actually processed at the same time so total time should be 500ms-->
-      <wait time="500"></wait>
-      <wait time="500"></wait>
+      <sequential>
+        <log text="Section A Started"/>
+        <wait time="500"></wait>
+        <log text="Section A Finished"/>
+      </sequential>
+      <sequential>
+        <log text="Section B Started"/>
+        <wait time="500"></wait>
+        <log text="Section B Finished"/>
+      </sequential>
+      <sequential>
+        <log text="Section C Started"/>
+        <wait time="500"></wait>
+        <log text="Section C Finished"/>
+      </sequential>
+      <sequential>
+        <log text="Section D Started"/>
+        <wait time="500"></wait>
+        <log text="Section D Finished"/>
+      </sequential>
     </parallel>
   </page>
 </script>

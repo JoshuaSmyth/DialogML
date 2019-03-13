@@ -29,6 +29,12 @@ namespace DialogML
             var elementName = element.Name.ToString().ToLower();
             switch(elementName)
             {
+                case "sequential":
+                    {
+                        var node = new XNodeSequential();
+                        newRoot = InitNode(ids, element, root, node);
+                        break;
+                    }
                 case "parallel":
                     {
                         var node = new XNodeParallel();
