@@ -6,32 +6,29 @@ using System.IO;
 
 namespace DialogML
 {
+    class ScriptEngineData
+    {
+        public OnlyIfTable OnlyIfTable = new OnlyIfTable();
+        public RuntimeReferencesTable ReferencesTable = new RuntimeReferencesTable();
+        public StringTable StringTable = new StringTable();
+    }
+
     class Program
     {
         static Dictionary<String, CompiledScript> ScriptBank = new Dictionary<String, CompiledScript>();
-        static Dictionary<String, StringTable> StringBank = new Dictionary<String, StringTable>();
 
-        static OnlyIfTable onlyIfTable = new OnlyIfTable(); // TODO Move elsewhere
-        static RuntimeReferencesTable referencesTable = new RuntimeReferencesTable(); // TODO Move elsewhere
+        static ScriptEngineData ScriptEngineData = new ScriptEngineData();
 
         public static void LoadAndRunScript(string filename)
         {
+            // TODO Don't create instance of script engine instead reuse one
+            var scriptEngine = new ScriptEngine(ScriptEngineData.ReferencesTable, ScriptEngineData.StringTable, ScriptEngineData.OnlyIfTable);
+
             // Check if script is in the compiled script cache
             if(ScriptBank.ContainsKey(filename))
             {
-                StringTable stringTable = StringBank[filename];
                 CompiledScript script = ScriptBank[filename];
-
-
-                // TODO Don't create instance of script engine instead reuse one
-                var scriptEngine = new ScriptEngine(referencesTable, stringTable, onlyIfTable);
-                scriptEngine.StartScript(script);
-
-                AdvanceType rv = AdvanceType.Unknown;
-                while(rv != AdvanceType.Finished)
-                {
-                    rv = scriptEngine.Update();
-                }
+                RunScript(scriptEngine, script);
             }
             else
             {
@@ -64,27 +61,13 @@ namespace DialogML
                     Console.WriteLine("Script Size:" + bytes.Length);
 
                     var strings = stringTable.Serialise();
-
-                    // TODO Write .strings file
-
-                    stringTable.Deserialise(strings);
+                    
+                    ScriptEngineData.StringTable.Deserialise(strings);
                     scriptFile.Deserialise(bytes);
-
-                    // Run Engine
+                    
                     Console.WriteLine();
-
-                    // TODO Don't create instance of script engine instead reuse one
-                    var scriptEngine = new ScriptEngine(referencesTable, stringTable, onlyIfTable);
-                    scriptEngine.StartScript(scriptFile);
-
                     ScriptBank.Add(filename, scriptFile);
-                    StringBank.Add(filename, stringTable);
-
-                    AdvanceType rv = AdvanceType.Unknown;
-                    while(rv != AdvanceType.Finished)
-                    {
-                        rv = scriptEngine.Update();
-                    }
+                    RunScript(scriptEngine, scriptFile);
                 }
                 else
                 {
@@ -92,7 +75,17 @@ namespace DialogML
                 }
             }
         }
-        
+
+        private static void RunScript(ScriptEngine scriptEngine, CompiledScript script)
+        {
+            scriptEngine.StartScript(script);
+            AdvanceType rv = AdvanceType.Unknown;
+            while(rv != AdvanceType.Finished)
+            {
+                rv = scriptEngine.Update();
+            }
+        }
+
         static void Main(string[] args)
         {
 

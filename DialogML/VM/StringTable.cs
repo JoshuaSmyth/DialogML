@@ -41,6 +41,7 @@ namespace DialogML
             }
         }
 
+        
         public void Deserialise(byte[] bytes)
         {
             using(var ms = new MemoryStream(bytes))
@@ -75,18 +76,23 @@ namespace DialogML
                     }
 
                     var stringCount = br.ReadInt32();
-                    var newTable = new Dictionary<Guid, string>(stringCount);
+                    //var newTable = new Dictionary<Guid, string>(stringCount);
                     for(int i=0;i<stringCount;i++)
                     {
                         var id = new Guid(br.ReadBytes(16));
                         var s = br.ReadString();
-                        newTable.Add(id, s);
+                        Strings.Add(id, s);
                     }
 
-                    Strings.Clear();
-                    Strings = newTable;
+                    //Strings.Clear();
+                    //Strings = newTable;
                 }
             }
+        }
+
+        internal void Clear()
+        {
+            Strings.Clear();
         }
     }
 }
