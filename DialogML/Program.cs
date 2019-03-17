@@ -19,11 +19,10 @@ namespace DialogML
 
         static ScriptEngineData ScriptEngineData = new ScriptEngineData();
 
+        static ScriptEngine scriptEngine; // Should script engine have it's own ScriptEngineData?
+
         public static void LoadAndRunScript(string filename)
         {
-            // TODO Don't create instance of script engine instead reuse one
-            var scriptEngine = new ScriptEngine(ScriptEngineData.ReferencesTable, ScriptEngineData.StringTable, ScriptEngineData.OnlyIfTable);
-
             // Check if script is in the compiled script cache
             if(ScriptBank.ContainsKey(filename))
             {
@@ -88,6 +87,7 @@ namespace DialogML
 
         static void Main(string[] args)
         {
+            scriptEngine = new ScriptEngine(ScriptEngineData.ReferencesTable, ScriptEngineData.StringTable, ScriptEngineData.OnlyIfTable);
 
             LoadAndRunScript("Scripts/coroutine1.xml");
 
@@ -100,7 +100,7 @@ namespace DialogML
             //Console.WriteLine("** Second Run **");
             //Console.WriteLine();
 
-            //LoadAndRunScript("Scripts/dialog_druids_sample.xml");
+            LoadAndRunScript("Scripts/dialog_druids_sample.xml");
         }
     }
 }

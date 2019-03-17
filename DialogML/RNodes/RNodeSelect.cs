@@ -27,7 +27,7 @@ namespace DialogML.DNodes
             RemoveOnSelect = removeOnSelect;
         }
         
-        public override AdvanceType Execute(ScriptApi api)
+        public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
         {
             if (State == RNodeSelectState.OnReEnterSelectedExitNode)
             {

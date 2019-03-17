@@ -9,7 +9,7 @@ namespace DialogML.RNodes
 {
     public class RNodeParallelUnit : RNode
     {
-        public override AdvanceType Execute(ScriptApi api)
+        public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
         {
             // TODO Implement Properly
             api.Trace("ParallelUnit");

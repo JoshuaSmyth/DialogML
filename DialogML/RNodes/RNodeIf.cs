@@ -22,7 +22,7 @@ namespace DialogML.RNodes
             Expression = expression;
         }
 
-        public override AdvanceType Execute(ScriptApi api)
+        public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
         {
             // TODO Evaluate Expression
 

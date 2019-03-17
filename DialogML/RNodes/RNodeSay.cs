@@ -20,7 +20,7 @@ namespace DialogML.DNodes
             ActorId = actorId;
         }
 
-        public override AdvanceType Execute(ScriptApi api)
+        public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
         {
             api.Say(ActorId, Id);
             return AdvanceType.Next;

@@ -60,21 +60,6 @@ namespace DialogML
         PrepScript
     }
 
-    public class OnlyIfTable
-    {
-        HashSet<Guid> visted = new HashSet<Guid>();
-
-        public void MarkVisited(Guid id)
-        {
-            visted.Add(id);
-        }
-
-        public bool HasOnlyIfBeenExecuted(Guid id)
-        {
-            return visted.Contains(id);
-        }
-    }
-
     public class ExecutionUnit
     {
         public Guid JumpRegister;
@@ -90,8 +75,7 @@ namespace DialogML
     public class ScriptEngine
     {
         public ScriptEngineStatus Status;
-
-        // TODO Make Private
+        
         private ExecutionUnit ExecutionUnit = new ExecutionUnit();
         
         // TODO Extract into ProgramTable
@@ -110,6 +94,7 @@ namespace DialogML
             m_ScriptApi = new ScriptApi(this, m_StringTable);
         }
 
+        // TODO Pass in execution unit
         internal void SetChildNRegister(int n)
         {
             ExecutionUnit.ChildNRegister = n;
@@ -129,6 +114,16 @@ namespace DialogML
             PrepScriptRecursive(script.Root);
         }
 
+        public void CreateParallelUnit(RNode root)
+        {
+            var unit = new ExecutionUnit();
+
+            unit.ProgramStack.Push(root);
+            unit.IndexStack.Push(1);
+
+            m_ParallelUnits.Add(unit);
+        }
+
         public AdvanceType StartScript(CompiledScript script)
         {
             // TODO Populate the references table
@@ -145,14 +140,19 @@ namespace DialogML
             ExecutionUnit.ProgramStack.Push(currentNode);
             ExecutionUnit.IndexStack.Push(1);
 
-            var RV = currentNode.Execute(m_ScriptApi);
+            /*
+            ExecutionUnit.ProgramStack.Push(currentNode);
+            ExecutionUnit.IndexStack.Push(1);
+
+            var RV = currentNode.Execute(m_ScriptApi, ExecutionUnit);
             if(RV != AdvanceType.Yield &&
                 RV != AdvanceType.Finished)
             {
                 return Update(RV);
             }
-            
-            return RV;
+            */
+
+            return AdvanceType.Continue;
          }
 
         internal void PushReturnParentNode()
@@ -164,16 +164,40 @@ namespace DialogML
         {
             ExecutionUnit.ReturnStack.Push(ExecutionUnit.ProgramStack.Count);
         }
-        
+
+        private List<ExecutionUnit> m_ParallelUnits = new List<ExecutionUnit>();
+
         public AdvanceType Update(AdvanceType advanceType = AdvanceType.Continue)
         {
-            if (ExecutionUnit.ProgramStack.Count == 0)
+            // Update each concurrent execution unit until all are resolved
+            if(m_ParallelUnits.Count > 0)
+            {
+                for(int i = 0; i < m_ParallelUnits.Count; i++)
+                {
+                    var result = Update(m_ParallelUnits[i]);
+                    if(result == AdvanceType.Finished)
+                    {
+                        m_ParallelUnits.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
+            //else
+            {
+
+                return Update(ExecutionUnit, advanceType);
+            }
+        }
+
+        public AdvanceType Update(ExecutionUnit executionUnit, AdvanceType advanceType = AdvanceType.Continue)
+        {
+            if (executionUnit.ProgramStack.Count == 0)
             {
                 Status = ScriptEngineStatus.NoScriptRunning;
                 return AdvanceType.Finished;
             }
 
-            var currentNode = ExecutionUnit.ProgramStack.Peek();
+            var currentNode = executionUnit.ProgramStack.Peek();
             var rv = advanceType;
 
             while(rv != AdvanceType.Yield &&
@@ -183,10 +207,10 @@ namespace DialogML
                 {
                     case AdvanceType.Return:
                         {
-                            if(ExecutionUnit.ProgramStack.Count > 0)
+                            if(executionUnit.ProgramStack.Count > 0)
                             {
-                                currentNode = ExecutionUnit.ProgramStack.Pop();
-                                ExecutionUnit.IndexStack.Pop();
+                                currentNode = executionUnit.ProgramStack.Pop();
+                                executionUnit.IndexStack.Pop();
                             }
                             else
                             {
@@ -197,8 +221,8 @@ namespace DialogML
                     case AdvanceType.JumpToNode:
                         {
                             // Push Call Node
-                            ExecutionUnit.ProgramStack.Push(currentNode);
-                            ExecutionUnit.IndexStack.Push(currentNode.Children.Count); // Should be 0
+                            executionUnit.ProgramStack.Push(currentNode);
+                            executionUnit.IndexStack.Push(currentNode.Children.Count); // Should be 0
 
                             // TODO Implement Get by Id
                             // TODO come up with something better than the 'as' statement 
@@ -206,62 +230,62 @@ namespace DialogML
                             currentNode = m_ReferencesTable.GetPageByName(name.PageName);
 
                             // Push the destination Node
-                            ExecutionUnit.ProgramStack.Push(currentNode);
-                            ExecutionUnit.IndexStack.Push(0);
+                            executionUnit.ProgramStack.Push(currentNode);
+                            executionUnit.IndexStack.Push(0);
                             break;
                         }
                     case AdvanceType.ChildN:
                         {
                             int pushValue = 0;
-                            currentNode = currentNode.Children[ExecutionUnit.ChildNRegister];
-                            ExecutionUnit.ProgramStack.Push(currentNode);
-                            ExecutionUnit.IndexStack.Push(pushValue);
+                            currentNode = currentNode.Children[executionUnit.ChildNRegister];
+                            executionUnit.ProgramStack.Push(currentNode);
+                            executionUnit.IndexStack.Push(pushValue);
                             break;
                         }
                     case AdvanceType.FirstChild:
                         {
                             int pushValue = 0;
                             currentNode = currentNode.Children[0];
-                            ExecutionUnit.ProgramStack.Push(currentNode);
-                            ExecutionUnit.IndexStack.Push(pushValue);
+                            executionUnit.ProgramStack.Push(currentNode);
+                            executionUnit.IndexStack.Push(pushValue);
                             break;
                         }
                     case AdvanceType.SecondChild:
                         {
                             int pushValue = 0;
                             currentNode = currentNode.Children[1];
-                            ExecutionUnit.ProgramStack.Push(currentNode);
-                            ExecutionUnit.IndexStack.Push(pushValue);
+                            executionUnit.ProgramStack.Push(currentNode);
+                            executionUnit.IndexStack.Push(pushValue);
                             break;
                         }
                     case AdvanceType.Next:
                         {
                             // Choose next sibling.
                             // If no siblings left, choose parents sibling.
-                            currentNode = ExecutionUnit.ProgramStack.Pop();
-                            var index = ExecutionUnit.IndexStack.Pop();
+                            currentNode = executionUnit.ProgramStack.Pop();
+                            var index = executionUnit.IndexStack.Pop();
 
-                            if(ExecutionUnit.ProgramStack.Count == 0)
+                            if(executionUnit.ProgramStack.Count == 0)
                             {
                                 rv = AdvanceType.Finished;
                                 continue;
                             }
 
-                            var parent = ExecutionUnit.ProgramStack.Peek();
+                            var parent = executionUnit.ProgramStack.Peek();
                             index++;
                             if(index >= parent.Children.Count)
                             {
                                 // Check the return stack if we need to enter a particular location.
-                                if(ExecutionUnit.ReturnStack.Count > 0)
+                                if(executionUnit.ReturnStack.Count > 0)
                                 {
-                                    var pindex = ExecutionUnit.ReturnStack.Pop();
+                                    var pindex = executionUnit.ReturnStack.Pop();
                                     var indexValue = 0;
-                                    while(ExecutionUnit.ProgramStack.Count > pindex)
+                                    while(executionUnit.ProgramStack.Count > pindex)
                                     {
-                                        ExecutionUnit.ProgramStack.Pop();
-                                        indexValue = ExecutionUnit.IndexStack.Pop();
+                                        executionUnit.ProgramStack.Pop();
+                                        indexValue = executionUnit.IndexStack.Pop();
                                     }
-                                    currentNode = ExecutionUnit.ProgramStack.Peek();
+                                    currentNode = executionUnit.ProgramStack.Peek();
 
                                     rv = AdvanceType.Continue;
                                     continue;
@@ -273,17 +297,17 @@ namespace DialogML
                             else
                             {
                                 currentNode = parent.Children[index];
-                                ExecutionUnit.ProgramStack.Push(currentNode);
-                                ExecutionUnit.IndexStack.Push(index);
+                                executionUnit.ProgramStack.Push(currentNode);
+                                executionUnit.IndexStack.Push(index);
                             }
                             break;
                         }
                     case AdvanceType.Parent:
                         {
-                            if(ExecutionUnit.ProgramStack.Count > 0)
+                            if(executionUnit.ProgramStack.Count > 0)
                             {
-                                currentNode = ExecutionUnit.ProgramStack.Pop();
-                                ExecutionUnit.IndexStack.Pop();
+                                currentNode = executionUnit.ProgramStack.Pop();
+                                executionUnit.IndexStack.Pop();
                             }
                             else
                             {
@@ -299,7 +323,7 @@ namespace DialogML
                 }
                 else
                 {
-                    rv = currentNode.Execute(m_ScriptApi);
+                    rv = currentNode.Execute(m_ScriptApi, executionUnit);
                 }
             }
 
@@ -318,6 +342,12 @@ namespace DialogML
         internal bool HasOnceOnlyBeenExecuted(Guid id)
         {
             return m_OnlyIfTable.HasOnlyIfBeenExecuted(id);
+        }
+
+        internal int CountParallelNodes()
+        {
+            return m_ParallelUnits.Count;
+            //throw new NotImplementedException();
         }
     }
 }

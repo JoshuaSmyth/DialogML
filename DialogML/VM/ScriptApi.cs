@@ -1,5 +1,7 @@
 ﻿using DialogML;
+using DialogML.DNodes;
 using DialogML.Expressions;
+using DialogML.RNodes;
 using ExpressionParser;
 using System;
 using System.Collections.Generic;
@@ -33,6 +35,12 @@ public class ScriptApi
 {
     StringTable m_StringTable;
     ScriptEngine m_ScriptEngine;
+
+    internal void AddParallelUnit(RNode c)
+    {
+        m_ScriptEngine.CreateParallelUnit(c);
+    }
+
     public ScriptApi(ScriptEngine scriptEngine, StringTable table)
     {
         m_ScriptEngine = scriptEngine;
@@ -42,6 +50,12 @@ public class ScriptApi
     internal bool HasOnceOnlyBeenExecuted(Guid id)
     {
         return m_ScriptEngine.HasOnceOnlyBeenExecuted(id);
+    }
+
+    internal Int32 CountParallelNodes(RNodeParallel rNodeParallel)
+    {
+        return m_ScriptEngine.CountParallelNodes();
+        //throw new NotImplementedException();
     }
 
     internal void MarkOnceOnlyAsVisited(Guid id)

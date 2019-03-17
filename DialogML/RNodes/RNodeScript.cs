@@ -21,7 +21,7 @@ namespace DialogML.DNodes
             Name = name;
         }
 
-        public override AdvanceType Execute(ScriptApi api)
+        public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
         {
             api.Trace("ScriptNode");
             if(State == NodeScriptState.Preevaluated)

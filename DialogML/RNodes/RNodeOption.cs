@@ -11,7 +11,7 @@ namespace DialogML.DNodes
             Id = id;
         }
 
-        public override AdvanceType Execute(ScriptApi api)
+        public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
         {
             return AdvanceType.FirstChild;
         }

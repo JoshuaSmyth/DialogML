@@ -28,7 +28,7 @@ namespace DialogML.RNodes
             state = WaitModeState.NotStarted;
         }
 
-        public override AdvanceType Execute(ScriptApi api)
+        public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
         {
             if (state == WaitModeState.NotStarted)
             {

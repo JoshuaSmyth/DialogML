@@ -24,7 +24,7 @@ namespace DialogML.RNodes
             PageName = name;
         }
 
-        public override AdvanceType Execute(ScriptApi api)
+        public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
         {
             if (State == NodeCallState.postcall)
             {

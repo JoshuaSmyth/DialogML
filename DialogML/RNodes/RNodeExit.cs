@@ -9,7 +9,7 @@ namespace DialogML.RNodes
 {
     public class RNodeExit : RNode
     {
-        public override AdvanceType Execute(ScriptApi api)
+        public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
         {
             return AdvanceType.Finished;
         }

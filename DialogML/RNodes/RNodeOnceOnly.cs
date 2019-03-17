@@ -29,7 +29,7 @@ namespace DialogML.RNodes
             NodeConfig = config;
         }
 
-        public override AdvanceType Execute(ScriptApi api)
+        public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
         {
             api.Trace("Once only");
             if(State == NodeOnlyIfState.Preevaluated)

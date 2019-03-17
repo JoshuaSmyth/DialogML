@@ -16,6 +16,6 @@ namespace DialogML.DNodes
 
         public abstract void Prep();
 
-        public abstract AdvanceType Execute(ScriptApi api);
+        public abstract AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit);
     }
 }

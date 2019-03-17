@@ -24,7 +24,7 @@ namespace DialogML.RNodes
             Filter = filter;
         }
 
-        public override AdvanceType Execute(ScriptApi api)
+        public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
         {
             // TODO Eval
             api.Trace("Log: " + Filter + " : " + Text);
