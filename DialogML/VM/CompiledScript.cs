@@ -38,6 +38,14 @@ namespace DialogML.RNodes
             switch(xnodeType)
             {
                 // TODO R Nodes
+                case XNodeType.CallScript:
+                    {
+                        var id = new Guid(br.ReadBytes(16));
+                        var scriptName = br.ReadString();
+                        var pageName = br.ReadString();
+                        newRoot = new RNodeCallScript(scriptName, pageName);
+                        break;
+                    }
                 case XNodeType.Sequential:
                     {
                         var id = new Guid(br.ReadBytes(16));

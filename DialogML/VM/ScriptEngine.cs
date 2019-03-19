@@ -27,6 +27,7 @@ namespace DialogML
         Parallel = 16,
         ParallelUnit = 17,
         Sequential = 18,
+        CallScript = 19,
         Custom = 255
     }
 
@@ -50,6 +51,7 @@ namespace DialogML
         Continue,
         Parent,
         JumpToNode,
+        CallScript,
         Return
     }
 
@@ -68,8 +70,10 @@ namespace DialogML
         public Stack<RNode> ProgramStack = new Stack<RNode>();    // This is how we navigate the tree
         public Stack<int> IndexStack = new Stack<int>();          // Keep a record of what child index we are at.
         public Stack<int> ReturnStack = new Stack<int>();         // index into the program stack to change the default behaviour
-                                                                    // of returning to the parent when reaching the end of the children.
-
+                                                                  // of returning to the parent when reaching the end of the children.
+        // TODO Replace these two as a guid to the node
+        public string CallPageRegister;
+        public string CallScriptRegister;
     }
 
     public class ScriptEngine
@@ -102,6 +106,7 @@ namespace DialogML
 
         public void PrepScriptRecursive(RNode node)
         {
+            // TODO This info should be on a execution unit callstatestack
             node.Prep();
             foreach(var c in node.Children)
             {
@@ -139,19 +144,7 @@ namespace DialogML
 
             ExecutionUnit.ProgramStack.Push(currentNode);
             ExecutionUnit.IndexStack.Push(1);
-
-            /*
-            ExecutionUnit.ProgramStack.Push(currentNode);
-            ExecutionUnit.IndexStack.Push(1);
-
-            var RV = currentNode.Execute(m_ScriptApi, ExecutionUnit);
-            if(RV != AdvanceType.Yield &&
-                RV != AdvanceType.Finished)
-            {
-                return Update(RV);
-            }
-            */
-
+            
             return AdvanceType.Continue;
          }
 
@@ -225,9 +218,11 @@ namespace DialogML
                             executionUnit.IndexStack.Push(currentNode.Children.Count); // Should be 0
 
                             // TODO Implement Get by Id
-                            // TODO come up with something better than the 'as' statement 
-                            var name = currentNode as RNodeCallPage;
-                            currentNode = m_ReferencesTable.GetPageByName(name.PageName);
+                            var name = executionUnit.CallPageRegister;
+                            currentNode = m_ReferencesTable.GetPageByName(name);
+
+                            // Prep the node for this call
+                            PrepScriptRecursive(currentNode);
 
                             // Push the destination Node
                             executionUnit.ProgramStack.Push(currentNode);

@@ -97,7 +97,7 @@ public class ScriptApi
 
     internal void Trace(String output)
     {
-        Console.WriteLine("trace: " + output);
+        //Console.WriteLine("trace: " + output);
     }
 
     public double EvaluateExpression(CompiledExpression expression)

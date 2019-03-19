@@ -3,26 +3,22 @@ using System;
 
 namespace DialogML.RNodes
 {
-    public enum NodeCallState
-    {
-        precall = 0,
-        postcall = 1
-    }
-
-    class RNodeCallPage : RNode
+    class RNodeCallScript : RNode
     {
         private NodeCallState State;
 
         public string PageName;
+        public string ScriptName;
 
-        public RNodeCallPage(String pageName)
+        public RNodeCallScript(String scriptName, String pageName)
         {
             PageName = pageName;
+            ScriptName = scriptName;
         }
 
         public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
         {
-            if (State == NodeCallState.postcall)
+            if(State == NodeCallState.postcall)
             {
                 return AdvanceType.Next;
             }
@@ -30,8 +26,10 @@ namespace DialogML.RNodes
             {
                 api.Trace("RNode Call Page");
 
-                executionUnit.CallPageRegister = PageName;
                 State = NodeCallState.postcall;
+
+                executionUnit.CallScriptRegister = ScriptName;
+                executionUnit.CallPageRegister = PageName;
                 return AdvanceType.JumpToNode;
             }
         }

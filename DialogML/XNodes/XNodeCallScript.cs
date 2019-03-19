@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DialogML.XNodes
 {
-    class XNodeCallPage : XmlNode
+    class XNodeCallScript : XmlNode
     {
+        String TargetScript;
         String TargetPage;
         Guid PageId;
         public override void OnProcessElement(ScriptIds ids, string name, string value)
@@ -21,7 +26,11 @@ namespace DialogML.XNodes
                     Id = ids.GetGuidByIndex(value); //Guid.Parse(value);
                 }
             }
-            if (loweredName == "target" || loweredName == "page")
+            if(loweredName == "script")
+            {
+                TargetScript = value;
+            }
+            if (loweredName == "page")
             {
                 TargetPage = value;
             }
@@ -30,8 +39,8 @@ namespace DialogML.XNodes
         public override void WriteBytes(BinaryWriter bw, ref StringTable st)
         {
             // Look up page name to get the id
-
-            base.WriteHeader(bw, XNodeType.CallPage);
+            base.WriteHeader(bw, XNodeType.CallScript);
+            bw.Write(this.TargetScript);
             bw.Write(this.TargetPage);
         }
     }

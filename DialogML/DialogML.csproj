@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\OnlyIfTable.cs" />
     <Compile Include="Expressions\CompiledExpression.cs" />
     <Compile Include="Expressions\Enums.cs" />
     <Compile Include="Expressions\EvaluationContext.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Expressions\Tokenizer.cs" />
     <Compile Include="Expressions\Tokens\InputToken.cs" />
     <Compile Include="Expressions\Tokens\SemanticToken.cs" />
+    <Compile Include="RNodes\RNodeCallScript.cs" />
     <Compile Include="RNodes\RNodeParallelUnit.cs" />
     <Compile Include="RNodes\RNodeCallPage.cs" />
     <Compile Include="RNodes\RNodeCaseFalse.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="VM\StringTable.cs" />
     <Compile Include="XNodes\XmlNode.cs" />
     <Compile Include="XNodes\XNodeCallPage.cs" />
+    <Compile Include="XNodes\XNodeCallScript.cs" />
     <Compile Include="XNodes\XNodeCaseFalse.cs" />
     <Compile Include="XNodes\XNodeCaseTrue.cs" />
     <Compile Include="XNodes\XNodeExit.cs" />
@@ -139,9 +142,13 @@
   <ItemGroup>
     <None Include="Scripts\coroutine1.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\callscript.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Content Include="Scripts\dialog_druids_sample2.xml">
       <SubType>Designer</SubType>
     </Content>
