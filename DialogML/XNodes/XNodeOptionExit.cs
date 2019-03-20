@@ -26,7 +26,7 @@ namespace DialogML.XNodes
             }
         }
 
-        public override void WriteBytes(BinaryWriter bw, ref StringTable st)
+        public override void WriteBytes(BinaryWriter bw, ref StringTable st, ref ReferencesTable referencesTable)
         {
             base.WriteHeader(bw, XNodeType.OptionExit);
 

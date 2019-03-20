@@ -36,7 +36,7 @@ namespace DialogML.XNodes
             }
         }
 
-        public override void WriteBytes(BinaryWriter bw, ref StringTable st)
+        public override void WriteBytes(BinaryWriter bw, ref StringTable st, ref ReferencesTable referencesTable)
         {
             // Look up page name to get the id
             base.WriteHeader(bw, XNodeType.CallScript);

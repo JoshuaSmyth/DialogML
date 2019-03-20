@@ -8,6 +8,7 @@ using DialogML.RNodes;
 
 namespace DialogML.VM
 {
+
     public class RuntimeReferencesTable
     {
         private Dictionary<Guid, RNodePage> Pages = new Dictionary<Guid, RNodePage>();

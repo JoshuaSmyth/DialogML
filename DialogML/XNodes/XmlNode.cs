@@ -23,7 +23,7 @@ namespace DialogML.XNodes
 
         }
 
-        public virtual void WriteBytes(BinaryWriter bw, ref StringTable stringTable)
+        public virtual void WriteBytes(BinaryWriter bw, ref StringTable stringTable, ref ReferencesTable referencesTable)
         {
             bw.Write((ushort)XNodeType.Unknown);
             bw.Write((byte)1);    // Version Major

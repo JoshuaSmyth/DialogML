@@ -82,7 +82,7 @@ namespace Dialog.ML.Test
             var inputFile = TestHelper.directory + "/TestScripts/preparser/condition1.xml";
             var preparser = new Preparser();
 
-            preparser.Preparse(inputFile);
+            preparser.AssignIds(inputFile);
             var idsFile = TestHelper.directory + "/TestScripts/preparser/condition1.ids";
             var scriptIds = new ScriptIds();
             var idsFileContents = File.ReadAllText(idsFile);

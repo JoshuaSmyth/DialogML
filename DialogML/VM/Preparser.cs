@@ -10,7 +10,8 @@ namespace DialogML.VM
 {
     public class Preparser
     {
-        public void Preparse(string filename)
+        
+        public void AssignIds(string filename)
         {
             var scriptIds = new ScriptIds();
             var idsFilename = Path.ChangeExtension(filename, "ids");

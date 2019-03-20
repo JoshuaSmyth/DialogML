@@ -25,7 +25,7 @@ namespace Dialog.ML.Test
             var inputFile = TestHelper.directory + "/TestScripts/preparser/input_ids_001.xml";
             var preparser = new Preparser();
 
-            preparser.Preparse(inputFile);
+            preparser.AssignIds(inputFile);
 
             var idsFile = TestHelper.directory + "/TestScripts/preparser/input_ids_001.ids";
             var scriptIds = new ScriptIds();
@@ -39,7 +39,7 @@ namespace Dialog.ML.Test
             var inputFile = TestHelper.directory + "/TestScripts/preparser/input_ids_002.xml";
             var preparser = new Preparser();
 
-            preparser.Preparse(inputFile);
+            preparser.AssignIds(inputFile);
 
             var idsFile = TestHelper.directory + "/TestScripts/preparser/input_ids_002.ids";
             var scriptIds = new ScriptIds();

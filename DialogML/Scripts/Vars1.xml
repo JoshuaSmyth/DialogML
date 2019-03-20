@@ -1,0 +1,18 @@
+﻿<script>
+  <!--
+  <enums>
+    <enum type="state">
+      
+    </enum>
+    <enum type="flags">
+
+    </enum>
+  </enums>
+  -->
+  <vars>
+    <declare-global name="player_reputation" value="0" type="integer"></declare-global>
+    
+    <declare-script name="attempt_count" value="0" type="integer"></declare-script>
+    <!--<declare-instance name="open" value="false" type="boolean"></declare-instance>-->
+  </vars>
+</script>

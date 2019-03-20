@@ -57,6 +57,7 @@
     <Compile Include="Expressions\Tokenizer.cs" />
     <Compile Include="Expressions\Tokens\InputToken.cs" />
     <Compile Include="Expressions\Tokens\SemanticToken.cs" />
+    <Compile Include="PostParser.cs" />
     <Compile Include="RNodes\RNodeCallScript.cs" />
     <Compile Include="RNodes\RNodeParallelUnit.cs" />
     <Compile Include="RNodes\RNodeCallPage.cs" />
@@ -146,6 +147,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\vars1.xml" />
     <None Include="Scripts\callscript.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
