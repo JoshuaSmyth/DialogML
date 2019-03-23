@@ -6,7 +6,6 @@ namespace DialogML.XNodes
     class XNodeCallPage : XmlNode
     {
         String TargetPage;
-        Guid PageId;
         public override void OnProcessElement(ScriptIds ids, string name, string value)
         {
             var loweredName = name.ToLower();

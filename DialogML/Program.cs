@@ -2,7 +2,9 @@
 using DialogML.VM;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Xml;
 
 namespace DialogML
 {
@@ -19,16 +21,72 @@ namespace DialogML
 
         static ScriptEngineData ScriptEngineData = new ScriptEngineData();
 
-
         static PostParser postParser = new PostParser();
 
-        static ScriptEngine scriptEngine; // Should script engine have it's own ScriptEngineData?
+        static ScriptEngine scriptEngine;
 
         public static void CompileProgram(List<string> files)
         {
-            // TODO Return a gossipscript program?
-            // TODO Create a compiler class
-            throw new NotImplementedException();
+          
+            // TODO Ids needs to be stored in the same file
+            // So that file system operations are simplified.
+
+            // Step 1: Assign Ids to the XML
+            var preparser = new Preparser();
+            var lstScriptIds = new List<ScriptIds>();
+            foreach(var filename in files)
+            {
+                preparser.AssignIds(filename);
+
+                // Read Ids into table
+                var idsFile = Path.ChangeExtension(filename, "ids");
+                var ids = File.ReadAllText(idsFile);
+
+                var scriptIds = new ScriptIds();
+                scriptIds.ParseText(ids);
+                lstScriptIds.Add(scriptIds);
+            }
+
+            // Create the XML Tree Structure for each script
+            var xParser = new XParser();
+            var refParser = new PostParser();
+
+            List<DialogML.XNodes.XmlNode> ProgramTrees = new List<XNodes.XmlNode>();
+            var i = 0;
+            foreach(var filename in files)
+            {
+                var xml = File.ReadAllText(filename);
+
+                var scriptIds = lstScriptIds[i];
+                var result = xParser.Process(scriptIds, xml);
+                var root = result.Children[0];
+                refParser.AddOrUpdateScript(root);
+
+                ProgramTrees.Add(root);
+                i++;
+            }
+
+            // Compile into program
+            var stringTable = new StringTable();
+            i = 0;
+            foreach(var root in ProgramTrees)
+            {
+                var bParser = new BinarySerialiser();
+                var referenceTable = postParser.GetReferencesTable();
+                var bytes = bParser.SerializeXTree(root, ref stringTable, ref referenceTable);
+
+                var script = new CompiledScript();
+                script.Deserialise(bytes);
+
+                ScriptEngineData.ReferencesTable.AddOrUpdateScript(script);
+                ScriptBank.Add(files[i], script);
+                i++;
+            }
+
+            // Assign all the strings to the engine
+            var strings = stringTable.Serialise();
+            ScriptEngineData.StringTable.Deserialise(strings);
+
         }
 
         public static void LoadScript(string filename)
@@ -59,15 +117,13 @@ namespace DialogML
                 postParser.AddOrUpdateScript(root);
 
                 var referenceTable = postParser.GetReferencesTable();
-
-                // TODO Pass in references table (possibly needs to be a context at some stage)
+                
                 var bytes = bParser.SerializeXTree(root, ref stringTable, ref referenceTable);
 
                 Console.WriteLine("ScriptIds Size:" + scriptIdBytes.Length);
                 Console.WriteLine("Script Size:" + bytes.Length);
 
                 var strings = stringTable.Serialise();
-
                 ScriptEngineData.StringTable.Deserialise(strings);
                 var script = new CompiledScript();
                 script.Deserialise(bytes);
@@ -102,6 +158,12 @@ namespace DialogML
             }
         }
 
+        private static void RunScript(String filename)
+        {
+            CompiledScript script = ScriptBank[filename];
+            RunScript(scriptEngine, script);
+        }
+
         private static void RunScript(ScriptEngine scriptEngine, CompiledScript script)
         {
             Console.WriteLine();
@@ -117,28 +179,21 @@ namespace DialogML
         {
             scriptEngine = new ScriptEngine(ScriptEngineData.ReferencesTable, ScriptEngineData.StringTable, ScriptEngineData.OnlyIfTable);
 
-            // TODO Parse set of scripts
+            // Parse set of scripts
             var scripts = new List<string>()
             {
                 "Scripts/callpage.xml",
                 "Scripts/callscript.xml",
                 "Scripts/coroutine1.xml",
-                "Scripts/dialog_druids_sample"
+                "Scripts/dialog_druids_sample.xml"
             };
 
-            //CompileProgram(scripts);
+            var sw = Stopwatch.StartNew();
+                CompileProgram(scripts);
+            sw.Stop();
+            Console.WriteLine(String.Format("Time Taken to compile scripts:{0}ms", sw.ElapsedMilliseconds));
 
-            LoadScript("Scripts/callpage.xml");
-            LoadAndRunScript("Scripts/callscript.xml");
-            
-            /*
-            LoadAndRunScript("Scripts/coroutine1.xml");
-            LoadAndRunScript("Scripts/dialog_druids_sample.xml");
-
-            Console.WriteLine("** Second Run **");
-            
-            LoadAndRunScript("Scripts/dialog_druids_sample.xml");
-            */    
+            RunScript("Scripts/callscript.xml");
         }
     }
 }

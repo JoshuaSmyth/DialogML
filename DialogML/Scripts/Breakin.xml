@@ -1,0 +1,268 @@
+﻿<scripts>
+  <script name="breakin_window">
+
+    <!-- Items-->
+    <defines>
+      <define-item item-id="LUCKY_COIN" label="Lucky Coin"/>
+      <define-item item-id="LETTER_OPENER" label="Letter Opener"/>
+    </defines>
+  
+    <!-- Actors -->
+    <defines>
+      <define-actor actor-id="Shawn" fullname="Shawn O'Conner" firstname="Shawn" lastname="O'Conner" shortname="Shawn" nickname="Shawn"/>
+      <define-actor actor-id="MysteryMan" fullname="Mysterious Stranger"/>
+    </defines>
+    
+    <!-- Quests -->
+    <defines>
+      <define-quest quest-id="Escape_Old_House" label="Escape the Old House"/>
+    </defines>
+
+    <!-- Global variables -->
+    <!-- These would normally be defined elsewhere -->
+    <defines>
+      <!-- This is a tag in ComposerSpeak -->
+      <define-global name="events.break_in.demo" value="false" />
+      <define-global name="firstroom.gotCouchCoins" value="false"/>
+      <define-global name="master_von_urwald.toldTruth" value="false"/>
+
+      <!-- TODO also implement masks -->
+      <define-global-enum name="player.death">
+        <value name="NONE" default="true"/>
+        <value name="JAILHOUSE_DEATH"/>
+      </define-global-enum>
+
+      <define-global-enum name="master.confess">
+        <value name="NONE" default="true"/>
+        <value name="DENY"/>
+        <value name="WHOLE_TRUTH"/>
+        <value name="SOME_TRUTH"/>
+      </define-global-enum>
+      
+    </defines>
+  
+    <!-- Script variables defined here -->
+    <defines>
+      <define-var name="window.isopen" value="true"/>
+    </defines>
+  
+  <!--
+    PAGE P1
+      BEGIN SELECT
+        OPTION "Skip Break-in Room" ONLY-IF:Sys.debug==true
+          ADD-ITEM LUCKY_COIN
+          ADD-ITEM LETTER_OPENER
+        OPTION "Look out the window"
+          IF window.isopen==true THEN
+            SAY Shawn:"The light from the gas lamp out there is really bright."
+          ELSE
+            SAY Shawn:"Those shutters should keep anyone from seeing what I'm up to"
+          END IF
+        OPTION "Close the window" ONLY-IF:window.isopen==true
+          SAY Shawn:"That will stop me from making my escape..."
+        OPTION "Escape through the window"
+          SAY Shawn[Happy]:"Great... Got the coin... didn't get caught..."
+        OPTION "Climb through the window" ONLY-IF:!has_item(LUCKY_COIN)
+          SAY Shawn:"Oh no, I forgot why I came here..."
+          CALL-PAGE P2
+      END SELECT
+      
+    PAGE P2
+      SET events.breakinDemo=false
+      FADE-OUT 500ms
+      PLAY-MUSIC "incidental 2.mp3"
+      SHOW-VIGNETTE "black.png"
+      FADE-IN 1000ms
+      SAY Shawn[happy]:"Made it..."
+      SHOW-VIGNETTE "caught.png" x-fade:1000ms
+      WAIT 500ms
+      IF events.breakinDemo=true THEN
+        SAY Shawn[surprised]:"What? Who are you?"
+        SAY MysteryMan:"Never mind who I am. I'm here to offer you a chance at a very different future... as a student at the Hero University."
+        SAY Shawn:"Say what? You want me to go to school? What's to stop me from just running off?"
+        SAY MysteryMan:"If you don't follow me - you'll never find out what this is all about."
+      ELSE
+        SAY MysteryMan:"Actually you have a one-way ticket to jail, Shawn O'Conner."
+        SAY Shawn:"What? Who are you - and how do you know who I am?"
+        SAY MysteryMan:"Never mind who I am. There are two City Guards waiting on the street in front of this house to arrest you for burglary. Is that they way you want your life to end? In Jail?"
+        SAY Shawn[angry]:"So what's your point? Are you going to have me arrested or are you going to bore me to death with your lecture?"
+        SAY MysteryMan:"I'm here to offer you a chance at a very different future... as a student at the Hero University."
+        SAY Shawn[surprised]:"Say what? you want me to go to school? What's to stop me from just running off?"
+        SAY MysteryMan:"If you run, the city guards will make a point of tracking you down. They don't like thieves, even petty ones."
+        SAY MysteryMan:"Besides, if you don't follow me - you'll never find out what this is all about"
+      END IF
+      BEGIN SELECT unique:true
+        OPTION "Run Off"
+        OPTION "Follow the Stranger"
+      END SELECT
+    END PAGE
+ -->
+    
+    <!-- Start Page -->
+    <page name="p1">
+      <select auto-add-done="true">
+        <option text="Skip break-in room" only-if="sys.debug==true">
+          <add-item name="LUCKY_COIN"></add-item>
+          <add-item name="LETTER_OPENER"></add-item>
+        </option>
+        <option text="Look Out the Window">
+          <if expression="window.isopen==true">
+            <case-true>
+              <say actor-id="Shawn" text="The light from the gas lamp out there is really bright - I can't see anything in the shadows. I hope no one is out there when I make my escape."/>
+            </case-true>
+            <case-false>
+              <!-- Note I don't think this line ever fires in HU as there is no way to shut the window. -->
+              <say actor-id="Shawn" text="Those shutters should keep anyone outside from seeing what I'm doing in here."/>
+            </case-false>
+          </if>
+        </option>
+        <option text="Close the Window" only-if="window.isopen==true">
+          <say actor-id="Shawn" text="If I close the window, I won't be able to make a quick exit if someone comes home."/>
+        </option>
+        <option text="Escape through the Window" only-if="window.isopen==true AND has_item(LUCKY_COIN)">
+          <say actor-id="Shawn" text="Great... got the coin, didn't get caught... I'll be a Thieves' Guild member before the night is over! Yay me!" portrait="happy"/>
+          <call-page name="p2"></call-page>
+        </option>
+        <option text="Climb through the Window" only-if="!has_item(LUCKY_COIN)">
+          <say actor-id="Shawn" text="Uh oh, I almost forgot why I broke into this place - I've got to find the Lucky Coin so I can prove that I'm good enough to join the Thieves' Guid. I can't leave here without it"/>
+        </option>
+      </select>
+    </page>
+  
+    <!-- Meeting with the Stranger Outside the breakin room -->
+    <page name="p2">
+      <set-var name="events.break_in.demo" expression="false"/>
+      <fade-out time="500"/>
+      <play-music filename="Incidental 2.mp3"/>
+      <show-vignette filename="BlackVignette.png"/>
+      <fade-in time="1000"/>
+      <say actor-id="Shawn" portrait="happy" text="Made it! Now I've got my golden ticket to joing the Thieves' Guild"/>
+      <show-vignette filename="GerhardGatchesShawn.png" xfade="1000"/>
+      <wait time="500"></wait>
+      <if expression="events.break_in.demo==true">
+        <case-true>
+          <!-- Is Demo -->
+          <say actor-id="Shawn" portrait="surprised" text="What? Who are you?"/>
+          <say actor-id="MysteryMan" text="Never mind who I am. I'm here to offer you a chance at a very different future... as a student at the Hero University."/>
+          <say actor-id="Shawn" text="Say what? You want me to go to school? What's to stop me from just running off?"/>
+          <say actor-id="MysteryMan" text="If you don't follow me - you'll never find out what this is all about."/>
+        </case-true>
+      
+        <case-false>
+          <!-- Not Demo -->
+          <say actor-id="MysteryMan" text="Actually you have a one-way ticket to jail, Shawn O'Conner."></say>
+          <say actor-id="Shawn" text="What? Who are you - and how do you know who I am?"></say>
+          <say actor-id="MysteryMan" text="Never mind who I am. There are two City Guards waiting on the street in front of this house to arrest you for burglary. Is that they way you want your life to end? In Jail?"/>
+          <say actor-id="Shawn" portrait="angry" text="So what's your point? Are you going to have me arrested or are you going to bore me to death with your lecture?"/>
+          <say actor-id="MysteryMan" text="I'm here to offer you a chance at a very different future... as a student at the Hero University."/>
+          <say actor-id="Shawn" portrait="surprised" text="Say what? you want me to go to school? What's to stop me from just running off?"></say>
+          <say actor-id="MysteryMan" text="If you run, the city guards will make a point of tracking you down. They don't like thieves, even petty ones."/>
+          <say actor-id="MysteryMan" text="Besides, if you don't follow me - you'll never find out what this is all about"/>
+        </case-false>
+      </if>
+
+      <select unique="true">
+        <option text="Run Off">
+          <set-quest quest-id="Escape_Old_House" value="fail"></set-quest>
+          <play-music filename="silence.ogg"></play-music>
+          <say actor-id="Narrator" text="Shawn leads the guards a merry chase through the streets and alleys of Sardonia, but they are very good at their job."></say>
+          <set-enum name="player.death" expression="JAILHOUSE_DEATH"></set-enum>
+          <call-script name="Death_Messages"/>
+        </option>
+        <option text="Follow the Stranger">
+          <set-quest quest-id="Escape_Old_House" value="complete"></set-quest>
+          <say actor-id="Shawn" text="If you are going to put it that way..."/>
+          <say actor-id="MysteryMan" text="A wise choice. However, before we can leave - did you take anything from the house? It needs to be returned to its rightful owner."/>
+          <select unique="true">
+            <option text="Confess your crime">
+              <inc-skill skill-id="charm" value="1"/> <!-- This is actually a Skill Check in HU -->
+              <if expression="firstroom.gotCouchCoins==true">
+                <case-true>
+                  <say actor-id="Shawn" portrait="sad" text="All I took was a letter opener and some coins I found laying around."/>
+                  <say actor-id="MysteryMan" text="The letter opener must be returned. However, I doubt the house owner will notice a few stray coins. Perhaps it will teach him to secure his windows at night."/>
+                </case-true>
+                <case-false>
+                  <say actor-id="Shawn" text="All I took was this silver letter opener because I needed it to pry open a drawer."/>
+                  <say actor-id="MysteryMan" text="Is that so? Very well then, we will return the letter opener and the matter will be settled."/>
+                </case-false>
+              </if>
+              <play-sound filename="knife_pickup.wav"/>
+              <remove-item item-id="LETTER_OPENER"/>
+              <set-enum name="master_von_urwald.confess" expression="WHOLE_TRUTH"/>
+            </option>
+            <option text="Admit to stealing the Letter Opener">
+              <set-enum name="master_von_urwald.confess" expression="PART_TRUTH"/>
+              <!-- This is actually a Skill Check in HU -->
+              <inc-skill skill-id="smart" value="1"/>
+              <Say actor-id="Shawn" text="All I took was this silver letter opener because I needed it to pry open a drawer."/>
+              <Say actor-id="MysteryMan" text="Is that so? Very well then, we will return the letter opener and the matter will be settled."/>
+              <play-sound filename="knife_pickup.wav"/>
+              <remove-item item-id="LETTER_OPENER"/>
+            </option>
+            <option text="Deny Stealing anything">
+              <set-enum name="master_von_urwald.confess" expression="DENY"/>
+              <!-- This is actually a Skill Check in HU -->
+              <inc-skill skill-id="moxie" value="1"/>
+              <Say actor-id="Shawn" text="I didn't steal anything. I only made it to the one room and there wasn't anything worth stealing."/>
+              <Say actor-id="MysteryMan" portrait="Angry" text="Indeed? Very well"/>
+            </option>
+          </select>
+
+          <if expression="events.break_in.demo==true">
+            <!-- Demo-->
+            <case-true>
+              <wait time="1000"/>
+              <show-vignette filename="StormyCastleDemo.png"></show-vignette>
+              <play-sound filename="closingcredits.ogg"/>
+              <game-over></game-over>
+            </case-true>
+            <!-- Not Demo -->
+            <case-false>
+              <say actor-id="MysteryMan" text="Now let us process to Hero University. If you are able to find redemption, it will be there."/>
+              <play-music filename="2017 atmos 1.ogg"/>
+              <set-award award-id="STUDIOUS"/>
+              <journal-add>
+                <journal-title text="Journey to the School"/>
+                <journal-text text="What else could I do - walk away and wonder all my life who this stranger was..."/>
+              </journal-add>
+              <fade-out time="500"/>
+              <show-vignette filename="storymcastle.jpg"/>
+              <fade-in time="2000"/>
+              <say actor-id="Shawn" style="thought" text="What else could I do - walk away and wonder all my life who this stranger was and what he was up to?"/>
+              <say actor-id="Shawn" style="thought" text="He refused to anser any of my questions. So I followed him for hours through all the alleys and dark streets of Caligari and out of th city through a side gate I'd never seen before."/>
+              <say actor-id="Shawn" style="thought" text="It was almost dawn when we got to a gatehouse in a twenty foot tall rock wall. In the dim light I could see where we've gone - to the creepy old castle that overlooks the city."/>
+              <say actor-id="Shawn" style="thought" text="The stranger had me sit in a small, boring room for a while while he talked to some poeopl. I think I must've nodded off because the next thing I know this angry bald guy orders me to follow him into his office..."/>
+              <wait time="1000"/>
+              <journal-add>
+                <journal-title text="Borrrrrriiiinnngg"/>
+                <journal-text text="The stranger had me sit in a small, boring room for a while while he talked to some people. I think I must've nodded off because the next thing I know this angry bald guy orders me to follow him into his office."/>
+              </journal-add>
+              <set-time day="1" hour="8" minute="0"/>
+              <!-- AND Change to Terks Office-->
+              <!-- HU Sets a story event here -->
+              <!-- HU Changes Scene Here to Terks Office here -->
+            </case-false>
+          </if>
+        </option>
+      </select>
+    </page>
+  </script>
+
+  <!-- You normaly wouldn't have multiple scripts in a scriptfile but let's make it possible-->
+  <script name="Death_Messages">
+    <page name="p1">
+      <!-- TODO Implement Switch Statement -->
+      <if expression="player.death==JAILHOUSE_DEATH">
+        <case-true>
+          <play-music filename="closing credits.ogg"/>
+          <fade-out time="1000"/>
+          <show-vignette filename="ShawninJail_colored.png"/>
+          <fade-in time="500"/>
+          <wait time="2000"/>
+          <say actor-id="Narrator" text="Shawn will cry and Shawn will wail, Shawn will still go straight to jail. The lesson that all thieves are taught - 'whatever you do - just don't get caught'"/>
+          <game-over/>
+        </case-true>
+      </if>
+    </page>
+  </script>
+</scripts>
