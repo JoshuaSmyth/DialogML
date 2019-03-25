@@ -74,8 +74,8 @@ namespace DialogML
         public Stack<int> ReturnStack = new Stack<int>();         // index into the program stack to change the default behaviour
                                                                   // of returning to the parent when reaching the end of the children.
         // TODO Replace these two as a guid to the node
-        public string CallPageRegister;
-        public string CallScriptRegister;
+       // public string CallPageRegister;
+       // public string CallScriptRegister;
     }
 
     public class ScriptEngine
@@ -225,13 +225,12 @@ namespace DialogML
 
                             var id = executionUnit.CallPageId;
                             currentNode = m_ReferencesTable.GetPageById(id);
-
                             
                             if (currentNode == null)
                             {
-                                var name = executionUnit.CallPageRegister;
-                                currentNode = m_ReferencesTable.GetPageByName(name);
+                                throw new Exception("Unknown page");
                             }
+
                             // Prep the node for this call
                             PrepScriptRecursive(currentNode);
 

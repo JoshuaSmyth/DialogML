@@ -30,24 +30,14 @@ namespace DialogML.XNodes
 
         public override void WriteBytes(BinaryWriter bw, String scriptFilename, ref StringTable st, ref ReferencesTable referencesTable)
         {
-            // Look up page name to get the id
-            // TODO Pass the script name or Id into WriteBytes method
             var page = referencesTable.GetPageRecord(scriptFilename, this.TargetPage);
             if (page == null)
             {
                 throw new Exception("Could not find page");
             }
             base.WriteHeader(bw, XNodeType.CallPage);
-            bw.Write(this.TargetPage);
-
-            if(page == null)
-            {
-                bw.Write(Guid.Empty.ToByteArray());
-            }
-            else
-            {
-                bw.Write(page.PageId.ToByteArray());
-            }
+       //     bw.Write(this.TargetPage);
+            bw.Write(page.PageId.ToByteArray());
         }
     }
 }

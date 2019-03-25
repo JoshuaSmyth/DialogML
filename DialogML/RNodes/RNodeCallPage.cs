@@ -13,13 +13,14 @@ namespace DialogML.RNodes
     {
         private NodeCallState State;
 
-        public string PageName;
+     //   public string PageName;
 
         public Guid PageId;
 
-        public RNodeCallPage(Guid pageId, String pageName)
+        public RNodeCallPage(Guid id, Guid pageId)
         {
-            PageName = pageName;
+            Id = id;
+          //  PageName = pageName;
             PageId = pageId;
         }
 
@@ -34,7 +35,7 @@ namespace DialogML.RNodes
                 api.Trace("RNode Call Page");
 
                 // FIXEME Pagepage cannot lookup by id yet?
-                executionUnit.CallPageRegister = PageName;
+               // executionUnit.CallPageRegister = PageName;
                 executionUnit.CallPageId = PageId;
                 State = NodeCallState.postcall;
                 return AdvanceType.JumpToNode;
