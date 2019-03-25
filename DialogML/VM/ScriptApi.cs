@@ -78,7 +78,8 @@ public class ScriptApi
         {
             foreach(var o in options)
             {
-                this.Trace(" - " + this.ResolveString(o.Id));
+                Console.WriteLine(" - " + this.ResolveString(o.Id));
+                //this.Trace(" - " + this.ResolveString(o.Id));
             }
 
             var key = Console.ReadKey();

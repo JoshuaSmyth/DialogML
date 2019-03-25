@@ -163,6 +163,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\TestSelect.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\vars1.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1,0 +1,25 @@
+﻿<script>
+  <page>
+    <Say ActorId="Narrator" text="Hello"/>
+    <select text="Options:">
+      <option text="Option A">
+        <log text="You selected A"/>
+      </option>
+      <option text="Option B">
+        <log text="You selected B"/>
+      </option>
+      <option text="Option C">
+        <log text="You selected C"/>
+        <select unique="true">
+          <option text="Unique Option 1">
+            <log text="You selected Unique Option 1"/>
+          </option>
+          <option text="Unique Option 2">
+            <log text="You selected Unique Option 2"/>
+          </option>
+        </select>
+      </option>
+      <option-exit text="Let's go!"></option-exit>
+    </select>
+  </page>
+</script>
