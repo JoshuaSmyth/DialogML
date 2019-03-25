@@ -1,10 +1,10 @@
 ﻿<script>
   <page>
     <Say actor-id="narrator" text="Pre-Call P1"/>
-    <call-script script="callpage" page="p1"></call-script>
+    <call-script script="scripts/callpage.xml" page="p1"></call-script>
     <Say actor-id="narrator" text="Post-Call P1"/>
     <Say actor-id="narrator" text="Pre-Call P3"/>
-    <call-script script="callpage" page="p3"></call-script>
+    <call-script script="scripts/callpage.xml" page="p3"></call-script>
     <Say actor-id="narrator" text="Post-Call P3"/>
   </page>
 </script>

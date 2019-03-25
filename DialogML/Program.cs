@@ -60,7 +60,7 @@ namespace DialogML
                 var scriptIds = lstScriptIds[i];
                 var result = xParser.Process(scriptIds, xml);
                 var root = result.Children[0];
-                refParser.AddOrUpdateScript(root);
+                refParser.AddOrUpdateScript(root, filename);
 
                 ProgramTrees.Add(root);
                 i++;
@@ -71,15 +71,16 @@ namespace DialogML
             i = 0;
             foreach(var root in ProgramTrees)
             {
+                var fileName = files[i];
                 var bParser = new BinarySerialiser();
-                var referenceTable = postParser.GetReferencesTable();
-                var bytes = bParser.SerializeXTree(root, ref stringTable, ref referenceTable);
+                var referenceTable = refParser.GetReferencesTable();
+                var bytes = bParser.SerializeXTree(root, fileName, ref stringTable, ref referenceTable);
 
                 var script = new CompiledScript();
                 script.Deserialise(bytes);
 
                 ScriptEngineData.ReferencesTable.AddOrUpdateScript(script);
-                ScriptBank.Add(files[i], script);
+                ScriptBank.Add(fileName, script);
                 i++;
             }
 
@@ -114,11 +115,11 @@ namespace DialogML
                 var result = xParser.Process(scriptIds, xml);
                 var root = result.Children[0];
 
-                postParser.AddOrUpdateScript(root);
+                postParser.AddOrUpdateScript(root, filename);
 
                 var referenceTable = postParser.GetReferencesTable();
                 
-                var bytes = bParser.SerializeXTree(root, ref stringTable, ref referenceTable);
+                var bytes = bParser.SerializeXTree(root, filename, ref stringTable, ref referenceTable);
 
                 Console.WriteLine("ScriptIds Size:" + scriptIdBytes.Length);
                 Console.WriteLine("Script Size:" + bytes.Length);
@@ -184,8 +185,10 @@ namespace DialogML
             {
                 "Scripts/callpage.xml",
                 "Scripts/callscript.xml",
-                "Scripts/coroutine1.xml",
-                "Scripts/dialog_druids_sample.xml"
+                "Scripts/concurrent1.xml",
+                "Scripts/dialog_druids_sample.xml",
+                "Scripts/wait.xml",
+                "Scripts/condition1.xml"
             };
 
             var sw = Stopwatch.StartNew();

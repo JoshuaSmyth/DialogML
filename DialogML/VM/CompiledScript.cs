@@ -41,9 +41,10 @@ namespace DialogML.RNodes
                 case XNodeType.CallScript:
                     {
                         var id = new Guid(br.ReadBytes(16));
-                        var scriptName = br.ReadString();
-                        var pageName = br.ReadString();
-                        newRoot = new RNodeCallScript(scriptName, pageName);
+                      //  var scriptName = br.ReadString();
+                       // var pageName = br.ReadString();
+                        var pageId = new Guid(br.ReadBytes(16));
+                        newRoot = new RNodeCallScript(pageId);
                         break;
                     }
                 case XNodeType.Sequential:
@@ -76,7 +77,7 @@ namespace DialogML.RNodes
                         var id = new Guid(br.ReadBytes(16));
                         var pageName = br.ReadString();
                         var pageId = new Guid(br.ReadBytes(16));
-                        newRoot = new RNodeCallPage(pageName);
+                        newRoot = new RNodeCallPage(id, pageName);
                         break;
                     }
                 case XNodeType.Wait:

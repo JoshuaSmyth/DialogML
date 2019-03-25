@@ -9,7 +9,7 @@ namespace DialogML
     {
         Dictionary<Guid, String> StringTable = new Dictionary<Guid, string>();
 
-        public byte[] SerializeXTree(XmlNode root, ref StringTable st, ref ReferencesTable referencesTable)
+        public byte[] SerializeXTree(XmlNode root, string filename, ref StringTable st, ref ReferencesTable referencesTable)
         {
             using(var ms = new MemoryStream())
             {
@@ -19,20 +19,20 @@ namespace DialogML
                     bw.Write("DMLB");
                     bw.Write((ushort)1);        // Version Major
                     bw.Write((ushort)0);        // Version Minor
-                    SerializeXTreeRecurse(root, bw, ref st, ref referencesTable);
+                    SerializeXTreeRecurse(root, bw, filename, ref st, ref referencesTable);
 
                     return ms.ToArray();
                 }
             }
         }
         
-        private void SerializeXTreeRecurse(XmlNode root, BinaryWriter bw, ref StringTable st, ref ReferencesTable referencesTable)
+        private void SerializeXTreeRecurse(XmlNode root, BinaryWriter bw, string filename, ref StringTable st, ref ReferencesTable referencesTable)
         {
-            root.WriteBytes(bw, ref st, ref referencesTable);
+            root.WriteBytes(bw, filename, ref st, ref referencesTable);
 
             foreach(var child in root.Children)
             {
-                SerializeXTreeRecurse(child, bw, ref st, ref referencesTable);
+                SerializeXTreeRecurse(child, bw, filename, ref st, ref referencesTable);
             }
         }
     }

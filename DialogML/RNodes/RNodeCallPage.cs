@@ -15,9 +15,12 @@ namespace DialogML.RNodes
 
         public string PageName;
 
-        public RNodeCallPage(String pageName)
+        public Guid PageId;
+
+        public RNodeCallPage(Guid pageId, String pageName)
         {
             PageName = pageName;
+            PageId = pageId;
         }
 
         public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
@@ -30,7 +33,9 @@ namespace DialogML.RNodes
             {
                 api.Trace("RNode Call Page");
 
+                // FIXEME Pagepage cannot lookup by id yet?
                 executionUnit.CallPageRegister = PageName;
+                executionUnit.CallPageId = PageId;
                 State = NodeCallState.postcall;
                 return AdvanceType.JumpToNode;
             }

@@ -40,13 +40,13 @@ namespace Dialog.ML.Test
 
     <!-- page1 -->
     <page name='page1' id='#0001'>
-        <print text='hello'/>
-        <goto-page name='page2'/>
+        <log text='hello'/>
+        <call-page name='page2'/>
     </page>
 
     <!-- page2 -->
     <page name='page2' id='#0002'>
-        <print text='world'/>
+        <log text='world'/>
     </page>
 </script>
 ";
@@ -79,7 +79,8 @@ namespace Dialog.ML.Test
         [Test]
         public void TestCondition001()
         {
-            var inputFile = TestHelper.directory + "/TestScripts/preparser/condition1.xml";
+            var filename = "/TestScripts/preparser/condition1.xml";
+            var inputFile = TestHelper.directory + filename;
             var preparser = new Preparser();
 
             preparser.AssignIds(inputFile);
@@ -99,7 +100,8 @@ namespace Dialog.ML.Test
             var bParser = new BinarySerialiser();
 
             var stringTable = new StringTable();
-            var bytes = bParser.SerializeXTree(root, ref stringTable);
+            var referencesTable = new ReferencesTable();
+            var bytes = bParser.SerializeXTree(root, filename, ref stringTable, ref referencesTable);
 
 
         }

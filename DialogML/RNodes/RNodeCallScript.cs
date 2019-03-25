@@ -7,13 +7,16 @@ namespace DialogML.RNodes
     {
         private NodeCallState State;
 
-        public string PageName;
-        public string ScriptName;
+     //   public string PageName;
+      //  public string ScriptName;
 
-        public RNodeCallScript(String scriptName, String pageName)
+        public Guid PageId;
+
+        public RNodeCallScript(Guid pageId)
         {
-            PageName = pageName;
-            ScriptName = scriptName;
+            PageId = pageId;
+            //PageName = pageName;
+            //ScriptName = scriptName;
         }
 
         public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
@@ -28,8 +31,9 @@ namespace DialogML.RNodes
 
                 State = NodeCallState.postcall;
 
-                executionUnit.CallScriptRegister = ScriptName;
-                executionUnit.CallPageRegister = PageName;
+                //executionUnit.CallScriptRegister = ScriptName;
+                //executionUnit.CallPageRegister = PageName;
+                executionUnit.CallPageId = PageId;
                 return AdvanceType.JumpToNode;
             }
         }

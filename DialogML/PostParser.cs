@@ -41,6 +41,18 @@ namespace DialogML
             dict.Add(pageId, new PageRecord() { PageId = pageId, PageName = pageName });
         }
 
+        internal PageRecord GetPageRecord(string scriptName, string pageName)
+        {
+            foreach(var s in Scripts.Values)
+            {
+                if (s.ScriptName.ToLower() == scriptName.ToLower())
+                {
+                    return GetPageRecord(s.ScriptId, pageName);
+                }
+            }
+            return null;
+        }
+
         internal PageRecord GetPageRecord(Guid scriptId, string pageName)
         {
             if (!Pages.ContainsKey(scriptId))
@@ -63,18 +75,18 @@ namespace DialogML
     {
         ReferencesTable m_ReferencesTable = new ReferencesTable();
 
-        public void AddOrUpdateScript(XmlNode xmlNode)
+        public void AddOrUpdateScript(XmlNode xmlNode, string filename)
         {
-            AddOrUpdateScriptRecursive(Guid.Empty, xmlNode);
+            AddOrUpdateScriptRecursive(Guid.Empty, filename, xmlNode);
         }
 
-        private void AddOrUpdateScriptRecursive(Guid scriptId, XmlNode xmlNode)
+        private void AddOrUpdateScriptRecursive(Guid scriptId, string filename, XmlNode xmlNode)
         {
             if (xmlNode is XScript)
             {
                 var script = xmlNode as XScript;
                 scriptId = script.Id;
-                m_ReferencesTable.AddScriptRecord(script.Id, script.Name);
+                m_ReferencesTable.AddScriptRecord(script.Id, filename);
             }
             if (xmlNode is XNodePage && scriptId != Guid.Empty)
             {
@@ -83,7 +95,7 @@ namespace DialogML
             }
             foreach(var c in xmlNode.Children)
             {
-                AddOrUpdateScriptRecursive(scriptId, c);
+                AddOrUpdateScriptRecursive(scriptId, filename, c);
             }
         }
 

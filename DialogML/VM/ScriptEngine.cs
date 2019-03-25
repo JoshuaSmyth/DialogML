@@ -64,6 +64,8 @@ namespace DialogML
 
     public class ExecutionUnit
     {
+        public Guid CallPageId { get; internal set; }
+
         public Guid JumpRegister;
         public Int32 ChildNRegister;
 
@@ -218,9 +220,18 @@ namespace DialogML
                             executionUnit.IndexStack.Push(currentNode.Children.Count); // Should be 0
 
                             // TODO Implement Get by Id
-                            var name = executionUnit.CallPageRegister;
-                            currentNode = m_ReferencesTable.GetPageByName(name);
+                            //var name = executionUnit.CallPageRegister;
+                            //currentNode = m_ReferencesTable.GetPageByName(name);
 
+                            var id = executionUnit.CallPageId;
+                            currentNode = m_ReferencesTable.GetPageById(id);
+
+                            
+                            if (currentNode == null)
+                            {
+                                var name = executionUnit.CallPageRegister;
+                                currentNode = m_ReferencesTable.GetPageByName(name);
+                            }
                             // Prep the node for this call
                             PrepScriptRecursive(currentNode);
 
