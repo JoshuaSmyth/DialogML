@@ -1,12 +1,18 @@
 ﻿<script>
   <page>
     <Say ActorId="Narrator" text="Hello"/>
-    <select text="Options:">
+    <select>
       <option text="Option A">
         <log text="You selected A"/>
       </option>
       <option text="Option B">
         <log text="You selected B"/>
+        <select>
+          <option text="Choose Me!">
+            <log text="Thanks"/>
+          </option>
+          <!-- Back should be auto added -->
+        </select>
       </option>
       <option text="Option C">
         <log text="You selected C"/>
