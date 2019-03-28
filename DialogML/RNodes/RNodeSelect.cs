@@ -51,11 +51,21 @@ namespace DialogML.DNodes
                 var index = 1;
                 foreach(var c in this.Children)
                 {
+                    // TODO Don't add if option has already been selected
+                    // and remove on select has been added.
+
                     // TODO Evaluate if option should be shown
-                    if (c is RNodeOption)
+                    if(c is RNodeOption)
                     {
                         var o = c as RNodeOption;
-                        options.Add(new Option() { Id = o.Id, IsExit = false, ChildIndex=index });
+                        if (!o.RemoveOnSelect)
+                        {
+                            options.Add(new Option() { Id = o.Id, IsExit = false, ChildIndex = index });
+                        }
+                        if(o.RemoveOnSelect && api.GetSelectionCount(o.Id) == 0)
+                        {
+                            options.Add(new Option() { Id = o.Id, IsExit = false, ChildIndex = index });
+                        }
                     }
                     if (c is RNodeOptionExit)
                     {
@@ -92,6 +102,8 @@ namespace DialogML.DNodes
                 
                 api.OnSelectOption(options, (o) =>
                 {
+                    api.IncSelection(o.Id);
+
                     // TODO On select increment the selectedOption table
                     SelectedOption = o;
                     

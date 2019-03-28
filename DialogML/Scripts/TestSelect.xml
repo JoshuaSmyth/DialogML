@@ -14,7 +14,7 @@
           <!-- Back should be auto added -->
         </select>
       </option>
-      <option text="Option C">
+      <option text="Option C" remove-on-select="true">
         <log text="You selected C"/>
         <select unique="true">
           <option text="Unique Option 1">

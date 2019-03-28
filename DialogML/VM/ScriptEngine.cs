@@ -243,6 +243,12 @@ namespace DialogML
                         {
                             int pushValue = 0;
                             currentNode = currentNode.Children[executionUnit.ChildNRegister];
+
+                            // Fixes an issue with re-entry of state
+                            // When looping back to a SelectNode...
+                            // Is this the best solution?
+                            PrepScriptRecursive(currentNode);
+
                             executionUnit.ProgramStack.Push(currentNode);
                             executionUnit.IndexStack.Push(pushValue);
                             break;

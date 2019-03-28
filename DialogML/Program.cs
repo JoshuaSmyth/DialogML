@@ -183,12 +183,12 @@ namespace DialogML
             // Parse set of scripts
             var scripts = new List<string>()
             {
-                "Scripts/callpage.xml",
-                "Scripts/callscript.xml",
-                "Scripts/concurrent1.xml",
-                "Scripts/dialog_druids_sample.xml",
-                "Scripts/wait.xml",
-                "Scripts/condition1.xml",
+                //"Scripts/callpage.xml",
+                //"Scripts/callscript.xml",
+                //"Scripts/concurrent1.xml",
+                //"Scripts/dialog_druids_sample.xml",
+                //"Scripts/wait.xml",
+                //"Scripts/condition1.xml",
                 "Scripts/TestSelect.xml"
             };
 

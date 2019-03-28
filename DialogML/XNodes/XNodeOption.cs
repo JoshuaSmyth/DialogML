@@ -10,6 +10,7 @@ namespace DialogML.XNodes
     public class XNodeOption : XmlNode
     {
         public string Text;
+        public bool RemoveOnSelect = false;
         public override void OnProcessElement(ScriptIds ids, string name, string value)
         {
             var loweredName = name.ToLower();
@@ -27,6 +28,9 @@ namespace DialogML.XNodes
                 {
                     Id = ids.GetGuidByIndex(value); //Guid.Parse(value);
                 }
+            } else if (loweredName == "remove-on-select")
+            {
+                RemoveOnSelect = bool.Parse(value);
             }
         }
 
@@ -35,6 +39,7 @@ namespace DialogML.XNodes
             base.WriteHeader(bw, XNodeType.Option);
 
             st.AddString(this.Id, this.Text);
+            bw.Write(RemoveOnSelect);
             //bw.Write(this.Text ?? "");
         }
     }

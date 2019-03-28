@@ -31,10 +31,49 @@ public class Option
     public Int32 ChildIndex;
 }
 
+public class SelectionTable
+{
+    private Dictionary<Guid, UInt32> SelectionCount = new Dictionary<Guid, uint>();
+
+    public void IncSelection(Guid guid)
+    {
+        if (SelectionCount.ContainsKey(guid))
+        {
+            SelectionCount[guid] += 1;
+        }
+        else
+        {
+            SelectionCount[guid] = 1;
+        }
+    }
+
+    public UInt32 GetSelectionCount(Guid id)
+    {
+        if (SelectionCount.ContainsKey(id))
+        {
+            return SelectionCount[id];
+        }
+        return 0;
+    }
+}
+
 public class ScriptApi
 {
     StringTable m_StringTable;
     ScriptEngine m_ScriptEngine;
+
+    // TODO Serialise this table
+    SelectionTable m_SelectionTable = new SelectionTable();
+
+    public UInt32 GetSelectionCount(Guid id)
+    {
+        return m_SelectionTable.GetSelectionCount(id);
+    }
+
+    public void IncSelection(Guid guid)
+    {
+        m_SelectionTable.IncSelection(guid);
+    }
 
     internal void AddParallelUnit(RNode c)
     {

@@ -4,11 +4,13 @@ namespace DialogML.DNodes
 {
     public class RNodeOption : RNode
     {
-        // TODO Add OnlyIf expression
-        //public Guid Id;
-        public RNodeOption(Guid id)
+        // TODO Only if expression
+        public bool RemoveOnSelect;
+
+        public RNodeOption(Guid id, bool removeOnSelect)
         {
             Id = id;
+            RemoveOnSelect = removeOnSelect;
         }
 
         public override AdvanceType Execute(ScriptApi api, ExecutionUnit executionUnit)
