@@ -58,13 +58,22 @@ namespace DialogML.DNodes
                     if(c is RNodeOption)
                     {
                         var o = c as RNodeOption;
-                        if (!o.RemoveOnSelect)
+                        if(!o.RemoveOnSelect || (o.RemoveOnSelect && api.GetSelectionCount(o.Id) == 0))
                         {
-                            options.Add(new Option() { Id = o.Id, IsExit = false, ChildIndex = index });
-                        }
-                        if(o.RemoveOnSelect && api.GetSelectionCount(o.Id) == 0)
-                        {
-                            options.Add(new Option() { Id = o.Id, IsExit = false, ChildIndex = index });
+                            bool allowed = true;
+                            if(o.OnlyIf != null)
+                            {
+                                var result = api.EvaluateExpression(o.OnlyIf);
+                                if(result == 0)
+                                {
+                                    allowed = false;
+                                }
+                            }
+
+                            if(allowed)
+                            {
+                                options.Add(new Option() { Id = o.Id, IsExit = false, ChildIndex = index });
+                            }
                         }
                     }
                     if (c is RNodeOptionExit)
@@ -72,6 +81,8 @@ namespace DialogML.DNodes
                         var o = c as RNodeOptionExit;
                         options.Add(new Option() { Id = o.Id, IsExit = true, ChildIndex=index });
                     }
+
+
                     index++;
                 }
 

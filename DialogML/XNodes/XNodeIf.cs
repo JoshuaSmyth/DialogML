@@ -11,18 +11,15 @@ namespace DialogML.XNodes
 {
     class XNodeIf : XmlNode
     {
-        public CompiledExpression Expression;
-        
+        public String Expression;
+
         public override void OnProcessElement(ScriptIds ids, string name, string value)
         {
             var loweredName = name.ToLower();
             if(loweredName == "expression")
             {
-                var expressionParser = new RpnCompiler(new HostCallTable());
-                var tokens = expressionParser.ConvertToReversePolishNotation(value);
-                var tokenStream = expressionParser.ConvertToBytestream(tokens);
-                Expression = new CompiledExpression(tokenStream);
-                
+                Expression = value;
+
             }
             else if(loweredName == "id")
             {
@@ -38,13 +35,24 @@ namespace DialogML.XNodes
         }
 
         public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable st, ref ReferencesTable referencesTable)
-        { 
+        {
             base.WriteHeader(bw, XNodeType.If);
 
-            // TODO We might be able to save some space by reusing expressions
-            // IF they happen to match?
-            bw.Write(Expression.Bytes.Length);
-            bw.Write(Expression.Bytes);
+            if(Expression == null)
+            {
+                bw.Write(0);
+            }
+            else
+            {
+                // TODO Pass in an RPN Compiler
+                var expressionParser = new RpnCompiler(new HostCallTable());
+                var tokens = expressionParser.ConvertToReversePolishNotation(Expression);
+                var tokenStream = expressionParser.ConvertToBytestream(tokens);
+                var CompiledExpression = new CompiledExpression(tokenStream);
+                
+                bw.Write(CompiledExpression.Bytes.Length);
+                bw.Write(CompiledExpression.Bytes);
+            }
         }
     }
 }

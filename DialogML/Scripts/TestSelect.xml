@@ -2,7 +2,10 @@
   <page>
     <Say ActorId="Narrator" text="Hello"/>
     <select>
-      <option text="Option A">
+      <option text="This option should not show" only-if="1>2">
+        <log text="NOOP"/>
+      </option>
+      <option text="Option A" only-if="2>1">
         <log text="You selected A"/>
       </option>
       <option text="Option B">

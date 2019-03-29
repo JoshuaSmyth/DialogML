@@ -147,7 +147,17 @@ namespace DialogML.RNodes
                     {
                         var id = new Guid(br.ReadBytes(16));
                         var remove = br.ReadBoolean();
-                        newRoot = new RNodeOption(id, remove);
+                        var hasOnlyif = br.ReadByte();
+
+                        CompiledExpression expression = null;
+                        if (hasOnlyif==1)
+                        {
+                            // Read expression
+                            var len = br.ReadInt32();
+                            var bytes = br.ReadBytes(len);
+                            expression = new CompiledExpression(bytes);
+                        }
+                        newRoot = new RNodeOption(id, expression, remove);
                         break;
                     }
                 case XNodeType.Select:

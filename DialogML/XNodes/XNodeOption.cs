@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DialogML.Expressions;
+using ExpressionParser;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,6 +13,8 @@ namespace DialogML.XNodes
     {
         public string Text;
         public bool RemoveOnSelect = false;
+        public string Expression;
+
         public override void OnProcessElement(ScriptIds ids, string name, string value)
         {
             var loweredName = name.ToLower();
@@ -28,9 +32,14 @@ namespace DialogML.XNodes
                 {
                     Id = ids.GetGuidByIndex(value); //Guid.Parse(value);
                 }
-            } else if (loweredName == "remove-on-select")
+            }
+            else if (loweredName == "remove-on-select")
             {
                 RemoveOnSelect = bool.Parse(value);
+            }
+            else if(loweredName == "only-if")
+            {
+                Expression = value;
             }
         }
 
@@ -40,7 +49,23 @@ namespace DialogML.XNodes
 
             st.AddString(this.Id, this.Text);
             bw.Write(RemoveOnSelect);
-            //bw.Write(this.Text ?? "");
+            if (Expression == null)
+            {
+                bw.Write((byte)0);
+            }
+            else
+            {
+                bw.Write((byte)1);
+
+                // TODO Pass in an RPN Compiler
+                var expressionParser = new RpnCompiler(new HostCallTable());
+                var tokens = expressionParser.ConvertToReversePolishNotation(Expression);
+                var tokenStream = expressionParser.ConvertToBytestream(tokens);
+                var compiledExpression = new CompiledExpression(tokenStream);
+
+                bw.Write(compiledExpression.Bytes.Length);
+                bw.Write(compiledExpression.Bytes);
+            }
         }
     }
 }
