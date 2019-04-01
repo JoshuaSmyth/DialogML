@@ -28,6 +28,9 @@ namespace DialogML
         ParallelUnit = 17,
         Sequential = 18,
         CallScript = 19,
+        Vars = 20,
+        DeclareGlobalVar = 21,
+        Set = 22,
         Custom = 255
     }
 

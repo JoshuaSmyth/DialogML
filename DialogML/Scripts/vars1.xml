@@ -1,16 +1,27 @@
 ﻿<script>
-  <!--
-  <enums>
-    <enum type="state">
-      
-    </enum>
-    <enum type="flags">
-
-    </enum>
-  </enums>
-  -->
+  
   <vars>
     <declare-global-var name="player_reputation" value="0" type="integer"></declare-global-var>
-    <declare-script-var name="attempt_count" value="0" type="integer"></declare-script-var>
   </vars>
+
+  <page name="p0">
+    <log text="Start"/>
+  </page>
+  
+  <page name="p1">
+    <if expression="{player_reputation}>5">
+      <case-true>
+        <call-page name="p2"/>
+      </case-true>
+      <case-false>
+        <log text="Count: {player_reputation}"/>
+        <set expression="{player_reputation}={player_reputation}+1"/>
+        <call-page name="p1"/>
+      </case-false>
+    </if>
+  </page>
+
+  <page name="p2">
+    <log text="End of page"/>
+  </page>
 </script>

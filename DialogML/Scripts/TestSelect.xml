@@ -32,3 +32,34 @@
     </select>
   </page>
 </script>
+
+<!--
+SCRIPT
+  PAGE
+    SAY Narrator:"Hello"
+    SELECT
+      OPTION "This option should not show" ONLY-IF:"1>2"
+        NOOP
+
+      OPTION "Option A" ONLY-IF:"2>1"
+        PRINT "You selected option A"
+        
+      OPTION "Option B"
+        PRINT "You selected option B"
+        SELECT
+          OPTION "Choose Me" 
+            PRINT "Thanks"
+            
+      OPTION "Option C" AUTO-REMOVE
+        SELECT UNIQUE:true
+          OPTION "Unique Option A"
+            PRINT "Selected Unique A"
+          OPTION "Unique Option B"
+            PRINT "Selected Unique B"
+            
+      OPTION-EXIT "Exit"
+        NOOP
+        
+    PRINT "Let's Go!"
+  -->
+  

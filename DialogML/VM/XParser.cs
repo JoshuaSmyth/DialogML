@@ -29,6 +29,24 @@ namespace DialogML
             var elementName = element.Name.ToString().ToLower();
             switch(elementName)
             {
+                case "set":
+                    {
+                        var node = new XNodeSet();
+                        newRoot = InitNode(ids, element, root, node);
+                        break;
+                    }
+                case "declare-global-var":
+                    {
+                        var node = new XNodeDeclareGlobalVar();
+                        newRoot = InitNode(ids, element, root, node);
+                        break;
+                    }
+                case "vars":
+                    {
+                        var node = new XNodeVars();
+                        newRoot = InitNode(ids, element, root, node);
+                        break;
+                    }
                 case "call-script":
                     {
                         var node = new XNodeCallScript();

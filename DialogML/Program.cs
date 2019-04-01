@@ -189,7 +189,8 @@ namespace DialogML
                 //"Scripts/dialog_druids_sample.xml",
                 //"Scripts/wait.xml",
                 //"Scripts/condition1.xml",
-                "Scripts/TestSelect.xml"
+                //"Scripts/TestSelect.xml",
+                "Scripts/Vars1.xml"
             };
 
             var sw = Stopwatch.StartNew();
