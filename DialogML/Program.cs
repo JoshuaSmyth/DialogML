@@ -60,7 +60,9 @@ namespace DialogML
                 var scriptIds = lstScriptIds[i];
                 var result = xParser.Process(scriptIds, xml);
                 var root = result.Children[0];
-                refParser.AddOrUpdateScript(root, filename);
+                refParser.GatherReferencesFromScript(root, filename);
+
+                // TODO Add a variables parser
 
                 ProgramTrees.Add(root);
                 i++;
@@ -74,6 +76,9 @@ namespace DialogML
                 var fileName = files[i];
                 var bParser = new BinarySerialiser();
                 var referenceTable = refParser.GetReferencesTable();
+
+                // TODO Create CompileContext
+                // TODO Add variables to Compile Context
                 var bytes = bParser.SerializeXTree(root, fileName, ref stringTable, ref referenceTable);
 
                 var script = new CompiledScript();
@@ -115,7 +120,7 @@ namespace DialogML
                 var result = xParser.Process(scriptIds, xml);
                 var root = result.Children[0];
 
-                postParser.AddOrUpdateScript(root, filename);
+                postParser.GatherReferencesFromScript(root, filename);
 
                 var referenceTable = postParser.GetReferencesTable();
                 
@@ -198,7 +203,7 @@ namespace DialogML
             sw.Stop();
             Console.WriteLine(String.Format("Time Taken to compile scripts:{0}ms", sw.ElapsedMilliseconds));
 
-            RunScript("Scripts/TestSelect.xml");
+            RunScript("Scripts/Vars1.xml");
         }
     }
 }

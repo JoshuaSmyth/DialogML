@@ -46,6 +46,12 @@ namespace DialogML.XNodes
             {
                 // TODO Pass in an RPN Compiler
                 var expressionParser = new RpnCompiler(new HostCallTable());
+
+                // Temp Fixme
+                {
+                    expressionParser.RegisterSymbol("{player_reputation}");
+                }
+
                 var tokens = expressionParser.ConvertToReversePolishNotation(Expression);
                 var tokenStream = expressionParser.ConvertToBytestream(tokens);
                 var CompiledExpression = new CompiledExpression(tokenStream);

@@ -38,6 +38,13 @@ namespace DialogML.RNodes
             switch(xnodeType)
             {
                 // TODO R Nodes
+                case XNodeType.Noop:
+                    {
+                        // TODO Look into not needing NOOP Nodes
+                        br.ReadBytes(16);
+                        newRoot = new RNodeNoop();
+                    }
+                    break;
                 case XNodeType.CallScript:
                     {
                         var id = new Guid(br.ReadBytes(16));
@@ -45,6 +52,12 @@ namespace DialogML.RNodes
                        // var pageName = br.ReadString();
                         var pageId = new Guid(br.ReadBytes(16));
                         newRoot = new RNodeCallScript(pageId);
+                        break;
+                    }
+                case XNodeType.Set:
+                    {
+                        var id = new Guid(br.ReadBytes(16));
+                        newRoot = new RNodeSet(id);
                         break;
                     }
                 case XNodeType.Sequential:
@@ -193,6 +206,7 @@ namespace DialogML.RNodes
                     newRoot = new RNodeScript(id, name);
                     break;
                 }
+                
                 default:
                     throw new Exception("Unknown node type:" + xnodeType);
             }

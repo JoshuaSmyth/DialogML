@@ -20,7 +20,7 @@ namespace DialogML.XNodes
                     Id = ids.GetGuidByIndex(value); //Guid.Parse(value);
                 }
             }
-            if (loweredName == "target" || loweredName == "page")
+            if (loweredName == "target" || loweredName == "page" || loweredName == "name")
             {
                 TargetPage = value;
             }

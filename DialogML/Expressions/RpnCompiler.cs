@@ -39,6 +39,12 @@ namespace ExpressionParser
             Tokenizer.AddToken(new InputToken(new Regex(Regex.Escape(")")), SemanticTokenType.CloseBracket, OperationType.Operand));
         }
 
+        public void RegisterSymbol(String symbolName)
+        {
+            Tokenizer.RegisterSymbol(symbolName);
+            SemanticAnalyser.HostSymbolTable.RegisterSymbol(symbolName, 0);
+        }
+
         public Tokenizer Tokenizer
         {
             get { return m_Tokenizer; }

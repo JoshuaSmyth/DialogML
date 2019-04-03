@@ -75,7 +75,7 @@ namespace DialogML
     {
         ReferencesTable m_ReferencesTable = new ReferencesTable();
 
-        public void AddOrUpdateScript(XmlNode xmlNode, string filename)
+        public void GatherReferencesFromScript(XmlNode xmlNode, string filename)
         {
             AddOrUpdateScriptRecursive(Guid.Empty, filename, xmlNode);
         }

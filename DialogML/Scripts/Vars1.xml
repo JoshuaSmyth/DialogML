@@ -1,9 +1,9 @@
 ﻿<script>
-  
+
   <vars>
     <declare-global-var name="player_reputation" value="0" type="integer"></declare-global-var>
   </vars>
-
+  
   <page name="p0">
     <log text="Start"/>
   </page>

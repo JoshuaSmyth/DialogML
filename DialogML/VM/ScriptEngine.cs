@@ -31,7 +31,8 @@ namespace DialogML
         Vars = 20,
         DeclareGlobalVar = 21,
         Set = 22,
-        Custom = 255
+        Noop = 254, 
+        Custom = 255,
     }
 
     enum VariableType

@@ -59,6 +59,7 @@
     <Compile Include="Expressions\Tokens\SemanticToken.cs" />
     <Compile Include="PostParser.cs" />
     <Compile Include="RNodes\RNodeCallScript.cs" />
+    <Compile Include="RNodes\RNodeNoop.cs" />
     <Compile Include="RNodes\RNodeParallelUnit.cs" />
     <Compile Include="RNodes\RNodeCallPage.cs" />
     <Compile Include="RNodes\RNodeCaseFalse.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="RNodes\RNodeReturn.cs" />
     <Compile Include="RNodes\RNodeRoot.cs" />
     <Compile Include="RNodes\RNodeSequential.cs" />
+    <Compile Include="RNodes\RNodeSet.cs" />
     <Compile Include="RNodes\RNodeWait.cs" />
     <Compile Include="VM\BinarySerialiser.cs" />
     <Compile Include="RNodes\RNode.cs" />
