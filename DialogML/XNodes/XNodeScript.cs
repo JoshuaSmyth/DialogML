@@ -9,11 +9,12 @@ namespace DialogML.XNodes
 {
     class XScript : XmlNode
     {
-        public override void WriteBytes(BinaryWriter bw, String scriptFilename, ref StringTable st, ref ReferencesTable referencesTable)
+        public override void WriteBytes(CompileContext ctx)
+        //public override void WriteBytes(BinaryWriter bw, String scriptFilename, ref StringTable st, ref ReferencesTable referencesTable)
         {
-            base.WriteHeader(bw, XNodeType.Script);
+            base.WriteHeader(ctx.bw, XNodeType.Script);
 
-            bw.Write(this.Name ?? "Unnamed");
+            ctx.bw.Write(this.Name ?? "Unnamed");
         }
     }
 }

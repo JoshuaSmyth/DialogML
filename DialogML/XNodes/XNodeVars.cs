@@ -14,11 +14,12 @@ namespace DialogML.XNodes
             // NOOP
         }
 
-        public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable stringTable, ref ReferencesTable referencesTable)
+        public override void WriteBytes(CompileContext ctx)
+        //public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable stringTable, ref ReferencesTable referencesTable)
         {
             //bw.Write((byte)XNodeType.Noop);
             // NOOP
-            base.WriteHeader(bw, XNodeType.Noop);
+            base.WriteHeader(ctx.bw, XNodeType.Noop);
 
             //bw.Write(this.Name ?? "null");
         }

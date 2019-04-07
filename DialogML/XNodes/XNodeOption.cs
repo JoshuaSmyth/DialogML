@@ -43,19 +43,20 @@ namespace DialogML.XNodes
             }
         }
 
-        public override void WriteBytes(BinaryWriter bw, string fileName, ref StringTable st, ref ReferencesTable referencesTable)
+        public override void WriteBytes(CompileContext ctx)
+        //public override void WriteBytes(BinaryWriter bw, string fileName, ref StringTable st, ref ReferencesTable referencesTable)
         {
-            base.WriteHeader(bw, XNodeType.Option);
+            base.WriteHeader(ctx.bw, XNodeType.Option);
 
-            st.AddString(this.Id, this.Text);
-            bw.Write(RemoveOnSelect);
+            ctx.stringTable.AddString(this.Id, this.Text);
+            ctx.bw.Write(RemoveOnSelect);
             if (Expression == null)
             {
-                bw.Write((byte)0);
+                ctx.bw.Write((byte)0);
             }
             else
             {
-                bw.Write((byte)1);
+                ctx.bw.Write((byte)1);
 
                 // TODO Pass in an RPN Compiler
                 var expressionParser = new RpnCompiler(new HostCallTable());
@@ -63,8 +64,8 @@ namespace DialogML.XNodes
                 var tokenStream = expressionParser.ConvertToBytestream(tokens);
                 var compiledExpression = new CompiledExpression(tokenStream);
 
-                bw.Write(compiledExpression.Bytes.Length);
-                bw.Write(compiledExpression.Bytes);
+                ctx.bw.Write(compiledExpression.Bytes.Length);
+                ctx.bw.Write(compiledExpression.Bytes);
             }
         }
     }

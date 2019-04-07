@@ -5,11 +5,12 @@ namespace DialogML.XNodes
 {
     class XNodePage : XmlNode
     {
-        public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable stringTable, ref ReferencesTable referencesTable)
+        public override void WriteBytes(CompileContext ctx)
+        //public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable stringTable, ref ReferencesTable referencesTable)
         {
-            base.WriteHeader(bw, XNodeType.Page);
+            base.WriteHeader(ctx.bw, XNodeType.Page);
 
-            bw.Write(this.Name ?? "null");
+            ctx.bw.Write(this.Name ?? "null");
         }
     }
 }

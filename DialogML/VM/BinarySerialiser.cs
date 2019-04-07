@@ -19,20 +19,29 @@ namespace DialogML
                     bw.Write("DMLB");
                     bw.Write((ushort)1);        // Version Major
                     bw.Write((ushort)0);        // Version Minor
-                    SerializeXTreeRecurse(root, bw, filename, ref st, ref referencesTable);
+
+                    var c = new CompileContext
+                    {
+                        referencesTable = referencesTable,
+                        bw = bw,
+                        stringTable = st,
+                        scriptFilename = filename
+                    };
+
+                    SerializeXTreeRecurse(root, c);
 
                     return ms.ToArray();
                 }
             }
         }
         
-        private void SerializeXTreeRecurse(XmlNode root, BinaryWriter bw, string filename, ref StringTable st, ref ReferencesTable referencesTable)
+        private void SerializeXTreeRecurse(XmlNode root, CompileContext ctx)
         {
-            root.WriteBytes(bw, filename, ref st, ref referencesTable);
+            root.WriteBytes(ctx);
 
             foreach(var child in root.Children)
             {
-                SerializeXTreeRecurse(child, bw, filename, ref st, ref referencesTable);
+                SerializeXTreeRecurse(child, ctx);
             }
         }
     }

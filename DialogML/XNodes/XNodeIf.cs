@@ -34,13 +34,14 @@ namespace DialogML.XNodes
             }
         }
 
-        public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable st, ref ReferencesTable referencesTable)
+        public override void WriteBytes(CompileContext ctx)
+        //public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable st, ref ReferencesTable referencesTable)
         {
-            base.WriteHeader(bw, XNodeType.If);
+            base.WriteHeader(ctx.bw, XNodeType.If);
 
             if(Expression == null)
             {
-                bw.Write(0);
+                ctx.bw.Write(0);
             }
             else
             {
@@ -56,8 +57,8 @@ namespace DialogML.XNodes
                 var tokenStream = expressionParser.ConvertToBytestream(tokens);
                 var CompiledExpression = new CompiledExpression(tokenStream);
                 
-                bw.Write(CompiledExpression.Bytes.Length);
-                bw.Write(CompiledExpression.Bytes);
+                ctx.bw.Write(CompiledExpression.Bytes.Length);
+                ctx.bw.Write(CompiledExpression.Bytes);
             }
         }
     }

@@ -32,9 +32,10 @@ namespace DialogML.XNodes
             }
         }
 
-        public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable st, ref ReferencesTable referencesTable)
+        public override void WriteBytes(CompileContext ctx)
+        //public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable st, ref ReferencesTable referencesTable)
         {
-            base.WriteHeader(bw, XNodeType.Log);
+            base.WriteHeader(ctx.bw, XNodeType.Log);
 
             var filterId = 0;
             if (this.Filter.ToLower() == "debug")
@@ -42,8 +43,8 @@ namespace DialogML.XNodes
                 filterId = 1;
             }
 
-            bw.Write((byte)filterId);
-            bw.Write(this.Text ?? "");
+            ctx.bw.Write((byte)filterId);
+            ctx.bw.Write(this.Text ?? "");
         }
     }
 }

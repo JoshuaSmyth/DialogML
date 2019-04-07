@@ -10,9 +10,10 @@ namespace DialogML.XNodes
             // TODO
         }
 
-        public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable stringTable, ref ReferencesTable referencesTable)
+        public override void WriteBytes(CompileContext ctx)
+        //public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable stringTable, ref ReferencesTable referencesTable)
         {
-            base.WriteHeader(bw, XNodeType.Set);
+            base.WriteHeader(ctx.bw, XNodeType.Set);
             // TODO Write expression and target
         }
     }

@@ -36,19 +36,20 @@ namespace DialogML.XNodes
             }
         }
 
-        public override void WriteBytes(BinaryWriter bw, string scriptFilename, ref StringTable st, ref ReferencesTable referencesTable)
+        public override void WriteBytes(CompileContext ctx)
+        //public override void WriteBytes(BinaryWriter bw, string scriptFilename, ref StringTable st, ref ReferencesTable referencesTable)
         {
-            var page = referencesTable.GetPageRecord(this.TargetScript, this.TargetPage);
+            var page = ctx.referencesTable.GetPageRecord(this.TargetScript, this.TargetPage);
             if (page==null)
             {
                 throw new Exception("Could not find page");
             }
 
             // Look up page name to get the id
-            base.WriteHeader(bw, XNodeType.CallScript);
+            base.WriteHeader(ctx.bw, XNodeType.CallScript);
        //     bw.Write(this.TargetScript);
       //      bw.Write(this.TargetPage);
-            bw.Write(page.PageId.ToByteArray());
+            ctx.bw.Write(page.PageId.ToByteArray());
         }
     }
 }

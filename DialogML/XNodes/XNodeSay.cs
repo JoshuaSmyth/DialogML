@@ -54,14 +54,15 @@ namespace DialogML.XNodes
             }
         }
 
-        public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable st, ref ReferencesTable referencesTable)
+        public override void WriteBytes(CompileContext ctx)
+        //public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable st, ref ReferencesTable referencesTable)
         {
-            base.WriteHeader(bw, XNodeType.Say);
+            base.WriteHeader(ctx.bw, XNodeType.Say);
 
-            bw.Write((byte)this.Position);
-            bw.Write(this.ActorId ?? "");
+            ctx.bw.Write((byte)this.Position);
+            ctx.bw.Write(this.ActorId ?? "");
 
-            st.AddString(this.Id, this.Text);
+            ctx.stringTable.AddString(this.Id, this.Text);
         }
     }
 }

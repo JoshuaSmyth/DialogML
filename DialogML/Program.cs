@@ -194,7 +194,7 @@ namespace DialogML
                 //"Scripts/dialog_druids_sample.xml",
                 //"Scripts/wait.xml",
                 //"Scripts/condition1.xml",
-                //"Scripts/TestSelect.xml",
+                "Scripts/TestSelect.xml",
                 "Scripts/Vars1.xml"
             };
 
@@ -203,7 +203,7 @@ namespace DialogML
             sw.Stop();
             Console.WriteLine(String.Format("Time Taken to compile scripts:{0}ms", sw.ElapsedMilliseconds));
 
-            RunScript("Scripts/Vars1.xml");
+            RunScript("Scripts/TestSelect.xml");
         }
     }
 }

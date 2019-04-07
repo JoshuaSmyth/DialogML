@@ -28,9 +28,10 @@ namespace DialogML.XNodes
             }
         }
 
-        public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable stringTable, ref ReferencesTable referencesTable) // TODO Pass string table
+        public override void WriteBytes(CompileContext ctx)
+        //public override void WriteBytes(BinaryWriter bw, string filename, ref StringTable stringTable, ref ReferencesTable referencesTable) // TODO Pass string table
         {
-            this.WriteHeader(bw, XNodeType.OnceOnly);
+            this.WriteHeader(ctx.bw, XNodeType.OnceOnly);
 
 
             OnceOnlyConfig config = OnceOnlyConfig.NoChildren;
@@ -68,7 +69,7 @@ namespace DialogML.XNodes
                 config = OnceOnlyConfig.SingleChildFalse;
             }
 
-            bw.Write((byte)config);
+            ctx.bw.Write((byte)config);
         }
     }
 }

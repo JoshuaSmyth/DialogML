@@ -1,10 +1,21 @@
 ﻿using DialogML.VM;
+using ExpressionParser;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace DialogML.XNodes
 {
+    public class CompileContext
+    {
+        public BinaryWriter bw;
+        public String scriptFilename;
+        public StringTable stringTable;
+        public ReferencesTable referencesTable;
+        public RpnCompiler rpnCompiler;
+    }
+
+
     public class XmlNode
     {
         public String Name;
@@ -23,13 +34,14 @@ namespace DialogML.XNodes
 
         }
 
-        public virtual void WriteBytes(BinaryWriter bw, string scriptFileName, ref StringTable stringTable, ref ReferencesTable referencesTable)
+        public virtual void WriteBytes(CompileContext ctx)
+        //public virtual void WriteBytes(BinaryWriter bw, string scriptFileName, ref StringTable stringTable, ref ReferencesTable referencesTable)
         {
-            bw.Write((ushort)XNodeType.Unknown);
-            bw.Write((byte)1);    // Version Major
-            bw.Write((ushort)(Children?.Count ?? 0));
+            ctx.bw.Write((ushort)XNodeType.Unknown);
+            ctx.bw.Write((byte)1);    // Version Major
+            ctx.bw.Write((ushort)(Children?.Count ?? 0));
 
-            bw.Write(this.Id.ToByteArray() ?? Guid.Empty.ToByteArray());
+            ctx.bw.Write(this.Id.ToByteArray() ?? Guid.Empty.ToByteArray());
         }
 
         internal void WriteHeader(BinaryWriter bw, XNodeType select)
